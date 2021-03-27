@@ -1,7 +1,7 @@
 #ifndef HEADER_H
 #define HEADER_H
 
-#include <iostreams
+#include <iostream>
 #include <fstream>
 #include <string>
 
@@ -14,24 +14,24 @@ struct Student
 	bool gender;
 	int dob;
 	int soid;
-	//class
-	//course
-	//score
+	//Class data;
+	//Course data;
+	//Score data;
 };
 
 struct Class
 {
 	std::string name;
-	Student stu;
+	Student data;
 };
 
 struct Semester
 {
 	int term;
 	int year;
-	//start;
-	//end;
-	//course
+	DateTime start;
+	DateTime end;
+	//Course data;
 };
 
 struct Date
@@ -62,8 +62,8 @@ struct Course
 	int numofcre;
 	int maxstu;
 	//session
-	//class
-	//score
+	//Class data;
+	//Score data;
 };
 
 struct Account
@@ -74,13 +74,20 @@ struct Account
 
 struct Score
 {
-	//student's data
+	Student data;
 	double total;
 	double final;
 	double midterm;
 	double other;
 	double gpa;
 	double ovrgpa;
+};
+
+struct Node
+{
+	Student data;
+	Node* pNext;
+	Node* pPrev;
 };
 
 #endif // !HEADER_H
