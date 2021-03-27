@@ -13,9 +13,9 @@ void InputStudent(std::string path, NodeStudent* pHead)
 		std::cout << "Can't open file!";
 		return;
 	}
+	fin.open(path + ".csv", std::fstream::in);
 	pHead = nullptr;
 	NodeStudent* pCur = nullptr;
-	fin.open(path + ".csv", std::fstream::in);
 	while (fin.eof())
 	{
 		if (pHead == nullptr)
@@ -56,6 +56,36 @@ void InputScore(std::string path, NodeScore* pHead)
 	std::fstream fin;
 	if (!fin)
 	{
-
+		std::cout << "Can't open file!";
+		return;
 	}
+	fin.open(path + ".csv", std::fstream::in);
+	NodeScore* pCur = nullptr;
+	pHead = nullptr;
+	while (fin.eof())
+	{
+		if (pHead == nullptr) {
+			pHead = new NodeScore;
+			PCur = pHead;
+		}
+		fin >> pCur->data.total;
+		fin >> pCur->data.final;
+		fin >> pCur->data.midterm;
+		fin >> pCur->data.other;
+		fin >> pCur->data.gpa;
+		fin >> pCur->data.ovrgpa;
+		pCur->pNext = new NodeScore;
+		pCur = pCur->pNext;
+	}
+	fin.close();
+}
+
+void OutputStudent(std::string path, NodeStudent* pHead)
+{
+
+}
+
+void OutputScore(std::string path, NodeScore* pHeead)
+{
+
 }

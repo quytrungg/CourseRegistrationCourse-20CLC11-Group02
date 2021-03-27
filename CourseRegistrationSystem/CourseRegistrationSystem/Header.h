@@ -8,12 +8,13 @@
 struct Student
 {
 	int no;
-	int id;
+	unsigned long long int id;
 	std::string fname;
 	std::string lname;
-	bool gender;
-	int dob;
+	char gender;
+	unsigned long long int dob;
 	int soid;
+	Account acc;
 	//Class data;
 	//Course data;
 	//Score data;
@@ -27,7 +28,7 @@ struct Class
 
 struct Semester
 {
-	int term;
+	int sem[3];
 	int year;
 	DateTime start;
 	DateTime end;
@@ -74,18 +75,25 @@ struct Account
 
 struct Score
 {
-	Student data;
 	double total;
 	double final;
 	double midterm;
 	double other;
 	double gpa;
 	double ovrgpa;
+	//course
 };
 
-struct Node
+struct NodeStudent
 {
 	Student data;
+	Node* pNext;
+	Node* pPrev;
+};
+
+struct NodeScore
+{
+	Score data;
 	Node* pNext;
 	Node* pPrev;
 };
