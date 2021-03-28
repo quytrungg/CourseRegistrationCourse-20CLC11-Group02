@@ -5,34 +5,25 @@
 #include <fstream>
 #include <string>
 
+struct Account
+{
+	std::string user;
+	std::string pass;
+};
+
 struct Student
 {
-	int no;
-	unsigned long long int id;
+	std::string no;
+	std::string id;
 	std::string fname;
 	std::string lname;
-	char gender;
-	unsigned long long int dob;
-	int soid;
+	std::string gender;
+	std::string dob;
+	std::string soid;
 	Account acc;
 	//Class data;
 	//Course data;
 	//Score data;
-};
-
-struct Class
-{
-	std::string name;
-	Student data;
-};
-
-struct Semester
-{
-	int sem[3];
-	int year;
-	DateTime start;
-	DateTime end;
-	//Course data;
 };
 
 struct Date
@@ -49,10 +40,25 @@ struct Time
 	int sec;
 };
 
+struct Class
+{
+	std::string name;
+	Student data;
+};
+
 struct DateTime
 {
 	Date d;
 	Time t;
+};
+
+struct Semester
+{
+	int sem[3];
+	int year;
+	DateTime start;
+	DateTime end;
+	//Course data;
 };
 
 struct Course
@@ -65,12 +71,6 @@ struct Course
 	//session
 	//Class data;
 	//Score data;
-};
-
-struct Account
-{
-	std::string user;
-	std::string pass;
 };
 
 struct Score
@@ -87,16 +87,20 @@ struct Score
 struct NodeStudent
 {
 	Student data;
-	Node* pNext;
-	Node* pPrev;
+	NodeStudent* pNext;
+	NodeStudent* pPrev;
 };
 
 struct NodeScore
 {
 	Score data;
-	Node* pNext;
-	Node* pPrev;
+	NodeScore* pNext;
+	NodeScore* pPrev;
 };
+
+void SetDateTime(Date* d, Time* t);
+void InputStudent(std::string path, NodeStudent* &pHead);
+void InputScore(std::string path, NodeScore* &pHead);
 
 #endif // !HEADER_H
 

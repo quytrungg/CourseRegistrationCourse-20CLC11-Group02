@@ -1,6 +1,12 @@
-#include "Header.h"
+﻿#include "Header.h"
+#include "ExtraHeader.h"
 
-int main(int argc, const char * argv[]) {
-    
+int main()
+{
+    system("cls");
+    ReadVietnamese();
+    std::wcout << char(239) << std::endl;
+    std::wcout << char(187) << std::endl;
+    std::wcout << char(191) << std::endl;
     return 0;
 }
