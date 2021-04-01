@@ -1,4 +1,4 @@
-﻿#include "Header.h"
+#include "Header.h"
 #include "ExtraHeader.h"
 
 void ReadVietnamese()
@@ -19,3 +19,13 @@ void ReadVietnamese()
     std::wcout << L"Chuỗi ký tự mà bạn vừa mới nhập:" << std::endl;
     std::wcout << test << std::endl;
 }
+
+const std::string currentDateTime() {
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+    return buf;
+}
+
