@@ -6,6 +6,37 @@ void SetDateTime(Date* d, Time* t)
 
 }
 
+void AddClass(NodeClass* &pHead){
+    std::cout << "Press E to exit" << std::endl;
+    pHead = nullptr;
+    NodeClass* pCur = nullptr;
+    std::string info;
+    std::cin >> info;
+    while(info != "E"){
+        if(pHead == nullptr){
+            pHead = new NodeClass;
+            pCur = pHead;
+        }
+        else{
+            pCur->pNext = new NodeClass;
+            pCur = pCur-> pNext;
+        }
+        pCur->data.name = info;
+        std::cin >> info;
+    }
+}
+
+void OutputClassFile(std::string path, NodeClass* pHead){
+    std::fstream fout;
+    fout.open(path, std::fstream::out);
+    NodeClass* pCur = pHead;
+    while(pCur != nullptr){
+        fout << pCur->data.name << std::endl;
+        pCur = pCur->pNext;
+    }
+    fout.close();
+}
+
 void InputStudent(std::string path, NodeStudent*& pHead)
 {
 	std::fstream fin;
