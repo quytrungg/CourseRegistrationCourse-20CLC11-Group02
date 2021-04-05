@@ -6,19 +6,19 @@ struct Account {
 	std::string Password;
 };
 struct Date {
-	char Day[3];
-	char Month[3];
-	char Year[5];
+	int Day;
+	int Month;
+	int Year;
 };
 struct Time {
-	char Seconds[3];
-	char Minutes[3];
-	char Hours[3];
+	int Seconds;
+	int Minutes;
+	int Hours;
 };
 struct LocalTime {
 	struct Time time;
 	struct Date date;
-} local;
+};
 struct Student {
 	int ID;
 	std::string FirstName;
