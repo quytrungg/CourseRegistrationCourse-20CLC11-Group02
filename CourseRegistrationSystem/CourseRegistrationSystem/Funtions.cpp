@@ -1,11 +1,6 @@
 #include "Header.h"
 #include "ExtraHeader.h"
 
-void SetDateTime(Date* d, Time* t)
-{
-
-}
-
 void AddClass(NodeClass* &pHead){
     std::cout << "Press E to exit" << std::endl;
     pHead = nullptr;
@@ -69,23 +64,19 @@ void InputStudent(std::string path, NodeStudent*& pHead)
 	fin.close();
 }
 
-void AddStudent(Student& stu, NodeStudent* pHead) {
-
-}
-
-void CreateSchoolyear() 
-{
-
-}
-
-void CreateSemester()
-{
-
-}
-
-void CreateCourse()
-{
-
+void AddStudent(NodeStudent* &pHead, Student &info){
+    NodeStudent* pCur = nullptr;
+    if(pHead == nullptr){
+        pHead = new NodeStudent;
+        pCur = pHead;
+    }
+    else{
+        pCur->pNext = new NodeStudent;
+        pCur->pNext->pPrev = pCur;
+        pCur = pCur->pNext;
+    }
+    pCur->data = info;
+    pCur->pNext = nullptr;
 }
 
 void InputScore(std::string path, NodeScore* &pHead)
