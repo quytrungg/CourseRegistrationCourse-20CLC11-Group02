@@ -143,9 +143,19 @@ void OutputScore(std::string path, NodeScore* pHeead)
 	fout.close();
 }
 
+NodeClass* FindClass(std::string path, NodeClass* &pHead){
+    NodeClass* pCur = pHead;
+    while(pCur != nullptr){
+        if(pCur->data.name == path){
+            break;
+        }
+        else pCur = pCur->pNext;
+    }
+    return pCur;
+}
+
 void FindStudent(std::string path, NodeStudent* &pHead){
     std::fstream fin;
-    std::cin >> path;
     fin.open(path, std::fstream::in);
     std::string findid;
     std::cin >> findid;
