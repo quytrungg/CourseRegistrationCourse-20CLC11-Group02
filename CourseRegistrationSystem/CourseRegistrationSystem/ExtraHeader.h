@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <locale>
 #include <codecvt>
+#include <sstream>
 
 void ReadVietnamese();
 
