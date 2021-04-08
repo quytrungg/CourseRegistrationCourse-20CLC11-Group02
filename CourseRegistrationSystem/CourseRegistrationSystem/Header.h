@@ -108,6 +108,9 @@ void OutputClassFile(std::string path, NodeClass* pHead);
 void SetDateTime(Date* d, Time* t);
 void InputStudent(std::string path, NodeStudent* &pHead);
 void InputScore(std::string path, NodeScore* &pHead);
+NodeClass* FindClass(std::string path, NodeClass* &pHead);
+void FindStudent(std::string path, NodeStudent* &pHead);
+char* StringToChar(std::string text);
 
 #endif // !HEADER_H
 
