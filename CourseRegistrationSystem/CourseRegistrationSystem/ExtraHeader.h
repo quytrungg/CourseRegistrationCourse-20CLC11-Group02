@@ -9,5 +9,6 @@
 #include <sstream>
 
 void ReadVietnamese();
+const std::string currentDateTime();
 
 #endif // EXTRAHEADER_H

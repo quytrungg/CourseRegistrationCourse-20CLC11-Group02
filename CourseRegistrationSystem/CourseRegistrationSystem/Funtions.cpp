@@ -1,6 +1,7 @@
 #include "Header.h"
 #include "ExtraHeader.h"
 
+//Thêm 1 class vào node (chưa rõ sẽ làm gì với nó)
 void AddClass(NodeClass* &pHead){
     std::cout << "Press E to exit" << std::endl;
     pHead = nullptr;
@@ -21,6 +22,7 @@ void AddClass(NodeClass* &pHead){
     }
 }
 
+//Hàm output class file (chưa rõ sẽ làm gì với nó)
 void OutputClassFile(std::string path, NodeClass* pHead){
     std::fstream fout;
     fout.open(path, std::fstream::out);
@@ -32,6 +34,7 @@ void OutputClassFile(std::string path, NodeClass* pHead){
     fout.close();
 }
 
+//Hàm input student từ file csv
 void InputStudent(std::string path, NodeStudent*& pHead)
 {
 	std::fstream fin;
@@ -64,6 +67,7 @@ void InputStudent(std::string path, NodeStudent*& pHead)
 	fin.close();
 }
 
+//Hàm thêm 1 student vào node
 void AddStudent(NodeStudent* &pHead, Student &info){
     NodeStudent* pCur = nullptr;
     if(pHead == nullptr){
@@ -79,6 +83,7 @@ void AddStudent(NodeStudent* &pHead, Student &info){
     pCur->pNext = nullptr;
 }
 
+//Hàm input điểm từ csv
 void InputScore(std::string path, NodeScore* &pHead)
 {
 	std::fstream fin;
@@ -109,6 +114,7 @@ void InputScore(std::string path, NodeScore* &pHead)
 	fin.close();
 }
 
+//Hàm xuất học sinh vào csv (chưa làm được tiếng việt có dấu)
 void OutputStudent(std::string path, NodeStudent* pHead)
 {
 	std::fstream fout;
@@ -126,6 +132,7 @@ void OutputStudent(std::string path, NodeStudent* pHead)
 	fout.close();
 }
 
+//Hàm xuất bảng điểm vào csv
 void OutputScore(std::string path, NodeScore* pHeead)
 {
 	std::fstream fout;
@@ -143,6 +150,8 @@ void OutputScore(std::string path, NodeScore* pHeead)
 	fout.close();
 }
 
+
+//Hàm tìm lớp
 NodeClass* FindClass(std::string path, NodeClass* &pHead){
     NodeClass* pCur = pHead;
     while(pCur != nullptr){
@@ -154,6 +163,8 @@ NodeClass* FindClass(std::string path, NodeClass* &pHead){
     return pCur;
 }
 
+
+//Hàm tìm 1 học sinh từ trong 1 file lớp theo id mssv
 void FindStudent(std::string path, NodeStudent* &pHead){
     std::fstream fin;
     fin.open(path, std::fstream::in);
@@ -176,4 +187,14 @@ void FindStudent(std::string path, NodeStudent* &pHead){
         }
         else pCur = pCur->pNext;
     }
+}
+
+//Chuyển từ string thành char để dùng trong binary file
+char* StringToChar(std::string text){
+    char* s;
+    s = new char[text.length() + 1];
+    for(int i = 0; i < text.length() + 1; i++){
+        s[i] = text[i];
+    }
+    return s;
 }
