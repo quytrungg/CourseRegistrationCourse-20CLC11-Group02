@@ -5,27 +5,48 @@
 #include <fstream>
 #include <string>
 
-struct Account
-{
-    std::string user;
-    std::string pass;
+//Tài khoản
+struct account {
+    std::string account_name, pass;
+    account* pNext, * pPrev;
 };
 
-struct Student
-{
-    int no;
+//Khoá học
+struct course {
+    std::string id;
+    std::wstring name,teacher_name;
+    int num_cre;
+    int max_student = 50;
+    //day of the week
+    std::string session;//MONS1_MONS3 hoặc MONS1_FRIS3
+    course* pNext, * pPrev;
+};
+
+//Lớp
+struct id_class {
+    std::string id;
+    id_class* pNext, * pPrev;
+};
+
+//id khóa học dùng cho cái in4_student
+struct id_course_of_student {
+    std::string id;
+    id_course_of_student* pNext, * pPrev;
+};
+
+struct in4_student {
     unsigned long long int id;
-    std::string fname;
-    std::string lname;
+    std::wstring fname;
+    std::wstring lname;
     std::string gender;
     std::string dob;
     int soid;
-    Account acc;
-    //Class data;
-    //Course data;
-    //Score data;
-};
+    std::string id_class;
+    in4_student* pNext, * pPrev;
+    id_course_of_student* id_course;
 
+};
+/*
 struct Date
 {
     int day;
@@ -38,24 +59,6 @@ struct Time
     int hour;
     int min;
     int sec;
-};
-
-struct NodeStudent
-{
-    Student data;
-    NodeStudent* pNext;
-    NodeStudent* pPrev;
-};
-
-struct Class
-{
-    std::string name;
-};
-
-struct NodeClass{
-    Class data;
-    NodeClass* pNext;
-    NodeClass* pPrev;
 };
 
 struct DateTime
@@ -73,18 +76,6 @@ struct Semester
     //Course data;
 };
 
-struct Course
-{
-    int id;
-    std::string name;
-    std::string teacher;
-    int numofcre;
-    int maxstu;
-    //session
-    //Class data;
-    //Score data;
-};
-
 struct Score
 {
     double total;
@@ -94,23 +85,16 @@ struct Score
     double gpa;
     double ovrgpa;
     //course
-};
-
-struct NodeScore
-{
-    Score data;
-    NodeScore* pNext;
-    NodeScore* pPrev;
-};
-
-void AddClass(NodeClass* &pHead);
-void OutputClassFile(std::string path, NodeClass* pHead);
-void SetDateTime(Date* d, Time* t);
-void InputStudent(std::string path, NodeStudent* &pHead);
-void InputScore(std::string path, NodeScore* &pHead);
-NodeClass* FindClass(std::string path, NodeClass* &pHead);
-void FindStudent(std::string path, NodeStudent* &pHead);
+    Score* pNext;
+    Score* pPrev;
+*/
+void AddClass(id_class* &pHead);
+void OutputClassFile(std::string path, id_class* pHead);
+id_class* FindClass(std::string path, id_class* &pHead);
+void FindStudent(std::string path, in4_student* &pHead);
 char* StringToChar(std::string text);
+void MenuClassList(id_class* &pHead);
+void InputClassList(std::string path, id_class* &pHead);
 
 #endif // !HEADER_H
 
