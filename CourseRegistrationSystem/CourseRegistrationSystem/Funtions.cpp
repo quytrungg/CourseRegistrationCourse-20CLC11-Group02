@@ -3,25 +3,31 @@
 
 //Thêm 1 class vào node và lưu nó lại
 void AddClass(id_class* &pHead){
-    std::cout << "Press E to exit" << std::endl;
-    pHead = nullptr;
-    id_class* pCur = nullptr;
-    std::string info;
-    std::cin >> info;
-    while(info != "E"){
-        if(pHead == nullptr){
-            pHead = new id_class;
-            pCur = pHead;
-        }
-        else{
-            pCur->pNext = new id_class;
-            pCur->pNext->pPrev = pCur;
-            pCur = pCur-> pNext;
-        }
-        pCur->id = info;
-        pCur->pNext = nullptr;
+    int option;
+    std::cout << "1. Add class" << std::endl;
+    std::cin >> option;
+    if(option == 1){
+        std::cout << "Press E to exit" << std::endl;
+        pHead = nullptr;
+        id_class* pCur = nullptr;
+        std::string info;
         std::cin >> info;
+        while(info != "E"){
+            if(pHead == nullptr){
+                pHead = new id_class;
+                pCur = pHead;
+            }
+            else{
+                pCur->pNext = new id_class;
+                pCur->pNext->pPrev = pCur;
+                pCur = pCur-> pNext;
+            }
+            pCur->id = info;
+            pCur->pNext = nullptr;
+            std::cin >> info;
+        }
     }
+    else return;
 }
 
 //Hàm output class file vào txt
@@ -211,6 +217,7 @@ void InputClassList(std::string path, id_class* &pHead){
 //Làm menu để người dùng chọn lớp để import danh sách sinh viên
 void MenuClassList(id_class* &pHead){
     int option, count = 1;
+    std::string path;
     id_class* pCur = pHead;
     while(pCur != nullptr){
         std::cout << count << ". " << pCur->id << std::endl;
@@ -225,6 +232,7 @@ void MenuClassList(id_class* &pHead){
         pTemp = pTemp->pNext;
     }
     std::cout << "Nhap ten file cua lop " << pTemp->id << ": " << std::endl;
+    std::cin >> path;
 }
 
 //Chuyển từ string thành char để dùng trong binary file
