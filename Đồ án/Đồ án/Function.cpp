@@ -1,5 +1,16 @@
 ﻿#include"Function.h"
+#include "SmallFunction.cpp"
 
+int ChangeStringToInt(std::wstring a)
+{
+
+    int num = 0;
+    for (int i = 0; i < a.length(); i++)
+    {
+        num = num * 10 + a[i] - '0';
+    }
+    return num;
+}
 void ChangeToVietNamese()
 {
     _setmode(_fileno(stdin), _O_U16TEXT);
@@ -12,7 +23,7 @@ void ChangeToVietNamese()
     SetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
 }
 
-void OutputData()
+void OutputData(in4_student*&stu)
 {
     ChangeToVietNamese();
     std::wfstream fout;
@@ -21,116 +32,125 @@ void OutputData()
     fout << wchar_t(187);
     fout << wchar_t(191);
     fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
-   
+    
+    //in4_student* temp = stu;
+    stu = stu->pPrev;
+    //delete temp;
+    in4_student* cur = stu;
+    while (cur != nullptr)
+    {
+        fout << cur->id << L',' << cur->fname << L',' << cur->lname << L',' << cur->gender << L',' << cur->dob << L',' << cur->soid << "\n";
+        cur = cur->pPrev;
+    }
+
     fout.close();
 }
 
-void Inputdata(NodeStu*& t, std::wfstream &fin)
+in4_student* Inputdata(in4_student*& t, std::wfstream &fin)
 {
-    t = new NodeStu;
-    NodeStu* cur = t;
-    std::wstring line;
-    t = nullptr;
-    if (!fin.is_open())
+    
+    if (!fin) std::cout << "Can't open !";
+    fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    std::wstring temp;
+    while (fin)
     {
-        std::cout << "Error File Open";
+        ChangeToVietNamese();
+        std::getline(fin, temp);
+        std::wcout << temp << "\n";
+        if (temp.length() != 0) add_student(t,ChangeToData(temp));
     }
-    else
-    {
-        fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
-        while (!fin.eof())
-        {
-            getline(fin, line);
-            cur->next = new NodeStu;
-            cur->next->pre = cur;
-            fin.ignore();
-            ChangeToData(line, cur->next);
-            cur = cur->next;
-            cur->next = nullptr;
-        }
-        if (t == nullptr)
-        {
-            delete t;
-            t = nullptr;
-        }
-        else
-        {
-            NodeStu* temp = t;
-            t = t->next;
-            delete temp;
-            t->pre = nullptr;
-        }
-    }
+    return t;
 }        
 
-void ChangeToData(std::wstring line, NodeStu*& t)
+void add_student(in4_student*& stu, in4_student temp)
 {
-    wchar_t* temp;
-    int st = line.find(L',', 0) + 1;
-    int end = line.find(L',', st + 1);
-
-    temp = new wchar_t[end - st + 1];
-
-    temp[end - st] = L'\0';
-    line.copy(temp, end - st, st);
-    t->infor.ID = temp;
-    delete[] temp;
-
-    st = end + 1;
-    end = line.find(L',', st);
-    temp = new wchar_t[end - st + 1];
-    temp[end - st] = L'\0';
-    line.copy(temp, end - st, st);
-    t->infor.name = temp;
-    delete[] temp;
-
-    st = end + 1;
-    end = line.find(L',', st);
-    temp = new wchar_t[end - st + 1];
-    temp[end - st] = L'\0';
-    line.copy(temp, end - st, st);
-    t->infor.lastname = temp;
-    delete[] temp;
-
-    st = end + 1;
-    end = line.find(L',', st);
-    temp = new wchar_t[end - st + 1];
-    temp[end - st] = L'\0';
-    line.copy(temp, end - st, st);
-    t->infor.gender = temp;
-    delete[] temp;
-
-    st = end + 1;
-    end = line.find(L',', st);
-    temp = new wchar_t[end - st + 1];
-    temp[end - st] = L'\0';
-    line.copy(temp, end - st, st);
-    t->infor.date = temp;
-
-    t->next = nullptr;
-    delete[] temp;
+    stu->id = temp.id;
+    stu->fname = temp.fname;
+    stu->lname = temp.lname;
+    stu->gender = temp.gender;
+    stu->soid = temp.soid;
+    stu->dob = temp.dob;
+    stu->pNext = new in4_student;
+    stu->pNext->pPrev = stu;
+    stu = stu->pNext;
 }
 
-void PrintStu(NodeStu*& data)
+in4_student ChangeToData(std::wstring line)
+{ 
+    // id - fname - lname - gender - dob - soid
+   
+    in4_student stu;
+    
+    int start = line.find(L',', 0) + 1;
+    int end = line.find(L',', start);
+    
+    wchar_t* temp = new wchar_t[end - start + 1];
+    temp[end - start] = L'\0';
+    line.copy(temp, end - start, start);
+
+    stu.id = ChangeStringToInt(temp);
+    delete[] temp;
+
+    start = end + 1;
+    end = line.find(L',', start);
+    stu.fname = new wchar_t[end - start + 1];
+    stu.fname[end - start] = L'\0';
+    line.copy(stu.fname, end - start, start);
+
+
+    start = end + 1;
+    end = line.find(L',', start);
+    stu.lname = new wchar_t[end - start + 1];
+    stu.lname[end - start] = L'\0';
+    line.copy(stu.lname,end -start,start);
+
+
+    start = end + 1;
+    end = line.find(L',', start);
+    stu.gender = new wchar_t[end - start + 1];
+    stu.gender[end - start] = L'\0';
+    line.copy(stu.gender, end - start, start);
+
+    start = end + 1;
+    end = line.find(L',', start);
+    stu.dob = new wchar_t[end - start + 1];
+    stu.dob[end - start] = L'\0';
+    line.copy(stu.dob, end - start, start);
+
+    start = end + 1;
+    end = line.length();
+    temp = new wchar_t[end - start + 1];
+    temp[end - start] = L'\0';
+    stu.soid = ChangeStringToInt(temp);
+    delete[] temp;
+    return stu;
+}
+
+void PrintStu(in4_student*& data)
 {
-    NodeStu* cur = data;
+    ChangeToVietNamese();
+    in4_student* temp = data;
+    data = data->pPrev;
+    delete temp;
+    in4_student* cur = data;
     while (cur != nullptr)
     {
-        std::wcout << data->infor.ID;
-        std::wcout << std::setw(9) << data->infor.name;
-        std::wcout << std::setw(7) << data->infor.lastname;
-        std::wcout << std::setw(4) << data->infor.gender;
-        std::wcout << "  " << data->infor.date << "\n";
-        cur = cur->next;
+        std::wcout << cur->id;
+        std::wcout << " "  << cur->fname;
+        std::wcout << std::setw(10) << cur->lname;
+        std::wcout << std::setw(10) << cur->gender;
+        std::wcout << "  " << cur->dob;
+        std::wcout << std::setw(8) << cur->soid << "\n";
+        cur = cur->pPrev;
     }
 }
 
-void DeallocateData(NodeStu* infor)
+void DeallocateData(in4_student* infor)
 {
-    NodeStu* temp = infor;
+    in4_student* temp = infor;
     while (infor != nullptr)
     {
-        infor = infor->next;
+        infor = infor->pPrev;
         delete temp;
         temp = infor;
     }
