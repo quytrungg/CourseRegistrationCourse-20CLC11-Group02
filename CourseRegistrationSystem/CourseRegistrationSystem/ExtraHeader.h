@@ -6,7 +6,9 @@
 #include <windows.h>
 #include <locale>
 #include <codecvt>
+#include <sstream>
 
 void ReadVietnamese();
+const std::string currentDateTime();
 
 #endif // EXTRAHEADER_H
