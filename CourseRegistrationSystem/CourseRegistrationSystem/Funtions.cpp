@@ -3,25 +3,31 @@
 
 //Thêm 1 class vào node và lưu nó lại
 void AddClass(id_class* &pHead){
-    std::cout << "Press E to exit" << std::endl;
-    pHead = nullptr;
-    id_class* pCur = nullptr;
-    std::string info;
-    std::cin >> info;
-    while(info != "E"){
-        if(pHead == nullptr){
-            pHead = new id_class;
-            pCur = pHead;
-        }
-        else{
-            pCur->pNext = new id_class;
-            pCur->pNext->pPrev = pCur;
-            pCur = pCur-> pNext;
-        }
-        pCur->id = info;
-        pCur->pNext = nullptr;
+    int option;
+    std::cout << "1. Add class" << std::endl;
+    std::cin >> option;
+    if(option == 1){
+        std::cout << "Press E to exit" << std::endl;
+        pHead = nullptr;
+        id_class* pCur = nullptr;
+        std::string info;
         std::cin >> info;
+        while(info != "E"){
+            if(pHead == nullptr){
+                pHead = new id_class;
+                pCur = pHead;
+            }
+            else{
+                pCur->pNext = new id_class;
+                pCur->pNext->pPrev = pCur;
+                pCur = pCur-> pNext;
+            }
+            pCur->id = info;
+            pCur->pNext = nullptr;
+            std::cin >> info;
+        }
     }
+    else return;
 }
 
 //Hàm output class file vào txt
@@ -134,7 +140,7 @@ void OutputStudent(std::string path, NodeStudent* pHead)
 	}
 	fout.close();
 }
-*/
+
 //Hàm xuất bảng điểm vào csv
 void OutputScore(std::string path, Score* pHead)
 {
@@ -152,7 +158,7 @@ void OutputScore(std::string path, Score* pHead)
 	}
 	fout.close();
 }
-
+*/
 
 //Hàm tìm lớp
 id_class* FindClass(std::string path, id_class* &pHead){
@@ -211,6 +217,7 @@ void InputClassList(std::string path, id_class* &pHead){
 //Làm menu để người dùng chọn lớp để import danh sách sinh viên
 void MenuClassList(id_class* &pHead){
     int option, count = 1;
+    std::string path;
     id_class* pCur = pHead;
     while(pCur != nullptr){
         std::cout << count << ". " << pCur->id << std::endl;
@@ -225,6 +232,16 @@ void MenuClassList(id_class* &pHead){
         pTemp = pTemp->pNext;
     }
     std::cout << "Nhap ten file cua lop " << pTemp->id << ": " << std::endl;
+    std::cin >> path;
+}
+
+void DeleteClass(id_class* &pHead){
+    id_class* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
+    }
 }
 
 //Chuyển từ string thành char để dùng trong binary file
@@ -235,4 +252,29 @@ char* StringToChar(std::string text){
         s[i] = text[i];
     }
     return s;
+}
+
+//Kiểm tra xem 2 course session có bị trùng nhau hay ko
+bool check_conflicted_course(course &a, course &b){
+    char m[6], n[6], p[6], q[6];
+    std::cin >> a.session;
+    std::cin >> b.session;
+    a.session.copy(m, 5);
+    a.session.copy(n, 5, '_' + 1);
+    b.session.copy(p, 5);
+    b.session.copy(q, 5, '_' + 1);
+    if(!strcmp(m, n) or !strcmp(m, p) or !strcmp(m, q) or !strcmp(n, p) or !strcmp(n, q) or !strcmp(p, q)){
+        return true;
+    }
+    return false;
+}
+
+//Lấy khoá của sinh viên từ tên lớp
+int GetClassYear(id_class &a){
+    char s[3];
+    a.id.copy(s, 2);
+    std::stringstream geek(s);
+    int x = 0;
+    geek >> x;
+    return x;
 }
