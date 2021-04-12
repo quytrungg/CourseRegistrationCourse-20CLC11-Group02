@@ -235,6 +235,15 @@ void MenuClassList(id_class* &pHead){
     std::cin >> path;
 }
 
+void DeleteClass(id_class* &pHead){
+    id_class* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
+    }
+}
+
 //Chuyển từ string thành char để dùng trong binary file
 char* StringToChar(std::string text){
     char* s;
