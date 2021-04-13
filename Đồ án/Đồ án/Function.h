@@ -60,7 +60,7 @@ void InputStudent(std::wstring str, in4_student*& pHead);
 in4_student ChangeToData(std::wstring line);
 void add_student(in4_student*& stu, in4_student temp);
 void PrintStu(in4_student*& data);
-void DeallocateData(in4_student* infor);
+void DeallocateData(in4_student*& infor);
 
 int ChangeStringToInt(std::wstring a);
 #endif // !HEADER_H
