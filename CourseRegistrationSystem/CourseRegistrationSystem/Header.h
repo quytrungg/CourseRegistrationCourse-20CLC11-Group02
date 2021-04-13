@@ -97,6 +97,7 @@ void MenuClassList(id_class* &pHead);
 void InputClassList(std::string path, id_class* &pHead);
 int GetClassYear(id_class &a);
 bool check_conflicted_course(course &a, course &b);
+void DeleteCourse(course* &pHead);
 
 #endif // !HEADER_H
 

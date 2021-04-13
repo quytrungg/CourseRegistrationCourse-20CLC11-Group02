@@ -278,3 +278,20 @@ int GetClassYear(id_class &a){
     geek >> x;
     return x;
 }
+
+void DeleteCourse(course* &pHead){
+    course* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
+    }
+}
+
+void InputCourseCSV(course* &pHead){
+    
+}
+
+void OutputCourseCSV(course* &pHead){
+    
+}
