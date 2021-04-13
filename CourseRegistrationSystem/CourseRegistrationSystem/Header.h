@@ -98,6 +98,8 @@ void InputClassList(std::string path, id_class* &pHead);
 int GetClassYear(id_class &a);
 bool check_conflicted_course(course &a, course &b);
 void DeleteCourse(course* &pHead);
+account* FindAccount(account* &pHead);
+void ChangePassword(account* &pHead);
 
 #endif // !HEADER_H
 

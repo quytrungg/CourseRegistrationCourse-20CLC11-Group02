@@ -295,3 +295,25 @@ void InputCourseCSV(course* &pHead){
 void OutputCourseCSV(course* &pHead){
     
 }
+
+account* FindAccount(account* &pHead){
+    account* pCur = pHead;
+    std::string finduser;
+    std::cin >> finduser;
+    while(pCur != nullptr){
+        if(pCur->account_name == finduser){
+            break;;
+        }
+        pCur = pCur->pNext;
+    }
+    return pCur;
+}
+
+void ChangePassword(account* &pHead){
+    account* pCur = FindAccount(pHead);
+    std::string newpass;
+    std::cout << "Enter your new password: ";
+    std::cin >> newpass;
+    pCur->pass = newpass;
+}
+
