@@ -99,13 +99,10 @@ id_class* FindClass(std::string path, id_class* &pHead){
 void FindStudent(std::string path, in4_student* &pHead){
     std::fstream fin;
     fin.open(path, std::fstream::in);
-    std::string findid;
-    std::cin >> findid;
-    std::stringstream geek(findid);
-    int find;
-    geek >> find;
+    std::wstring findid;
+    std::wcin >> findid;
     in4_student* pCur = pHead;
-    while(pCur != nullptr){
+    while(comparei(pCur->id, findid)){
         if(pCur->id == find){
             std::cout << pCur->id << std::endl;
             std::wcout << pCur->fname << std::endl;

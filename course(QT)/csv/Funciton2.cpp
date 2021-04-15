@@ -25,3 +25,11 @@ void ReadVietnamese()
     _setmode(fileno(stdout), _O_WTEXT);
 }
 */
+
+//compare 2 wstring
+bool comparei(std::wstring stringA , std::wstring stringB)
+{
+    transform(stringA.begin(), stringA.end(), stringA.begin(), toupper);
+    transform(stringB.begin(), stringB.end(), stringB.begin(), toupper);
+    return (stringA == stringB);
+}

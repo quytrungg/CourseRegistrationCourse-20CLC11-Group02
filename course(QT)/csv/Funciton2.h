@@ -23,5 +23,6 @@
 
 
 const std::string currentDateTime();
+bool comparei(std::wstring stringA , std::wstring stringB);
 
 #endif /* Funciton2_h */

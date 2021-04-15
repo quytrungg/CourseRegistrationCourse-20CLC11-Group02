@@ -42,17 +42,23 @@ struct id_course_of_student {
 };
 
 struct in4_student {
-    unsigned long long int id;
+    std::wstring id;
     std::wstring fname;
     std::wstring lname;
-    std::string gender;
-    std::string dob;
+    std::wstring gender;
+    std::wstring dob;
     int soid;
     std::string id_class;
     in4_student* pNext, * pPrev;
     id_course_of_student* id_course;
 
 };
+
+struct HT_in4_student {
+    in4_student* head, * tail;
+    //a.data.id_course.data.id
+};
+
 /*
 struct Date
 {
