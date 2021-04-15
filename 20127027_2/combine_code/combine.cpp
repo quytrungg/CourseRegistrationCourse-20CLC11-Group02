@@ -37,8 +37,7 @@ void load_account(string path, account*& acc) {
 	while (!fin.eof()) {
 		if (acc == 0) {
 			acc = new account;
-			getline(fin, acc->account_name);
-			getline(fin, acc->pass);
+			fin >> acc->account_name >> acc->pass;
 			acc->pNext = acc->pPrev = nullptr;
 			pCur = acc;
 		}
@@ -46,8 +45,7 @@ void load_account(string path, account*& acc) {
 			pCur->pNext = new account;
 			pCur->pNext->pPrev = pCur;
 			pCur = pCur->pNext;
-			getline(fin, pCur->account_name);
-			getline(fin, pCur->pass);
+			fin >> pCur->account_name >> pCur->pass;
 			pCur->pNext = nullptr;
 		}
 	}
