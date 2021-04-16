@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{20c9e450-5f88-46a2-9aa4-311616495516}</ProjectGuid>
-    <RootNamespace>combinecode</RootNamespace>
+    <ProjectGuid>{e77a0307-0e2d-44a6-b16f-ae72e34e89fe}</ProjectGuid>
+    <RootNamespace>trashcode</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,10 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="combine.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="struct_include_define.h" />
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
