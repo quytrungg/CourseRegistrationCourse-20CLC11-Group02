@@ -1,6 +1,7 @@
 ﻿#include "Struct.h"
 #include "Time.h"
 #include "Help.h"
+#include "Save.h"
 
 void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	// ID
@@ -91,4 +92,39 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	pCur->stu.SocialID = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 }
+
+void Input_student(std::wstring str, Node_stu*& pHead) {
+	pHead = new Node_stu;
+	Node_stu* pCur = pHead;
+	std::wifstream fin(str);
+	std::wstring a;
+	if (!fin) {
+		std::wcout << L"Không thể đọc file \n";
+	}
+	else {
+		fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+		while (!fin.eof()) {
+			std::getline(fin, a);
+			pCur->pNext = new Node_stu;
+			pCur->pNext->pPre = pCur;
+			fin.ignore();
+			Input_one_student_by_file(a, pCur->pNext);
+			pCur = pCur->pNext;
+			pCur->pNext = nullptr;
+		}
+		if (pHead->pNext == nullptr) {
+			delete pHead;
+			pHead = nullptr;
+		}
+		else {
+			Node_stu* pTemp = pHead;
+			pHead = pHead->pNext;
+			delete pTemp;
+			pHead->pPre = nullptr;
+		}
+	}
+	fin.close();
+}
+
+
 

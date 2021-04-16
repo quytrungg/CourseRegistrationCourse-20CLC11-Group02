@@ -42,10 +42,20 @@ struct Student {
 	Account account;
 };
 
+struct Class {
+	wchar_t* Name;
+};
+
 struct Node_stu {
 	Student stu;
 	Node_stu* pNext;
 	Node_stu* pPre;
+};
+
+struct Node_cla {
+	Class cla;
+	Node_cla* pNext;
+	Node_cla* pPre;
 };
 
 #endif // !STRUCT_H_
