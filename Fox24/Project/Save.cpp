@@ -20,6 +20,7 @@ char* Create_second_folder(std::string str, char* main_folder) {
 		second_folder[count] = a[i];
 		count++;
 	}
+	delete[] a;
 	second_folder[n - 1] = '\0';
 	return second_folder;
 }
@@ -41,8 +42,35 @@ char* Create_third_folder(std::string str, char* second_folder) {
 		third_folder[count] = a[i];
 		count++;
 	}
+	delete[] a;
 	third_folder[n - 1] = '\0';
 	return third_folder;
+}
+
+char* Create_file(char* filename, char* folder, std::string filetype) {
+	int n = filetype.length() + 2 + strlen(filename) + strlen(folder);
+	char* file = new char[n];
+	int count = 0;
+	for (int i = 0; i < strlen(folder); i++) {
+		file[count] = folder[i];
+		count++;
+	}
+	file[count] = '\\';
+	count++;
+	for (int i = 0; i < strlen(filename); i++) {
+		file[count] = filename[i];
+		count++;
+	}
+	char* a = new char[filetype.length() + 1];
+	filetype.copy(a, filetype.length(), 0);
+	a[filetype.length()] = '\0';
+	for (int i = 0; i < filetype.length(); i++) {
+		file[count] = a[i];
+		count++;
+	}
+	delete[] a;
+	file[n - 1] = '\0';
+	return file;
 }
 
 void Create_main_folder() {
@@ -54,8 +82,13 @@ void Create_main_folder() {
 	_mkdir(Create_second_folder("Semester", current_year));
 	_mkdir(Create_second_folder("Class", current_year));
 	_mkdir(Create_third_folder("1", Create_second_folder("Semester", current_year)));
+	_mkdir(Create_third_folder("2", Create_second_folder("Semester", current_year)));
+	_mkdir(Create_third_folder("3", Create_second_folder("Semester", current_year)));
+
 }
 
+
+
 void main() {
-	Create_main_folder();
+	
 }
