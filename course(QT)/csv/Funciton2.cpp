@@ -26,6 +26,16 @@ void ReadVietnamese()
 }
 */
 
+//String to char*
+char* StringToCharPointer(std::string text){
+    char* s;
+    s = new char[text.length() + 1];
+    for(int i = 0; i < text.length() + 1; i++){
+        s[i] = text[i];
+    }
+    return s;
+}
+
 //compare 2 wstring
 bool comparei(std::wstring stringA , std::wstring stringB)
 {

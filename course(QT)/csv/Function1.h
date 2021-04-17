@@ -20,10 +20,10 @@ struct account {
 
 //Khoá học
 struct course {
-    std::string id;
+    std::wstring id;
     std::wstring name,teacher_name;
-    int num_cre;
-    int max_student = 50;
+    std::wstring num_cre;
+    std::wstring max_student = L"50";
     //day of the week
     std::string session;//MONS1_MONS3 hoặc MONS1_FRIS3
     course* pNext, * pPrev;
@@ -41,6 +41,7 @@ struct id_course_of_student {
     id_course_of_student* pNext, * pPrev;
 };
 
+//info student
 struct in4_student {
     std::wstring id;
     std::wstring fname;
@@ -112,7 +113,13 @@ int GetClassYear(id_class &a);
 bool check_conflicted_course(course &a, course &b);
 void DeleteClass(id_class* &pHead);
 void DeleteCourse(course* &pHead);
+void load_account(std::string path, account*& acc);
+void PrintAccount(account* pHead);
+void DeallocateAccount(account* &pHead);
 account* FindAccount(account* &pHead);
 void ChangePassword(account* &pHead);
+void SaveAccout(std::string path, account* &pHead);
+
+course* FindCourse(course* &pHead);
 
 #endif /* Function1_h */
