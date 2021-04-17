@@ -8,6 +8,8 @@
 #include "Function1.h"
 #include "Funciton2.h"
 
+//Class
+//Thêm dữ liệu vào class.txt
 void AddClass(id_class* &pHead){
     int option;
     std::cout << "1. Add class" << std::endl;
@@ -36,6 +38,7 @@ void AddClass(id_class* &pHead){
     else return;
 }
 
+//Xuất dữ liệu vào class.txt
 void OutputClassFile(std::string path, id_class* pHead){
     std::fstream fout;
     fout.open(path, std::fstream::out);
@@ -47,6 +50,7 @@ void OutputClassFile(std::string path, id_class* pHead){
     }
     fout.close();
 }
+
 /*
 void AddStudent(NodeStudent* &pHead, Student &info){
     NodeStudent* pCur = nullptr;
@@ -85,6 +89,8 @@ void OutputStudent(std::string path, NodeStudent* pHead){
     }
 }
 */
+
+//Tìm lớp trong file class.txt
 id_class* FindClass(std::string path, id_class* &pHead){
     id_class* pCur = pHead;
     while(pCur != nullptr){
@@ -96,6 +102,7 @@ id_class* FindClass(std::string path, id_class* &pHead){
     return pCur;
 }
 
+//Tìm student bằng cách mở file student.txt rồi tìm theo id
 void FindStudent(std::string path, in4_student* &pHead){
     std::fstream fin;
     fin.open(path, std::fstream::in);
@@ -116,6 +123,7 @@ void FindStudent(std::string path, in4_student* &pHead){
     }
 }
 
+//Đọc file class.txt
 void InputClassList(std::string path, id_class* &pHead){
     std::fstream fin;
     std::cin >> path;
@@ -132,6 +140,7 @@ void InputClassList(std::string path, id_class* &pHead){
     fin.close();
 }
 
+//Menu chọn lớp cho student
 void MenuClassList(id_class* &pHead){
     int option, count = 1;
     std::string path;
@@ -152,15 +161,7 @@ void MenuClassList(id_class* &pHead){
     std::cin >> path;
 }
 
-char* StringToChar(std::string text){
-    char* s;
-    s = new char[text.length() + 1];
-    for(int i = 0; i < text.length() + 1; i++){
-        s[i] = text[i];
-    }
-    return s;
-}
-
+//Kiểm tra xem 2 course session có bị trùng không
 bool check_conflicted_course(course &a, course &b){
     char m[6], n[6], p[6], q[6];
     std::cin >> a.session;
@@ -175,6 +176,7 @@ bool check_conflicted_course(course &a, course &b){
     return false;
 }
 
+//Lấy năm học của class bằng cách lấy 2 chữ số đầu
 int GetClassYear(id_class &a){
     char s[3];
     a.id.copy(s, 2);
@@ -184,6 +186,7 @@ int GetClassYear(id_class &a){
     return x;
 }
 
+//Deallocate class
 void DeleteClass(id_class* &pHead){
     id_class* pTemp = pHead;
     while(pHead != nullptr){
@@ -193,6 +196,7 @@ void DeleteClass(id_class* &pHead){
     }
 }
 
+//Deallocate course
 void DeleteCourse(course* &pHead){
     course* pTemp = pHead;
     while(pHead != nullptr){
@@ -202,14 +206,51 @@ void DeleteCourse(course* &pHead){
     }
 }
 
-void InputCourseCSV(course* &pHead){
-    
+//Input file staff_account.txt
+void load_account(std::string path, account*& acc) {
+    std::fstream fin;
+    fin.open(path);
+    account* pCur = 0;
+    while (!fin.eof()) {
+        if (acc == 0) {
+            acc = new account;
+            fin >> acc->account_name >> acc->pass;
+            acc->pNext = acc->pPrev = nullptr;
+            pCur = acc;
+        }
+        else {
+            pCur->pNext = new account;
+            pCur->pNext->pPrev = pCur;
+            pCur = pCur->pNext;
+            fin >> pCur->account_name >> pCur->pass;
+            pCur->pNext = nullptr;
+        }
+    }
+    fin.close();
 }
 
-void OutputCourseCSV(course* &pHead){
-    
+//In ra màn hình console file staff_account.txt
+void PrintAccount(account* pHead){
+    account* pCur = pHead;
+    while(pCur != nullptr){
+        std::cout << pCur->account_name << " ";
+        std::cout << pCur->pass << " ";
+        pCur = pCur->pNext;
+        std::cout << std::endl;
+    }
 }
 
+//Deallocate account
+void DeallocateAccount(account* &pHead){
+    account* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
+    }
+}
+
+//Tìm account cần đổi pass
 account* FindAccount(account* &pHead){
     account* pCur = pHead;
     std::string finduser;
@@ -220,9 +261,14 @@ account* FindAccount(account* &pHead){
         }
         pCur = pCur->pNext;
     }
+    //if(pCur == nullptr){
+        //std::cout << "Can't find your account, please type again!" << std::endl;
+        //FindAccount(pHead);
+    //}
     return pCur;
 }
 
+//Đổi pass cho account đó
 void ChangePassword(account* &pHead){
     account* pCur = FindAccount(pHead);
     std::string newpass;
@@ -230,4 +276,43 @@ void ChangePassword(account* &pHead){
     std::cin >> newpass;
     pCur->pass = newpass;
 }
+
+//Cập nhật password vào file txt
+void SaveAccout(std::string path, account* &pHead){
+    std::fstream fout;
+    if(!fout){
+        std::cout << "Can't open file!";
+        return;
+    }
+    fout.open(path, std::fstream::out);
+    account* pCur = pHead;
+    while(pCur != nullptr){
+        fout << pCur->account_name << " ";
+        fout << pCur->pass << std::endl;
+        pCur = pCur->pNext;
+    }
+    fout.close();
+}
+
+//tìm course trong file course để đăng kí môn học cho stu
+course* FindCourse(course* &pHead){
+    course* pCur = pHead;
+    std::wstring findcourseid;
+    std::wcin >> findcourseid;
+    while(pCur != nullptr){
+        if(pCur->id == findcourseid){
+            break;
+        }
+        pCur = pCur->pNext;
+    }
+    return pCur;
+}
+ 
+//Hàm để gán course stu đã đăng kí vào idcourseofstudent
+/*
+void EnrollCourse(id_course_of_student* &pHead1, course* &pHead2){
+    course* pTemp = FindCourse(pHead2);
+    id_course_of_student* pCur = pHead1;
+}
+*/
 

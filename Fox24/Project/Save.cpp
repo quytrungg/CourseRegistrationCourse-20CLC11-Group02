@@ -84,5 +84,4 @@ void Create_main_folder() {
 	_mkdir(Create_third_folder("1", Create_second_folder("Semester", current_year)));
 	_mkdir(Create_third_folder("2", Create_second_folder("Semester", current_year)));
 	_mkdir(Create_third_folder("3", Create_second_folder("Semester", current_year)));
-
 }
