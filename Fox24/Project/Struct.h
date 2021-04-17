@@ -44,6 +44,7 @@ struct Student {
 
 struct Class {
 	wchar_t* Name;
+	wchar_t* StudentID;
 };
 
 struct Node_stu {
