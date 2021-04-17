@@ -126,5 +126,48 @@ void Input_student(std::wstring str, Node_stu*& pHead) {
 	fin.close();
 }
 
+void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) {
+	// Class name
+	int  k = 0;
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == L'\\')	k++;
+	}
+	int begin = 0;
+	int end = -1;
+	for (int i = 0; i < k; i++) {
+		begin = end + 1;
+		end = str.find('\\', begin + 1);
+	}
+	begin = end + 1;
+	end = str.find('.', begin + 1);
+	pCur_cla->cla.Name = new wchar_t[end - begin];
+	str.copy(pCur_cla->cla.Name, end - begin, begin);
+	pCur_cla->cla.Name[end - begin] = L'\0';
 
+	// Student ID
+	Node_stu* pCur_stu = pHead_stu;
+	int count = 0;
+	while (pCur_stu != nullptr) {
+		count++;
+		pCur_stu = pCur_stu->pNext;
+	}
+	pCur_cla->cla.StudentID = new wchar_t[count * 9 + 1];
+	pCur_stu = pHead_stu;
+	k = 0;
+	for (int i = 0; i < count; i++) {
+		int n = pCur_stu->stu.ID;
+		int m = 10000000;
+		for (int i = 0; i < 8; i++) {
+			int r = n / m;
+			n = n - r * m;
+			m = m / 10;
+			pCur_cla->cla.StudentID[k] = wchar_t(r + '0');
+			k++;
+		}
+		pCur_cla->cla.StudentID[k] = L',';
+		k++;
+		pCur_stu = pCur_stu->pNext;
+	}
+	pCur_cla->cla.StudentID[count * 9 - 1] = L'\0';
+}
 
