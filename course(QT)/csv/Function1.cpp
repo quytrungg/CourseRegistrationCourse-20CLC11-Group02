@@ -102,7 +102,7 @@ id_class* FindClass(std::string path, id_class* &pHead){
     return pCur;
 }
 
-//Tìm student bằng cách mở file student.txt rồi tìm theo id
+//Tìm student bằng cách mở file student.txt rồi tìm theo id và xuất ra thông tin trên console
 void FindStudent(std::string path, in4_student* &pHead){
     std::fstream fin;
     fin.open(path, std::fstream::in);
@@ -114,17 +114,40 @@ void FindStudent(std::string path, in4_student* &pHead){
             std::cout << pCur->id << std::endl;
             std::wcout << pCur->fname << std::endl;
             std::wcout << pCur->lname << std::endl;
-            std::cout << pCur->gender << std::endl;
-            std::cout << pCur->dob << std::endl;
+            std::wcout << pCur->gender << std::endl;
+            std::wcout << pCur->dob << std::endl;
             std::cout << pCur->soid << std::endl;
+            std::wcout << pCur->id_class << std::endl;
+            while(pCur->id_course != nullptr){
+                std::wcout << pCur->id_course->id << std::endl;
+                pCur->id_course = pCur->id_course->pNext;
+            }
             return;
         }
         else pCur = pCur->pNext;
     }
+    fin.close();
+}
+
+//Tìm student trong file csv rồi trả về node in4student
+in4_student* FindReturnStudent(std::string path, in4_student* &pHead){
+    std::fstream fin;
+    fin.open(path, std::fstream::in);
+    std::wstring findid;
+    std::wcin >> findid;
+    in4_student* pCur = pHead;
+    while(pCur != nullptr){
+        if(comparei(pCur->id, findid)){
+            break;
+        }
+        else pCur = pCur->pNext;
+    }
+    fin.close();
+    return pCur;
 }
 
 //Đọc file class.txt
-void InputClassList(std::string path, id_class* &pHead){
+void LoadClass(std::string path, id_class* &pHead){
     std::fstream fin;
     std::cin >> path;
     if(!fin){
@@ -141,7 +164,7 @@ void InputClassList(std::string path, id_class* &pHead){
 }
 
 //Menu chọn lớp cho student
-void MenuClassList(id_class* &pHead){
+void ChooseClass(id_class* &pHead){
     int option, count = 1;
     std::string path;
     id_class* pCur = pHead;
@@ -309,10 +332,9 @@ course* FindCourse(course* &pHead){
 }
  
 //Hàm để gán course stu đã đăng kí vào idcourseofstudent
-/*
-void EnrollCourse(id_course_of_student* &pHead1, course* &pHead2){
+void EnrollCourse(std::string path, in4_student* &pHead1, course* &pHead2){
     course* pTemp = FindCourse(pHead2);
-    id_course_of_student* pCur = pHead1;
+    in4_student* pCur = FindReturnStudent(path, pHead1);
+    pCur->id_course->id = pTemp->id;
 }
-*/
 
