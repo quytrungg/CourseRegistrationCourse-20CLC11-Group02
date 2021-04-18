@@ -2,6 +2,7 @@
 #include "Time.h"
 #include "Help.h"
 #include "Save.h"
+#include "Delete.h"
 
 void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	// ID
@@ -169,5 +170,24 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 		pCur_stu = pCur_stu->pNext;
 	}
 	pCur_cla->cla.StudentID[count * 9 - 1] = L'\0';
+}
+
+void Input_student_data(Node_stu*& pHead_stu) {
+	Time current_time;
+	Get_current_time_to_int(current_time);
+	char* current_year = Convert_int_to_char(current_time.date.Year);
+	Create_main_folder(current_year);
+	int x;
+	std::wstring str;
+	std::wcout << "Please input the total number of classes in the school year: ";
+	std::wcin >> x;
+	std::wcin.ignore();
+	for (int i = 0; i < x; i++) {
+		std::wcout << "Please input the link: ";
+		std::getline(std::wcin, str);
+		Input_student(str, pHead_stu);
+		Save_stu_to_test(pHead_stu, Create_second_folder("Student", current_year));
+		Delete_Node_stu(pHead_stu);
+	}
 }
 

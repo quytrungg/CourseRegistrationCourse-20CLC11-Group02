@@ -73,10 +73,7 @@ char* Create_file(char* filename, char* folder, std::string filetype) {
 	return file;
 }
 
-void Create_main_folder() {
-	Time current_time;
-	Get_current_time_to_int(current_time);
-	char* current_year = Convert_int_to_char(current_time.date.Year);
+void Create_main_folder(char* current_year) {
 	_mkdir(current_year);
 	_mkdir(Create_second_folder("Student", current_year));
 	_mkdir(Create_second_folder("Semester", current_year));
@@ -85,3 +82,25 @@ void Create_main_folder() {
 	_mkdir(Create_third_folder("2", Create_second_folder("Semester", current_year)));
 	_mkdir(Create_third_folder("3", Create_second_folder("Semester", current_year)));
 }
+
+/*void Save_stu_to_bin(int stu_ID, char* folder, Node_stu* pCur) {
+	char* ID = Convert_int_to_char(stu_ID);
+	char* file = Create_file(ID, folder, ".txt");
+	std::wofstream fout(file,std::ios::binary);
+	fout.write((wchar_t*)pCur->stu.ID, sizeof(pCur->stu.ID));
+}*/
+
+void Save_stu_to_test(Node_stu* pHead, char* folder) {
+	char* file;
+	char* filename;
+	while (pHead != nullptr) {
+		filename = Convert_int_to_char(pHead->stu.ID);
+		file = Create_file(filename, folder, ".txt");
+		std::wofstream fout(file);
+		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+		fout << pHead->stu.account.ID << L"," << pHead->stu.account.Pass << std::endl;
+		fout << pHead->stu.ID << L"," << pHead->stu.FirstName << L"," << pHead->stu.LastName << L"," << pHead->stu.Gender << L"," << pHead->stu.Birthday.Day << L"/" << pHead->stu.Birthday.Month << L"/" << pHead->stu.Birthday.Year << L"," << pHead->stu.SocialID << std::endl;
+		pHead = pHead->pNext;
+	}
+}
+

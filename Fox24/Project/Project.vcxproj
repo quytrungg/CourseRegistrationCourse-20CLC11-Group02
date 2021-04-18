@@ -139,12 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Delete.h" />
     <ClInclude Include="Help.h" />
     <ClInclude Include="Save.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Delete.cpp" />
     <ClCompile Include="Help.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Save.cpp" />
