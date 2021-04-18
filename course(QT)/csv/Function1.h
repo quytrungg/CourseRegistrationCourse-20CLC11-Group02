@@ -23,7 +23,7 @@ struct course {
     std::wstring id;
     std::wstring name,teacher_name;
     std::wstring num_cre;
-    std::wstring max_student = L"50";
+    int max_student = 50;
     //day of the week
     std::string session;//MONS1_MONS3 hoặc MONS1_FRIS3
     course* pNext, * pPrev;
@@ -49,7 +49,7 @@ struct in4_student {
     std::wstring gender;
     std::wstring dob;
     int soid;
-    std::string id_class;
+    std::wstring id_class;
     in4_student* pNext, * pPrev;
     id_course_of_student* id_course;
 
@@ -106,9 +106,9 @@ void AddClass(id_class* &pHead);
 void OutputClassFile(std::string path, id_class* pHead);
 id_class* FindClass(std::string path, id_class* &pHead);
 void FindStudent(std::string path, in4_student* &pHead);
-char* StringToChar(std::string text);
-void MenuClassList(id_class* &pHead);
-void InputClassList(std::string path, id_class* &pHead);
+in4_student* FindReturnStudent(std::string path, in4_student* &pHead);
+void ChooseClass(id_class* &pHead);
+void LoadClass(std::string path, id_class* &pHead);
 int GetClassYear(id_class &a);
 bool check_conflicted_course(course &a, course &b);
 void DeleteClass(id_class* &pHead);
@@ -121,5 +121,6 @@ void ChangePassword(account* &pHead);
 void SaveAccout(std::string path, account* &pHead);
 
 course* FindCourse(course* &pHead);
+void EnrollCourse(std::string path, in4_student* &pHead1, course* &pHead2);
 
 #endif /* Function1_h */

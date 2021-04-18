@@ -16,6 +16,7 @@ const std::string currentDateTime() {
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
     return buf;
 }
+
 /*
 void ReadVietnamese()
 {

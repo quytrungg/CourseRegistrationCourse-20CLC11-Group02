@@ -21,7 +21,6 @@
 #include <codecvt>
 #include <sstream>
 
-
 const std::string currentDateTime();
 char* StringToCharPointer(std::string text);
 bool comparei(std::wstring stringA , std::wstring stringB);
