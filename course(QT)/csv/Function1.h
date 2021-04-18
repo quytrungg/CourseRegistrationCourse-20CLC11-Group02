@@ -122,5 +122,6 @@ void SaveAccout(std::string path, account* &pHead);
 
 course* FindCourse(course* &pHead);
 void EnrollCourse(std::string path, in4_student* &pHead1, course* &pHead2);
+void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2);
 
 #endif /* Function1_h */
