@@ -141,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Delete.h" />
     <ClInclude Include="Help.h" />
+    <ClInclude Include="Input.h" />
     <ClInclude Include="Save.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="Time.h" />

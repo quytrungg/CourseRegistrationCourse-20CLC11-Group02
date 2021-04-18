@@ -141,7 +141,7 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 	}
 	begin = end + 1;
 	end = str.find('.', begin + 1);
-	pCur_cla->cla.Name = new wchar_t[end - begin];
+	pCur_cla->cla.Name = new wchar_t[end - begin + 1];
 	str.copy(pCur_cla->cla.Name, end - begin, begin);
 	pCur_cla->cla.Name[end - begin] = L'\0';
 
@@ -152,7 +152,7 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 		count++;
 		pCur_stu = pCur_stu->pNext;
 	}
-	pCur_cla->cla.StudentID = new wchar_t[count * 9 + 1];
+	pCur_cla->cla.StudentID = new wchar_t[count * 9];
 	pCur_stu = pHead_stu;
 	k = 0;
 	for (int i = 0; i < count; i++) {
@@ -172,7 +172,7 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 	pCur_cla->cla.StudentID[count * 9 - 1] = L'\0';
 }
 
-void Input_student_data(Node_stu*& pHead_stu) {
+/*void Input_student_data(Node_stu*& pHead_stu) {
 	Time current_time;
 	Get_current_time_to_int(current_time);
 	char* current_year = Convert_int_to_char(current_time.date.Year);
@@ -189,5 +189,7 @@ void Input_student_data(Node_stu*& pHead_stu) {
 		Save_stu_to_test(pHead_stu, Create_second_folder("Student", current_year));
 		Delete_Node_stu(pHead_stu);
 	}
-}
+}*/
+
+
 
