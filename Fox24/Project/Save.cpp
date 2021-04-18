@@ -73,6 +73,32 @@ char* Create_file(char* filename, char* folder, std::string filetype) {
 	return file;
 }
 
+wchar_t* Create_file_1(wchar_t* filename, char* folder, std::string filetype) {
+	int n = filetype.length() + 2 + wcslen(filename) + strlen(folder);
+	wchar_t* file = new wchar_t[n];
+	int count = 0;
+	for (int i = 0; i < strlen(folder); i++) {
+		file[count] = folder[i];
+		count++;
+	}
+	file[count] = '\\';
+	count++;
+	for (int i = 0; i < wcslen(filename); i++) {
+		file[count] = filename[i];
+		count++;
+	}
+	char* a = new char[filetype.length() + 1];
+	filetype.copy(a, filetype.length(), 0);
+	a[filetype.length()] = '\0';
+	for (int i = 0; i < filetype.length(); i++) {
+		file[count] = a[i];
+		count++;
+	}
+	delete[] a;
+	file[n - 1] = '\0';
+	return file;
+}
+
 void Create_main_folder(char* current_year) {
 	_mkdir(current_year);
 	_mkdir(Create_second_folder("Student", current_year));
@@ -101,6 +127,28 @@ void Save_stu_to_test(Node_stu* pHead, char* folder) {
 		fout << pHead->stu.account.ID << L"," << pHead->stu.account.Pass << std::endl;
 		fout << pHead->stu.ID << L"," << pHead->stu.FirstName << L"," << pHead->stu.LastName << L"," << pHead->stu.Gender << L"," << pHead->stu.Birthday.Day << L"/" << pHead->stu.Birthday.Month << L"/" << pHead->stu.Birthday.Year << L"," << pHead->stu.SocialID << std::endl;
 		pHead = pHead->pNext;
+		fout.close();
 	}
 }
 
+void Save_cla_to_test(Node_cla* pHead, char* folder) {
+	wchar_t* file;
+	while (pHead != nullptr) {
+		file = Create_file_1( pHead->cla.Name, folder, ".txt");
+		std::wofstream fout(file);
+		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+		fout << pHead->cla.StudentID << std::endl;
+		pHead = pHead->pNext;
+		fout.close();
+	}
+}
+
+void Save_name_class(Node_cla* pHead) {
+	std::wofstream fout("Class.txt");
+	fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+	while (pHead != nullptr) {
+		fout << pHead->cla.Name << std::endl;
+		pHead = pHead->pNext;
+	}
+	fout.close();
+}

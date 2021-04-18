@@ -56,5 +56,20 @@ struct in4_student {
 
 };
 
+struct score
+{
+	wchar_t* no;
+	int Id;
+	wchar_t* fname;
+	wchar_t* lname;
+	wchar_t* totalScore;
+	wchar_t* final;
+	wchar_t* midterm;
+	wchar_t* other;
+	wchar_t* GPA;
+	wchar_t* ovrGPA;
+	score* next, * prev;
+};
+
 #endif // !STRUCT_H_
 

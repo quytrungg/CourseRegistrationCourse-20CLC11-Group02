@@ -18,9 +18,36 @@
     <ClCompile Include="combine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="accountManage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="extraFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="deletePointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="staffWork.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="loadData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="upDateData_file_pointer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="timeManage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="courseManage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="struct_include_define.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="func.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
