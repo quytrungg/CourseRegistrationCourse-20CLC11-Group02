@@ -140,8 +140,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="combine.cpp" />
+    <ClCompile Include="accountManage.cpp" />
+    <ClCompile Include="courseManage.cpp" />
+    <ClCompile Include="deletePointer.cpp" />
+    <ClCompile Include="extraFunction.cpp" />
+    <ClCompile Include="loadData.cpp" />
+    <ClCompile Include="staffWork.cpp" />
+    <ClCompile Include="timeManage.cpp" />
+    <ClCompile Include="upDateData_file_pointer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="func.h" />
     <ClInclude Include="struct_include_define.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
