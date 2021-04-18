@@ -143,3 +143,12 @@ void Save_cla_to_test(Node_cla* pHead, char* folder) {
 	}
 }
 
+void Save_name_class(Node_cla* pHead) {
+	std::wofstream fout("Class.txt");
+	fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+	while (pHead != nullptr) {
+		fout << pHead->cla.Name << std::endl;
+		pHead = pHead->pNext;
+	}
+	fout.close();
+}

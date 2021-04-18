@@ -172,24 +172,49 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 	pCur_cla->cla.StudentID[count * 9 - 1] = L'\0';
 }
 
-/*void Input_student_data(Node_stu*& pHead_stu) {
+void Input_student_data(Node_stu*& pHead_stu, Node_cla*& pHead_cla) {
 	Time current_time;
 	Get_current_time_to_int(current_time);
 	char* current_year = Convert_int_to_char(current_time.date.Year);
 	Create_main_folder(current_year);
 	int x;
+	pHead_cla = new Node_cla;
+	Node_cla* pCur_cla = pHead_cla;
 	std::wstring str;
 	std::wcout << "Please input the total number of classes in the school year: ";
 	std::wcin >> x;
 	std::wcin.ignore();
 	for (int i = 0; i < x; i++) {
+		pCur_cla->pNext = new Node_cla;
 		std::wcout << "Please input the link: ";
 		std::getline(std::wcin, str);
 		Input_student(str, pHead_stu);
+		Input_one_class(str, pCur_cla->pNext, pHead_stu);
 		Save_stu_to_test(pHead_stu, Create_second_folder("Student", current_year));
 		Delete_Node_stu(pHead_stu);
+		pCur_cla = pCur_cla->pNext;
+		pCur_cla->pNext = nullptr;
 	}
-}*/
+	if (pHead_cla->pNext == nullptr) {
+		delete pHead_cla;
+		pHead_cla = nullptr;
+	}
+	else {
+		Node_cla* pTemp = pHead_cla;
+		pHead_cla = pHead_cla->pNext;
+		delete pTemp;
+	}
+	Save_name_class(pHead_cla);
+	Save_cla_to_test(pHead_cla, Create_second_folder("Class", current_year));
+	Delete_Node_cla(pHead_cla);
+}
+
+void main() {
+	Node_cla* pHead_cla;
+	Node_stu* pHead_stu;
+	Input_student_data(pHead_stu, pHead_cla);
+}
+
 
 
 
