@@ -132,10 +132,9 @@ void load_course(HT_course& pCourse) {
 		getline(wsin, pCur->name, L',');
 		getline(wsin, pCur->teacher_name, L',');
 		wstring temp2;
-		getline(wsin, temp2, L',');
-		pCur->num_cre = wconvert_num(temp2);
-		getline(wsin, temp2, L',');
-		pCur->max_student= wconvert_num(temp2);
+		wsin>>pCur->num_cre;
+		wsin >> pCur->max_student;
+		wsin.ignore(100, L',');
 		getline(wsin, pCur->session, L',');
 	}
 }

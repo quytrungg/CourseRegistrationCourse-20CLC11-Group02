@@ -14,11 +14,10 @@ int main()
 
     Inputdata(t, fin);
     PrintStu(t);
-    OutputData(t);
 
-    finScore.open("Student_sc.csv", std::wfstream::in);
+    finScore.open("Score1.csv", std::wfstream::in);
     inputScore(p, finScore);
-
+    OutputScore(p);
 
     DeallocateData(t);
     DeallocateData(p);
