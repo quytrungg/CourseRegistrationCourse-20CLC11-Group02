@@ -54,7 +54,7 @@ struct id_course_of_student {
 struct score
 {
 	wchar_t* no;
-	int Id;
+	wchar_t* Id;
 	wchar_t* fname;
 	wchar_t* lname;
 	wchar_t* totalScore;
@@ -67,10 +67,8 @@ struct score
 };
 
 void ChangeToVietNamese();
+
 in4_student* Inputdata(in4_student*& t, std::wfstream& fin);
-void OutputData(in4_student*&stu);
-void Inputonestudent(std::wstring str, in4_student* pCur);
-void InputStudent(std::wstring str, in4_student*& pHead);
 in4_student ChangeToData(std::wstring line);
 void add_student(in4_student*& stu, in4_student temp);
 
@@ -82,4 +80,6 @@ int ChangeStringToInt(std::wstring a);
 void add_score(score*& sc, score temp);
 score ChangeScoreToData(std::wstring line);
 score* inputScore(score*& t, std::wfstream& finScore);
+void OutputScore(score*& sc);
+
 #endif // !HEADER_H

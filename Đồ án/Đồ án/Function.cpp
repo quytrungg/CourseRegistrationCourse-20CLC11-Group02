@@ -1,5 +1,4 @@
 ﻿#include"Function.h"
-#include "SmallFunction.cpp"
 
 int ChangeStringToInt(std::wstring a)
 {
@@ -21,35 +20,6 @@ void ChangeToVietNamese()
     GetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
     memcpy(consoleFont.FaceName, L"Consolas", sizeof(consoleFont.FaceName));
     SetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
-}
-
-void OutputData(in4_student*&stu)
-{
-    _setmode(_fileno(stdin), _O_U16TEXT);
-    _setmode(_fileno(stdout), _O_U16TEXT);
-    std::wfstream fout;
-    fout.open("output.csv", std::wfstream::out);
-    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
-    fout << wchar_t(0xfeff);
-    in4_student* temp = stu;
-    stu = stu->pPrev;
-    delete temp;
-    in4_student* cur = stu->pPrev;
-    if (cur == nullptr)
-    {
-        std::wcout << "Null";
-        return;
-    }
-    do
-    {
-        fout << cur->id << L',' << cur->fname << L',' << cur->lname << L',' << cur->gender << L',' << cur->dob << L',' << cur->soid << "\n";
-        cur = cur->pPrev;
-    }while (cur != nullptr);
-
-
-    fout.close();
-    _setmode(_fileno(stdin),  _O_TEXT);
-    _setmode(_fileno(stdout), _O_TEXT);
 }
 
 in4_student* Inputdata(in4_student*& t, std::wfstream &fin)
@@ -90,7 +60,6 @@ in4_student ChangeToData(std::wstring line)
     wchar_t* temp = new wchar_t[end - start + 1];
     temp[end - start] = L'\0';
     line.copy(temp, end - start, start);
-
     stu.id = ChangeStringToInt(temp);
     delete[] temp;
 
@@ -204,12 +173,9 @@ score ChangeScoreToData(std::wstring line)
     int start = line.find(L',', 0) + 1;
     int end = line.find(L',', start);
 
-    wchar_t* temp = new wchar_t[end - start + 1];
-    temp[end - start] = L'\0';
-    line.copy(temp, end - start, start);
-
-    sc.Id = ChangeStringToInt(temp);
-    delete[] temp;
+    sc.Id = new wchar_t[end - start + 1];
+    sc.Id[end - start] = L'\0';
+    line.copy(sc.Id, end - start, start);
 
     start = end + 1;
     end = line.find(L',', start);
@@ -217,13 +183,11 @@ score ChangeScoreToData(std::wstring line)
     sc.fname[end - start] = L'\0';
     line.copy(sc.fname, end - start, start);
 
-
     start = end + 1;
     end = line.find(L',', start);
     sc.lname = new wchar_t[end - start + 1];
     sc.lname[end - start] = L'\0';
     line.copy(sc.lname, end - start, start);
-
 
     start = end + 1;
     end = line.find(L',', start);
@@ -250,30 +214,61 @@ score ChangeScoreToData(std::wstring line)
     line.copy(sc.other, end - start, start);
 
     start = end + 1;
-    end = line.find(L',', start);
+    end = line.length();
     sc.GPA = new wchar_t[end - start + 1];
     sc.GPA[end - start] = L'\0';
     line.copy(sc.GPA, end - start, start);
 
-    start = end + 1;
-    end = line.find(L',', start);
-    sc.ovrGPA = new wchar_t[end - start + 1];
-    sc.ovrGPA[end - start] = L'\0';
-    line.copy(sc.ovrGPA, end - start, start);
+    //start = end + 1;
+    //end = line.find(L',', start);
+    //sc.ovrGPA = new wchar_t[end - start + 1];
+    //sc.ovrGPA[end - start] = L'\0';
+    //line.copy(sc.ovrGPA, end - start, start);
 
     return sc;
 }
 score* inputScore(score*& t, std::wfstream& finScore)
 {
     
-    if (!finScore) std::cout << "Can't open !";
+    if (!finScore)
+    {
+        std::cout << "Can't open !";
+        return t;
+    }
+
     finScore.imbue(std::locale(finScore.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
     std::wstring temp;
-    while (finScore)
+    while (finScore.eof())
     {
         ChangeToVietNamese();
         std::getline(finScore, temp);
         if (temp.length() != 0) add_score(t, ChangeScoreToData(temp));
     }
     return t;
+}
+
+ void OutputScore(score*& sc)
+{
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    std::wfstream fout;
+    fout.open("outputScore.csv", std::wfstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    fout << wchar_t(0xfeff);
+
+    score* temp = sc;
+    sc = sc->prev;
+    delete temp;
+    score* cur = sc;
+    while (cur != nullptr)
+    {
+        //std::wcout << cur->Id << "  " << cur->fname << "  " << cur->lname << " " << cur->totalScore << " " << cur->final << " " << cur->midterm << cur->other << cur->GPA << "\n";
+        fout << cur->Id << L',' << cur->fname << L',' << cur->lname << L',' << cur->totalScore << L',' << cur->final << L',' << cur->midterm << L',' << cur->other << cur->GPA << "\n";
+
+        cur = cur->prev;
+    }
+
+    fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
 }
