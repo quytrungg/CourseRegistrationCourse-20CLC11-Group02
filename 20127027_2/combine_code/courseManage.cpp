@@ -1,6 +1,5 @@
 ﻿#include"func.h"
 void add_course(HT_course& pHead) {
-	_setmode(_fileno(stdin), _O_WTEXT);
 	int n;
 	std::wcout << L"1. Nhập môn học" << std::endl;
 	std::wcout << L"2. Dừng" << std::endl;
@@ -22,6 +21,7 @@ void add_course(HT_course& pHead) {
 			pCur->pNext = nullptr;
 			pHead.tail = pCur;
 		}
+		_setmode(_fileno(stdin), _O_WTEXT);
 		wcout << L"ID : ";
 		getline(wcin, pCur->id);
 		wcout << L"Tên khóa học: ";
@@ -30,6 +30,8 @@ void add_course(HT_course& pHead) {
 		getline(wcin, pCur->teacher_name);
 		wcout << L"Số tín chỉ: ";
 		wcin >> pCur->num_cre;
+		wcout << L"Số sinh viên tối đa: ";
+		wcin >> pCur->max_student;
 		wcin.ignore();
 		do {
 			std::wcout << "Nhập 2 buổi học trong tuần (Ex: MONS1_TUES3): ";
@@ -38,13 +40,63 @@ void add_course(HT_course& pHead) {
 		wcout << L"1. Nhập môn học" << endl;
 		wcout << L"2. Dừng" << endl;
 		wcout << L"Chọn: ";
+		_setmode(_fileno(stdin), _O_TEXT);
 		n = user_choose_exist(1, 2);
 	}
-	_setmode(_fileno(stdin), _O_TEXT);
 }
-
+void update_course_list(HT_course& pCourse) {
+	course* pCur = pCourse.head;
+	int n = 0;
+	wcout << L"No, id, tên khóa học, tên giảng viên, số tín chỉ, số sinh viên tối đa, thời gian 2 buổi/1tuần.";
+	while (pCur) {
+		n++;
+		wcout << n << L". " << pCur->id << "," << pCur->name << "," << pCur->teacher_name << "," << pCur->num_cre << "," << pCur->max_student << "," << pCur->session << endl;
+		pCur = pCur->pNext;
+	}
+	int choose = user_choose_exist(1, n);
+	n = 0;
+	pCur = pCourse.head;
+	while (pCur) {
+		n++;
+		if (n == choose) {
+			_setmode(_fileno(stdin), _O_WTEXT);
+			wcout << L"ID : ";
+			getline(wcin, pCur->id);
+			wcout << L"Tên khóa học: ";
+			getline(wcin, pCur->name);
+			wcout << L"Tên giảng viên: ";
+			getline(wcin, pCur->teacher_name);
+			wcout << L"Số tín chỉ: ";
+			wcin >> pCur->num_cre;
+			wcout << L"Số sinh viên tối đa: ";
+			wcin >> pCur->max_student;
+			wcin.ignore();
+			do {
+				std::wcout << "Nhập 2 buổi học trong tuần (Ex: MONS1_TUES3): ";
+				getline(wcin, pCur->session);
+			} while (!Check_session(pCur->session));
+			_setmode(_fileno(stdin), _O_TEXT);
+			break;
+		}
+		pCur = pCur->pNext;
+	}
+}
 void courseManage(HT_course& pCourse) {
-
+	do {
+		wcout << L"1. Quay về." << endl;
+		wcout << L"2.Thêm khóa học." << endl;
+		wcout << L"3.Cập nhật khóa học." << endl;
+		wcout << L"4.Xóa khóa học." << endl;
+		wcout << L"5.Xem danh sách khóa học." << endl;
+		int choose = user_choose_exist(1, 5);
+		switch (choose) {
+		case 2: add_course(pCourse); break;
+		case 3: update_course_list(pCourse); break;
+		/*case 4:
+		case 5:
+			if (choose <= 4 && choose >= 2) update_course_csv(pCourse);*/
+		}
+	}while (choose != 1);
 }
 bool Check_session(wstring str) {
 	wchar_t* a = new wchar_t[str.length() + 1];
@@ -180,5 +232,6 @@ bool Check_session(wstring str) {
 
 	}
 	else return false;
+	if (a[1] == a[7] && a[4] == a[10]) return false;
 	return true;
 }
