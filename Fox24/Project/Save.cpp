@@ -137,6 +137,7 @@ void Save_cla_to_test(Node_cla* pHead, char* folder) {
 		file = Create_file_1( pHead->cla.Name, folder, ".txt");
 		std::wofstream fout(file);
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+		fout << pHead->cla.Name << std::endl;
 		fout << pHead->cla.StudentID << std::endl;
 		pHead = pHead->pNext;
 		fout.close();
@@ -151,4 +152,18 @@ void Save_name_class(Node_cla* pHead) {
 		pHead = pHead->pNext;
 	}
 	fout.close();
+}
+
+void Save_cou_to_test(Node_cou* pHead, char* folder) {
+	wchar_t* file;
+	while (pHead != nullptr) {
+		file = Create_file_1(pHead->cou.ID, folder, ".txt");
+		std::wofstream fout(file);
+		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+		fout << pHead->cou.ID << L',' << pHead->cou.Name << L',' << pHead->cou.Teacher_Name << L',' << pHead->cou.Credit << L',' << pHead->cou.max_stu << L',' << pHead->cou.count << std::endl;
+		fout << pHead->cou.ses_1.day_of_week << L',' << pHead->cou.ses_1.session << L',' << pHead->cou.ses_2.day_of_week << L',' << pHead->cou.ses_2.session << std::endl;
+		fout << pHead->cou.StudentID << std::endl;
+		pHead = pHead->pNext;
+		fout.close();
+	}
 }
