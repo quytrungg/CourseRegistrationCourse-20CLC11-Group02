@@ -338,3 +338,24 @@ void EnrollCourse(std::string path, in4_student* &pHead1, course* &pHead2){
     pCur->id_course->id = pTemp->id;
 }
 
+void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
+    int option;
+    std::cout << "1. Enroll course\n" << "0. Exit\n";
+    std::cout << "Choose your option: ";
+    std::cin >> option;
+    while(option == 1){
+        switch (option) {
+            case 1:{
+                std::cout << "Choose your course: ";
+                course* pCur = FindCourse(pHead2);
+                EnrollCourse(path, pHead1, pCur);
+                break;
+            }
+            default:
+                break;
+        }
+        std::cout << "Choose your option: ";
+        std::cin >> option;
+    }
+}
+
