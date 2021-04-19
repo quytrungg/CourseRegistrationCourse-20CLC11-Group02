@@ -209,12 +209,288 @@ void Input_student_data(Node_stu*& pHead_stu, Node_cla*& pHead_cla) {
 	Delete_Node_cla(pHead_cla);
 }
 
-void main() {
-	Node_cla* pHead_cla;
-	Node_stu* pHead_stu;
-	Input_student_data(pHead_stu, pHead_cla);
+void Input_course_direct(Node_cou* pCur) {
+	// ID
+	std::wstring str;
+	std::wcout << "Please input the course id: ";
+	std::wcin.ignore();
+	std::getline(std::wcin, str);
+	pCur->cou.ID = new wchar_t[str.length() + 1];
+	str.copy(pCur->cou.ID, str.length(), 0);
+	pCur->cou.ID[str.length()] = L'\0';
+
+	// Course Name
+	std::wcout << "Please input the course name: ";
+	std::getline(std::wcin, str);
+	pCur->cou.Name = new wchar_t[str.length() + 1];
+	str.copy(pCur->cou.Name, str.length(), 0);
+	pCur->cou.Name[str.length()] = L'\0';
+
+	// Teacher Name
+	std::wcout << "Please input the teacher name: ";
+	std::getline(std::wcin, str);
+	pCur->cou.Teacher_Name = new wchar_t[str.length() + 1];
+	str.copy(pCur->cou.Teacher_Name, str.length(), 0);
+	pCur->cou.Teacher_Name[str.length()] = L'\0';
+
+	// Credit
+	std::wcout << "Please input how many credits in this course: ";
+	std::wcin >> pCur->cou.Credit;
+
+	// Timetable
+	std::wcout << "Please input the timetable: " << std::endl;
+	std::wcout << "Session 1:";
+
+	ShowCur(0);
+	std::string menu_1[] = { "MON","TUE","WED","THU","FRI", "SAT", "SUN"};
+	int pointer = 0;
+	int color = 0;
+	int Max_List_Menu = 7;
+	while (1) {
+		//in menu ra man hinh
+		GotoXY(11, 5);
+		std::cout << menu_1[pointer] << std::endl;
+		char key;
+		while (1) {
+			if (_kbhit()) {
+				key = _getch();
+				if (key == 72 || key == 'w' || key == 'W') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer > 0) {
+						pointer--;
+					}
+					else {
+						pointer = Max_List_Menu - 1;
+					}
+					break;
+				}
+				if (key == 80 || key == 's' || key == 'S') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer < Max_List_Menu - 1) {
+						pointer++;
+					}
+					else {
+						pointer = 0;
+					}
+					break;
+				}
+				if (key == 13) {
+					switch (pointer) {
+					case 0:
+						pCur->cou.ses_1.day_of_week = 0;
+						break;
+					case 1:
+						pCur->cou.ses_1.day_of_week = 1;
+						break;
+					case 2:
+						pCur->cou.ses_1.day_of_week = 2;
+						break;
+					case 3:
+						pCur->cou.ses_1.day_of_week = 3;
+						break;
+					case 4:
+						pCur->cou.ses_1.day_of_week = 4;
+						break;
+					case 5:
+						pCur->cou.ses_1.day_of_week = 5;
+						break;
+					case 6:
+						pCur->cou.ses_1.day_of_week = 6;
+						break;
+					default:
+						std::wcout << "Erorr" << std::endl;
+					}
+					break;
+				}
+			}
+		}
+		if (key == 13) {
+			break;
+		}
+	}
+	GotoXY(17, 5);
+	std::wcout << "Time:";
+	std::string menu_2[] = { "S1 (07:30)","S2 (09:30)","S3 (13:30)","S4 (15:30)"};
+	pointer = 0;
+	Max_List_Menu = 4;
+	while (1) {
+		//in menu ra man hinh
+		GotoXY(23, 5);
+		std::cout << menu_2[pointer] << std::endl;
+		char key;
+		while (1) {
+			if (_kbhit()) {
+				key = _getch();
+				if (key == 72 || key == 'w' || key == 'W') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer > 0) {
+						pointer--;
+					}
+					else {
+						pointer = Max_List_Menu - 1;
+					}
+					break;
+				}
+				if (key == 80 || key == 's' || key == 'S') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer < Max_List_Menu - 1) {
+						pointer++;
+					}
+					else {
+						pointer = 0;
+					}
+					break;
+				}
+				if (key == 13) {
+					switch (pointer) {
+					case 0:
+						pCur->cou.ses_1.session = 0;
+						break;
+					case 1:
+						pCur->cou.ses_1.session = 1;
+						break;
+					case 2:
+						pCur->cou.ses_1.session = 2;
+						break;
+					case 3:
+						pCur->cou.ses_1.session = 3;
+						break;
+					default:
+						std::wcout << "Erorr" << std::endl;
+					}
+					break;
+				}
+			}
+		}
+		if (key == 13) {
+			break;
+		}
+	}
+
+	GotoXY(0, 6);
+	std::wcout << "Session 1:";
+
+	std::string menu_3[] = { "MON","TUE","WED","THU","FRI", "SAT", "SUN" };
+	pointer = 0;
+	Max_List_Menu = 7;
+	while (1) {
+		//in menu ra man hinh
+		GotoXY(11, 6);
+		std::cout << menu_3[pointer] << std::endl;
+		char key;
+		while (1) {
+			if (_kbhit()) {
+				key = _getch();
+				if (key == 72 || key == 'w' || key == 'W') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer > 0) {
+						pointer--;
+					}
+					else {
+						pointer = Max_List_Menu - 1;
+					}
+					break;
+				}
+				if (key == 80 || key == 's' || key == 'S') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer < Max_List_Menu - 1) {
+						pointer++;
+					}
+					else {
+						pointer = 0;
+					}
+					break;
+				}
+				if (key == 13) {
+					switch (pointer) {
+					case 0:
+						pCur->cou.ses_2.day_of_week = 0;
+						break;
+					case 1:
+						pCur->cou.ses_2.day_of_week = 1;
+						break;
+					case 2:
+						pCur->cou.ses_2.day_of_week = 2;
+						break;
+					case 3:
+						pCur->cou.ses_2.day_of_week = 3;
+						break;
+					case 4:
+						pCur->cou.ses_2.day_of_week = 4;
+						break;
+					case 5:
+						pCur->cou.ses_2.day_of_week = 5;
+						break;
+					case 6:
+						pCur->cou.ses_2.day_of_week = 6;
+						break;
+					default:
+						std::wcout << "Erorr" << std::endl;
+					}
+					break;
+				}
+			}
+		}
+		if (key == 13) {
+			break;
+		}
+	}
+	GotoXY(17, 6);
+	std::wcout << "Time:";
+	std::string menu_4[] = { "S1 (07:30)","S2 (09:30)","S3 (13:30)","S4 (15:30)" };
+	pointer = 0;
+	Max_List_Menu = 4;
+	while (1) {
+		//in menu ra man hinh
+		GotoXY(23, 6);
+		std::cout << menu_4[pointer] << std::endl;
+		char key;
+		while (1) {
+			if (_kbhit()) {
+				key = _getch();
+				if (key == 72 || key == 'w' || key == 'W') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer > 0) {
+						pointer--;
+					}
+					else {
+						pointer = Max_List_Menu - 1;
+					}
+					break;
+				}
+				if (key == 80 || key == 's' || key == 'S') {
+					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+					if (pointer < Max_List_Menu - 1) {
+						pointer++;
+					}
+					else {
+						pointer = 0;
+					}
+					break;
+				}
+				if (key == 13) {
+					switch (pointer) {
+					case 0:
+						pCur->cou.ses_2.session = 0;
+						break;
+					case 1:
+						pCur->cou.ses_2.session = 1;
+						break;
+					case 2:
+						pCur->cou.ses_2.session = 2;
+						break;
+					case 3:
+						pCur->cou.ses_2.session = 3;
+						break;
+					default:
+						std::wcout << "Erorr" << std::endl;
+					}
+					break;
+				}
+			}
+		}
+		if (key == 13) {
+			break;
+		}
+	}
 }
-
-
-
-

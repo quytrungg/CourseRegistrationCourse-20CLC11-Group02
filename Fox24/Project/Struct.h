@@ -13,6 +13,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <direct.h>
+#include <Windows.h>
+#include <mmsystem.h>
+#include <conio.h>
 
 struct Account {
 	wchar_t* ID;
@@ -47,6 +50,24 @@ struct Class {
 	wchar_t* StudentID;
 };
 
+struct Timetable {
+	int day_of_week;
+	int session;
+};
+
+struct Course {
+	wchar_t* ID;
+	wchar_t* Name;
+	wchar_t* Teacher_Name;
+	int Credit;
+	int max_stu = 50;
+	int count = 0;
+	Timetable ses_1;
+	Timetable ses_2;
+	wchar_t* StudentID;
+
+};
+
 struct Node_stu {
 	Student stu;
 	Node_stu* pNext;
@@ -57,6 +78,12 @@ struct Node_cla {
 	Class cla;
 	Node_cla* pNext;
 	Node_cla* pPre;
+};
+
+struct Node_cou {
+	Course cou;
+	Node_cou* pNext;
+	Node_cou* pPre;
 };
 
 #endif // !STRUCT_H_
