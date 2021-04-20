@@ -54,6 +54,11 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 		pCur->stu.account.Pass[count] = a[i];
 		count++;
 	}
+	if (count == 1) {
+		pCur->stu.account.Pass[count] = pCur->stu.account.Pass[count - 1];
+		pCur->stu.account.Pass[0] = L'0';
+		count++;
+	}
 	pCur->stu.Birthday.Day = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 
@@ -65,6 +70,11 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	a[end - begin] = L'\0';
 	for (int i = 0; i < end - begin; i++) {
 		pCur->stu.account.Pass[count] = a[i];
+		count++;
+	}
+	if (count == 3) {
+		pCur->stu.account.Pass[count] = pCur->stu.account.Pass[count - 1];
+		pCur->stu.account.Pass[count - 1] = L'0';
 		count++;
 	}
 	pCur->stu.Birthday.Month = Convert_wchart_to_int(a, end - begin);
@@ -493,4 +503,6 @@ void Input_course_direct(Node_cou* pCur) {
 			break;
 		}
 	}
+	pCur->cou.StudentID = new wchar_t[1];
+	pCur->cou.StudentID[0] = L'\0';
 }
