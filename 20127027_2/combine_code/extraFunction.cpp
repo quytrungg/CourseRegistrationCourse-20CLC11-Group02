@@ -32,3 +32,9 @@ int user_choose_exist(int left, int right) {
 	}
 	return t;
 }
+void remove_65279(wstring& a) {
+	int i = 0;
+	while (a[i] == 65279) i++;
+	wstring t = a.substr(i);
+	a = t;
+}

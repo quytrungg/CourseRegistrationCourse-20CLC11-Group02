@@ -17,6 +17,7 @@ void deleteall_account(account*&);
 int convert_num(string&);
 int wconvert_num(wstring&);
 int user_choose_exist(int, int);
+void remove_65279(wstring&);
 //loadData
 void load_account(string, account*&);
 void load_class(id_class*&);
@@ -28,10 +29,10 @@ void load_course(HT_course&);
 void create_school_year(string&, bool&, bool&, bool&, bool&);
 string choose_id_class(id_class*&);
 void do_staff_work(id_class*&, HT_in4_student&,HT_course&,account*&);
+bool create_3_semester();
 //timeManage
 bool compare2Times(LocalTime&, LocalTime&);
 bool checkDayIsTrue(LocalTime&);
-bool create_3_semester();
 LocalTime currentDateTime();
 //upDateData
 void update_school_year_txt(string&, bool&, bool&, bool&,bool&);
@@ -41,4 +42,5 @@ void add_student_in4(string, HT_in4_student&,wstring&,account*&);
 void update_student_in4_csv(HT_in4_student&);
 void update_student_account(account*&);
 void update_date_registration_session(LocalTime, LocalTime);
+void update_course_csv(HT_course&);
 #endif

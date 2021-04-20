@@ -38,7 +38,8 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 			LocalTime aBegin, aEnd, cTime = currentDateTime();
 			load_deadline_registration(aBegin, aEnd);
 			//wcout << cTime.date.Day << " " << cTime.date.Month << " " << cTime.date.Year;
-			while (done_create_registration_session == 0 || compare2Times(cTime, aEnd)) {
+			int t = 1;
+			while (done_create_registration_session == 0 || t/*compare2Times(cTime, aEnd)*/) {
 				wcout << L"1. Đăng xuất" << endl;
 				if (done_create_registration_session == 0)
 					wcout << L"2. Tạo phiên đăng kí học phần." << endl; 
@@ -157,4 +158,66 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 			}
 		}
 	}
+}
+bool create_3_semester() {
+	//điều kiện để sau
+	ofstream out;
+	out.open(path_date_semester);
+	string t;
+	LocalTime* date = new LocalTime[6];
+	for (int i = 1; i <= 3; i++) {
+		wcout << L"Nhập ngày bắt đầu học kì " << i << L": ";
+		cin >> date[i - 1].date.Day;
+		wcout << L"Nhập tháng bắt đầu học kì " << i << L": ";
+		cin >> date[i - 1].date.Month;
+		wcout << L"Nhập năm bắt đầu học kì " << i << L": ";
+		cin >> date[i - 1].date.Year;
+		while (checkDayIsTrue(date[i - 1]) == 0) {
+			wcout << L"Ngày không tồn tại, chọn 1 để tiếp tục, chọn 2 để dừng ";
+			cin.ignore(1000, '\n');
+			int choose = user_choose_exist(1, 2);
+			if (choose == 2) {
+				delete[]date;
+				return 0;
+			}
+			else {
+				wcout << L"Nhập ngày bắt đầu học kì " << i << L": ";
+				cin >> date[i - 1].date.Day;
+				wcout << L"Nhập tháng bắt đầu học kì " << i << L": ";
+				cin >> date[i - 1].date.Month;
+				wcout << L"Nhập năm bắt đầu học kì " << i << L": ";
+				cin >> date[i - 1].date.Year;
+			}
+		}
+		out << date[i - 1].date.Day << " " << date[i - 1].date.Month << " " << date[i - 1].date.Year << endl;
+		wcout << L"Nhập ngày kết thúc học kì " << i << L": ";
+		cin >> date[i + 2].date.Day;
+		wcout << L"Nhập tháng kết thúc học kì " << i << L": ";
+		cin >> date[i + 2].date.Month;
+		wcout << L"Nhập năm kết thúc học kì " << i << L": ";
+		cin >> date[i + 2].date.Year;
+		while (checkDayIsTrue(date[i + 2]) == 0) {
+			wcout << L"Ngày không tồn tại, chọn 1 để tiếp tục, chọn 2 để dừng ";
+			cin.ignore(1000, '\n');
+			int choose = user_choose_exist(1, 2);
+			if (choose == 2) {
+				delete[]date;
+				return 0;
+			}
+			else {
+				wcout << L"Nhập ngày kết thúc học kì " << i << L": ";
+				cin >> date[i + 2].date.Day;
+				wcout << L"Nhập tháng kết thúc học kì " << i << L": ";
+				cin >> date[i + 2].date.Month;
+				wcout << L"Nhập năm kết thúc học kì " << i << L": ";
+				cin >> date[i + 2].date.Year;
+			}
+		}
+		out << date[i + 2].date.Day << " " << date[i + 2].date.Month << " " << date[i + 2].date.Year;
+		if (i != 3) out << endl;
+	}
+	cin.ignore(1000, '\n');
+	delete[]date;
+	out.close();
+	return 1;
 }

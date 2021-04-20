@@ -8,11 +8,14 @@ int main() {
 	_setmode(_fileno(stdout), _O_WTEXT);
 	account* staff = 0, * student = 0, user;
 	id_class* idClass = 0;
-	HT_in4_student student_in4;
+	HT_in4_student student_in4,pStudent;
 	student_in4.head = student_in4.tail = 0;
+	pStudent = student_in4;
 	HT_course pCourse;
 	pCourse.head = pCourse.tail = nullptr;
 	user.account_name = "null";
+	load_student_in4(student_in4);
+	update_student_in4_csv(student_in4);
 	load_course(pCourse);
 	load_class(idClass);
 	load_student_in4(student_in4);
