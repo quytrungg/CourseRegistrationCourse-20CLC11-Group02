@@ -332,10 +332,12 @@ course* FindCourse(course* &pHead){
 }
  
 //Hàm để gán course stu đã đăng kí vào idcourseofstudent
-void EnrollCourse(std::string path, in4_student* &pHead1, course* &pHead2){
+void Enroll(std::string path, in4_student* &pHead1, course* &pHead2){
     course* pTemp = FindCourse(pHead2);
     in4_student* pCur = FindReturnStudent(path, pHead1);
+    pCur->id_course = new id_course_of_student;
     pCur->id_course->id = pTemp->id;
+    pCur->id_course = pCur->id_course->pNext;
 }
 
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
