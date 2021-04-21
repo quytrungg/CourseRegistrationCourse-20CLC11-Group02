@@ -47,4 +47,10 @@ const std::string currentDateTime();
 char* StringToCharPointer(std::string text);
 bool comparei(std::wstring stringA , std::wstring stringB);
 
+//void GotoXY(short x, short y);
+//std::string WriteMenu(std::string str);
+//short Menu(std::string list[], short size, short Xposition, short Yposition);
+
+//void Menu();
+
 #endif /* Funciton2_h */

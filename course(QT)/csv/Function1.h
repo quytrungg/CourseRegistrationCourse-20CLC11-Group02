@@ -51,7 +51,7 @@ struct in4_student {
     int soid;
     std::wstring id_class;
     in4_student* pNext, * pPrev;
-    id_course_of_student* id_course;
+    id_course_of_student* id_course = nullptr;
 
 };
 
@@ -89,19 +89,16 @@ struct Semester
     DateTime end;
     //Course data;
 };
+ */
 
-struct Score
-{
-    double total;
-    double final;
-    double midterm;
-    double other;
-    double gpa;
-    double ovrgpa;
-    //course
-    Score* pNext;
-    Score* pPrev;
-*/
+ struct Score{
+     wchar_t* no;
+     wchar_t* id;
+     wchar_t* fname;
+     wchar_t* lname;
+     wchar_t* totalScore;
+ };
+
 void AddClass(id_class* &pHead);
 void OutputClassFile(std::string path, id_class* pHead);
 id_class* FindClass(std::string path, id_class* &pHead);
@@ -121,7 +118,7 @@ void ChangePassword(account* &pHead);
 void SaveAccout(std::string path, account* &pHead);
 
 course* FindCourse(course* &pHead);
-void EnrollCourse(std::string path, in4_student* &pHead1, course* &pHead2);
+void Enroll(std::string path, in4_student* &pHead1, course* &pHead2);
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2);
 
 #endif /* Function1_h */
