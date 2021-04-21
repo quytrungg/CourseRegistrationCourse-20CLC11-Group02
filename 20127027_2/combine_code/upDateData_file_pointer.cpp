@@ -1,9 +1,15 @@
 ﻿#include"func.h"
 
-void update_school_year_txt(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester,bool& done_create_registration_session) {
+void update_school_year_txt(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester) {
 	ofstream fout;
 	fout.open(path_school_year);
-	fout << school_year << endl << done_create_class << " " << done_add_student << " " << done_create_semester << " " << done_create_registration_session;
+	fout << school_year << endl << done_create_class << " " << done_add_student << " " << done_create_semester;
+	fout.close();
+}
+void update_semester_period(bool& done_create_registration_session, bool& active_registration_session) {
+	ofstream fout;
+	fout.open(path_semester_period);
+	fout << done_create_registration_session<<" "<<active_registration_session;
 	fout.close();
 }
 void update_class_txt(id_class*& idClass) {
@@ -173,7 +179,7 @@ void update_student_in4_csv(HT_in4_student& pStudent) {
 }
 void update_course_csv(HT_course& pCourse) {
 	wofstream wfout;
-	wfout.open(path_student_in4);
+	wfout.open(path_course_csv);
 	wfout << wchar_t(239) << wchar_t(187) << wchar_t(191);
 	wfout.imbue(utf8_locale);
 	course* pCur = pCourse.head;

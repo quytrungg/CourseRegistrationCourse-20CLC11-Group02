@@ -3,19 +3,18 @@
 //#include<iostream>
 //using namespace std;
 int main() {
-	//int i = "haha";
-	//cout << 1;
 	_setmode(_fileno(stdout), _O_WTEXT);
 	account* staff = 0, * student = 0, user;
+	user.account_name = "null";
 	id_class* idClass = 0;
-	HT_in4_student student_in4,pStudent;
+
+	HT_in4_student student_in4;
 	student_in4.head = student_in4.tail = 0;
-	pStudent = student_in4;
+
 	HT_course pCourse;
 	pCourse.head = pCourse.tail = nullptr;
-	user.account_name = "null";
-	load_student_in4(student_in4);
-	update_student_in4_csv(student_in4);
+
+
 	load_course(pCourse);
 	load_class(idClass);
 	load_student_in4(student_in4);
@@ -26,11 +25,12 @@ int main() {
 	}
 	//cout << user.account_name[0];
 
-	if (user.account_name[0] < '0' || user.account_name[0]>'9') { do_staff_work(idClass, student_in4,pCourse,student); }
-	////menu(user);
+	if (user.account_name[0] < '0' || user.account_name[0]>'9') { do_staff_work(user.account_name, idClass, student_in4, pCourse, student,staff); }
+	else do_student_work(user.account_name, idClass, student_in4, pCourse, student);
 	deleteall_student_in4(student_in4.head);
 	deleteall_class(idClass);
 	deleteall_account(staff);
 	deleteall_account(student);
+	deleteall_course(pCourse.head);
 	return 0;
 }

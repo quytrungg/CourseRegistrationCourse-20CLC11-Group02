@@ -34,6 +34,7 @@ void add_course(HT_course& pHead) {
 		pCur->num_cre = wconvert_num(temp);
 		while (pCur->num_cre == -1) {
 			wcout << L"Nhập lại (số tín chỉ là số tự nhiên): ";
+			getline(wcin, temp);
 			pCur->num_cre = wconvert_num(temp);
 		}
 		wcout << L"Số sinh viên tối đa: ";
@@ -81,6 +82,7 @@ void update_course_list(HT_course& pCourse) {
 			pCur->num_cre = wconvert_num(temp);
 			while (pCur->num_cre == -1) {
 				wcout << L"Nhập lại (số tín chỉ là số tự nhiên): ";
+				getline(wcin, temp);
 				pCur->num_cre = wconvert_num(temp);
 			}
 			wcout << L"Số sinh viên tối đa: ";
@@ -114,8 +116,12 @@ void delete_a_course(HT_course& pCourse) {
 	while (pCur) {
 		n++;
 		if (n == choose) {
-			if(pCur->pPrev)pCur->pPrev->pNext = pCur->pNext;
-			if(pCur->pNext)pCur->pNext->pPrev = pCur->pPrev;
+			if (pCur == pCourse.head) {
+				pCourse.head = pCourse.head->pNext;
+				pCourse.tail = pCourse.head;
+			}
+			if (pCur->pNext) pCur->pNext->pPrev = pCur->pPrev;
+			if (pCur->pPrev)pCur->pPrev->pNext = pCur->pNext;
 			delete pCur;
 			break;
 		}
@@ -125,6 +131,7 @@ void delete_a_course(HT_course& pCourse) {
 void view_list_course(HT_course& pCourse) {
 	course* pCur = pCourse.head;
 	int n = 0;
+	if (pCur == nullptr) wcout << L"Chưa có khóa học nào."; else
 	wcout << L"No, id, tên khóa học, tên giảng viên, số tín chỉ, số sinh viên tối đa, thời gian 2 buổi/1tuần." << endl;
 	while (pCur) {
 		n++;
@@ -133,7 +140,7 @@ void view_list_course(HT_course& pCourse) {
 	}
 	_getwch();
 }
-void courseManage(HT_course& pCourse) {
+void courseManage(HT_course& pCourse,bool& active_registration_session) {
 	int choose;
 	do {
 		wcout << L"1. Quay về." << endl;
@@ -141,15 +148,17 @@ void courseManage(HT_course& pCourse) {
 		wcout << L"3.Cập nhật khóa học." << endl;
 		wcout << L"4.Xóa khóa học." << endl;
 		wcout << L"5.Xem danh sách khóa học." << endl;
+		wcout << L"6. Kích hoạt phiên đăng kí khóa học của học kì hiện tại" << endl;
 		wcout << L"Chọn: ";
 		choose = user_choose_exist(1, 5);
 		switch (choose) {
 		case 2: add_course(pCourse); break;
 		case 3: update_course_list(pCourse); break;
 		case 4: delete_a_course(pCourse); break;
-		case 5: view_list_course(pCourse);
-		if (choose <= 4 && choose >= 2) update_course_csv(pCourse);
+		case 5: view_list_course(pCourse); break;
+		case 6:active_registration_session = 1;
 		}
+		if (choose <= 4 && choose >= 2) update_course_csv(pCourse);
 	}while (choose != 1);
 }
 bool Check_session(wstring str) {
