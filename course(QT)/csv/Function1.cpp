@@ -294,9 +294,15 @@ account* FindAccount(account* &pHead){
 //Đổi pass cho account đó
 void ChangePassword(account* &pHead){
     account* pCur = FindAccount(pHead);
-    std::string newpass;
+    std::string newpass, temp;
     std::cout << "Enter your new password: ";
     std::cin >> newpass;
+    std::cout << "Confirm your new password: ";
+    std::cin >> temp;
+    while(newpass != temp){
+        std::cout << "Invalid password, please enter again: ";
+        std::cin >> temp;
+    }
     pCur->pass = newpass;
 }
 
