@@ -97,6 +97,12 @@ struct Semester
      wchar_t* fname;
      wchar_t* lname;
      wchar_t* totalScore;
+     wchar_t* final;
+     wchar_t* midterm;
+     wchar_t* other;
+     wchar_t* gpa;
+     wchar_t* ovrgpa;
+     Score *pNext, *pPrev;
  };
 
 void AddClass(id_class* &pHead);
@@ -120,5 +126,9 @@ void SaveAccout(std::string path, account* &pHead);
 course* FindCourse(course* &pHead);
 void Enroll(std::string path, in4_student* &pHead1, course* &pHead2);
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2);
+
+void DeallocateStudent(in4_student* &pHead);
+void DeallocateCourseOfStudent(id_course_of_student* &pHead);
+void DeallocateScore(Score* &pHead);
 
 #endif /* Function1_h */

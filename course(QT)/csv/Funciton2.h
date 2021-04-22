@@ -53,4 +53,6 @@ bool comparei(std::wstring stringA , std::wstring stringB);
 
 //void Menu();
 
+std::string InputHidden();
+
 #endif /* Funciton2_h */

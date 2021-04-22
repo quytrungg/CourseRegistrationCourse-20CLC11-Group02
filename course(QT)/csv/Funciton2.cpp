@@ -190,3 +190,19 @@ short Menu(std::string list[], short size, short Xposition, short Yposition) {
      _getch();
  }
  */
+
+std::string InputHidden(){
+    char temp = std::cin.get();
+    std::string pass;
+    while (true)
+    {
+        if (temp == KEY_ENTER) break;
+        else if (temp == KEY_ESC) return "";
+        if (temp >= ' ' && temp <= '~') {
+            std::cout << "*";
+            pass.push_back(temp);
+        }
+    }
+    std::cout << '\n';
+    return pass;
+}

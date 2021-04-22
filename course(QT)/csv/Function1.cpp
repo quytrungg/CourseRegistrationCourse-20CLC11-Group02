@@ -284,17 +284,17 @@ account* FindAccount(account* &pHead){
         }
         pCur = pCur->pNext;
     }
-    //if(pCur == nullptr){
-        //std::cout << "Can't find your account, please type again!" << std::endl;
-        //FindAccount(pHead);
-    //}
     return pCur;
 }
 
 //Đổi pass cho account đó
 void ChangePassword(account* &pHead){
-    account* pCur = FindAccount(pHead);
     std::string newpass, temp;
+    account* pCur = FindAccount(pHead);
+    while(pNew == nullptr){
+        std::cout << "Can't find your account, please enter again: ";
+        pNew = FindAccount(pHead);
+    }
     std::cout << "Enter your new password: ";
     std::cin >> newpass;
     std::cout << "Confirm your new password: ";
@@ -303,7 +303,7 @@ void ChangePassword(account* &pHead){
         std::cout << "Invalid password, please enter again: ";
         std::cin >> temp;
     }
-    pCur->pass = newpass;
+    pNew->pass = newpass;
 }
 
 //Cập nhật password vào file txt
@@ -364,6 +364,33 @@ void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
         }
         std::cout << "Choose your option: ";
         std::cin >> option;
+    }
+}
+
+void DeallocateStudent(in4_student* &pHead){
+    in4_student* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
+    }
+}
+
+void DeallocateCourseOfStudent(id_course_of_student* &pHead){
+    id_course_of_student* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
+    }
+}
+
+void DeallocateScore(Score* &pHead){
+    Score* pTemp = pHead;
+    while(pHead != nullptr){
+        pHead = pHead->pNext;
+        delete pTemp;
+        pTemp = pHead;
     }
 }
 
