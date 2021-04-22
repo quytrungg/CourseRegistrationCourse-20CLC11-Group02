@@ -26,3 +26,10 @@ void deleteall_student_in4(in4_student*& pH) {
 		delete pCur;
 	}
 }
+void deleteall_course(course*& pH) {
+	while (pH) {
+		course* pCur = pH;
+		pH = pH->pNext;
+		delete pCur;
+	}
+}

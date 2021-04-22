@@ -21,6 +21,7 @@ using namespace std;
 #define path_date_semester "semester.txt"
 #define path_date_registration "date_registration.txt"
 #define path_course_csv "course.csv"
+#define path_semester_period "semester_period.txt"
 const locale utf8_locale = locale(locale(), new codecvt_utf8<wchar_t>());
 struct account {
 	string account_name, pass;

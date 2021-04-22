@@ -138,18 +138,26 @@ void load_course(HT_course& pCourse) {
 			getline(wsin, pCur->teacher_name, L',');
 			wstring temp2;
 			wsin >> pCur->num_cre;
+			wsin.ignore(100,L',');
 			wsin >> pCur->max_student;
-			wsin.ignore(100, L',');
+			wsin.ignore(100,L',');
 			getline(wsin, pCur->session, L',');
 		}
 	}
 	//wcout << pCourse.head->max_student << endl;
+	wfin.close();
 }
-void loadSchoolYear(string& school_year,bool& done_create_class,bool& done_add_student,bool& done_create_semester,bool& done_create_registration_session) {
+void loadSchoolYear(string& school_year,bool& done_create_class,bool& done_add_student,bool& done_create_semester) {
 	ifstream fin;
 	fin.open(path_school_year);
 	getline(fin, school_year);
-	fin >> done_create_class >> done_add_student >> done_create_semester >> done_create_registration_session;
+	fin >> done_create_class >> done_add_student >> done_create_semester ;
+	fin.close();
+}
+void loadSemesterPeriod(bool& done_create_registration_session, bool& active_registration_session) {
+	ifstream fin;
+	fin.open(path_semester_period);
+	fin >> done_create_registration_session >> active_registration_session;
 	fin.close();
 }
 void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {

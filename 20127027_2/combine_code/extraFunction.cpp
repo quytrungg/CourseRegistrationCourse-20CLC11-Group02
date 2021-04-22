@@ -3,7 +3,7 @@ int convert_num(string& a) {
 	char t = a[0];
 	int num = 0, i = 0;
 	while (t != '\0') {
-		if (t < '0' && t>'9') return -1;
+		if (t < '0' || t>'9') return -1;
 		num = num * 10 + t - '0';
 		i++;
 		t = a[i];
@@ -14,7 +14,7 @@ int wconvert_num(wstring& a) {
 	wchar_t t = a[0];
 	int num = 0, i = 0;
 	while (t != '\0') {
-		if (t < L'0' && t>L'9') return -1;
+		if (t < L'0'|| t > L'9') return -1;
 		num = num * 10 + t - L'0';
 		i++;
 		t = a[i];
