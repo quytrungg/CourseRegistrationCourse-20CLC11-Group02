@@ -1,9 +1,9 @@
 ﻿#include"func.h"
-void create_school_year(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester, bool& done_create_registration_session) {
+void create_school_year(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester) {
 	wcout << L"Nhập năm học mới. ";
 	//điều kiện để sau
 	getline(cin, school_year);
-	update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+	update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 }
 string choose_id_class(id_class*& idClass) {
 	id_class* pCur = idClass;
@@ -27,18 +27,21 @@ string choose_id_class(id_class*& idClass) {
 		pCur = pCur->pNext;
 	}
 }
-void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pCourse,account*& student) {
+void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_in4,HT_course& pCourse,account*& student,account*& staff) {
 	string school_year = "\0";
-	bool done_create_class = 0, done_create_semester = 0, done_add_student = 0, done_create_registration_session = 0;
+	bool done_create_class = 0, done_create_semester = 0, done_add_student = 0;
+	bool  done_create_registration_session = 0, active_registration_session = 0;
 	//check xem có đang trong giai đoạn bắt đầu năm học không,tạo lớp xog chưa,tạo 3 học kì xong chưa
-	loadSchoolYear(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+	loadSchoolYear(school_year, done_create_class, done_add_student, done_create_semester);
+	loadSemesterPeriod(done_create_registration_session, active_registration_session);
 	while (1)
 	{
 		if (done_create_semester) {
 			LocalTime aBegin, aEnd, cTime = currentDateTime();
 			load_deadline_registration(aBegin, aEnd);
 			//wcout << cTime.date.Day << " " << cTime.date.Month << " " << cTime.date.Year;
-			while (done_create_registration_session == 0 || compare2Times(cTime, aEnd)) {
+			int t = 1;
+			while (done_create_registration_session == 0 || t/*compare2Times(cTime, aEnd)*/) {
 				wcout << L"1. Đăng xuất" << endl;
 				if (done_create_registration_session == 0)
 					wcout << L"2. Tạo phiên đăng kí học phần." << endl; 
@@ -49,7 +52,8 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 				case 1:return;
 				case 2:
 					if (done_create_registration_session) {
-						courseManage(pCourse);
+						courseManage(pCourse, active_registration_session);
+						update_semester_period(done_create_registration_session, active_registration_session);
 					}
 					else {
 						done_create_registration_session = 1;
@@ -75,7 +79,7 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 								wcout << L"Nhập năm bắt đầu đăng kí học phần: ";
 								cin >> aBegin.date.Year;
 							}
-						}
+						}//ngày bắt đầu đăng kí khóa học
 						if (done_create_registration_session) {
 							wcout << L"Nhập ngày kết thúc đăng kí học phần: ";
 							cin >> aEnd.date.Day;
@@ -100,12 +104,12 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 									cin >> aEnd.date.Year;
 								}
 							}
-						}
+						}//ngày kết thúc đăng kí khóa học
 						if (done_create_registration_session) {
+							cin.ignore(100, '\n');
 							update_date_registration_session(aBegin, aEnd);
-							update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+							update_semester_period(done_create_registration_session, active_registration_session);
 						}
-						else cin.ignore(1000, '\n');
 					}
 				}
 			}
@@ -121,14 +125,14 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 				case 1: return;
 				case 2:
 					if (school_year == "\0")
-						create_school_year(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+						create_school_year(school_year, done_create_class, done_add_student, done_create_semester);
 					else if (done_create_class == 0) {
 						AddClass(idClass);
 						wcout << L"Đây là toàn bộ các lớp của năm học chưa? 1.Rồi, 2.Chưa: ";
 						choose = user_choose_exist(1, 2);
 						if (choose == 1) {
 							done_create_class = 1;
-							update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+							update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 						}
 						update_class_txt(idClass);
 					}
@@ -145,16 +149,78 @@ void do_staff_work(id_class*& idClass, HT_in4_student& student_in4,HT_course& pC
 							choose = user_choose_exist(1, 2);
 							if (choose == 1) {
 								done_add_student = 1;
-								update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+								update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 							}
 						}
 					}
 					else if (done_create_semester == 0) {
 						done_create_semester = create_3_semester();
-						update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester, done_create_registration_session);
+						update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 					}
 				}
 			}
 		}
 	}
+}
+bool create_3_semester() {
+	//điều kiện để sau
+	ofstream out;
+	out.open(path_date_semester);
+	string t;
+	LocalTime* date = new LocalTime[6];
+	for (int i = 1; i <= 3; i++) {
+		wcout << L"Nhập ngày bắt đầu học kì " << i << L": ";
+		cin >> date[i - 1].date.Day;
+		wcout << L"Nhập tháng bắt đầu học kì " << i << L": ";
+		cin >> date[i - 1].date.Month;
+		wcout << L"Nhập năm bắt đầu học kì " << i << L": ";
+		cin >> date[i - 1].date.Year;
+		while (checkDayIsTrue(date[i - 1]) == 0) {
+			wcout << L"Ngày không tồn tại, chọn 1 để tiếp tục, chọn 2 để dừng ";
+			cin.ignore(1000, '\n');
+			int choose = user_choose_exist(1, 2);
+			if (choose == 2) {
+				delete[]date;
+				return 0;
+			}
+			else {
+				wcout << L"Nhập ngày bắt đầu học kì " << i << L": ";
+				cin >> date[i - 1].date.Day;
+				wcout << L"Nhập tháng bắt đầu học kì " << i << L": ";
+				cin >> date[i - 1].date.Month;
+				wcout << L"Nhập năm bắt đầu học kì " << i << L": ";
+				cin >> date[i - 1].date.Year;
+			}
+		}
+		out << date[i - 1].date.Day << " " << date[i - 1].date.Month << " " << date[i - 1].date.Year << endl;
+		wcout << L"Nhập ngày kết thúc học kì " << i << L": ";
+		cin >> date[i + 2].date.Day;
+		wcout << L"Nhập tháng kết thúc học kì " << i << L": ";
+		cin >> date[i + 2].date.Month;
+		wcout << L"Nhập năm kết thúc học kì " << i << L": ";
+		cin >> date[i + 2].date.Year;
+		while (checkDayIsTrue(date[i + 2]) == 0) {
+			wcout << L"Ngày không tồn tại, chọn 1 để tiếp tục, chọn 2 để dừng ";
+			cin.ignore(1000, '\n');
+			int choose = user_choose_exist(1, 2);
+			if (choose == 2) {
+				delete[]date;
+				return 0;
+			}
+			else {
+				wcout << L"Nhập ngày kết thúc học kì " << i << L": ";
+				cin >> date[i + 2].date.Day;
+				wcout << L"Nhập tháng kết thúc học kì " << i << L": ";
+				cin >> date[i + 2].date.Month;
+				wcout << L"Nhập năm kết thúc học kì " << i << L": ";
+				cin >> date[i + 2].date.Year;
+			}
+		}
+		out << date[i + 2].date.Day << " " << date[i + 2].date.Month << " " << date[i + 2].date.Year;
+		if (i != 3) out << endl;
+	}
+	cin.ignore(1000, '\n');
+	delete[]date;
+	out.close();
+	return 1;
 }

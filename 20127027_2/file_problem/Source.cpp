@@ -7,13 +7,26 @@
 #include<string>
 using namespace std;
 int main() {
+	const locale utf8_locale = locale(locale(), new codecvt_utf8<wchar_t>());
+	wofstream wfout;
+	wfout.open("inpp2.csv");
+	wfout << wchar_t(239) << wchar_t(187) << wchar_t(191);
+	//65279
+	//wfout.imbue(utf8_locale);
+	wfout.close();
+	wifstream in("inpp2.csv");
+	in.imbue(utf8_locale);
+	wstring s;
+	getline(in, s);
+	cout << int(s[0]);
+	//wfout.imbue(utf8_locale);
 	//_setmode(_fileno(stdout), _O_WTEXT);
-	wstring s = L"aha";
+	/*wstring s = L"aha";
 	string t = "123";
 	string wsTmp(s.begin(), s.end());
 
 	t = t + wsTmp;
-	cout << t;
+	cout << t;*/
 	/*const locale utf8_locale
 		= locale(locale(), new codecvt_utf8<wchar_t>());
 	wofstream out("input.txt");

@@ -1,9 +1,15 @@
 ﻿#include"func.h"
 
-void update_school_year_txt(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester,bool& done_create_registration_session) {
+void update_school_year_txt(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester) {
 	ofstream fout;
 	fout.open(path_school_year);
-	fout << school_year << endl << done_create_class << " " << done_add_student << " " << done_create_semester << " " << done_create_registration_session;
+	fout << school_year << endl << done_create_class << " " << done_add_student << " " << done_create_semester;
+	fout.close();
+}
+void update_semester_period(bool& done_create_registration_session, bool& active_registration_session) {
+	ofstream fout;
+	fout.open(path_semester_period);
+	fout << done_create_registration_session<<" "<<active_registration_session;
 	fout.close();
 }
 void update_class_txt(id_class*& idClass) {
@@ -11,7 +17,8 @@ void update_class_txt(id_class*& idClass) {
 	out.open(path_idClass);
 	id_class* pCur = idClass;
 	while (pCur) {
-		out << pCur->id << endl;
+		out << pCur->id;
+		if (pCur->pNext) out << endl;
 		pCur = pCur->pNext;
 	}
 	out.close();
@@ -98,7 +105,8 @@ void update_student_account(account*& student) {
 	out.open(path_student_account);
 	account* pCur = student;
 	while (pCur) {
-		out << pCur->account_name << " " << pCur->pass << endl;
+		out << pCur->account_name << " " << pCur->pass;
+		if (pCur->pNext)out << endl;
 		pCur = pCur->pNext;
 	}
 	out.close();
@@ -114,36 +122,39 @@ void add_student_in4(string file_csv,HT_in4_student& pStudent,wstring& user_choo
 	while (!wfin.eof())
 	{
 		getline(wfin, temp);
-		wstringstream wsin(temp);
-		in4_student a;
-		getline(wsin, No, L',');
-		getline(wsin, a.id, L',');
-		getline(wsin, a.lname, L',');
-		getline(wsin, a.fname, L',');
-		getline(wsin, a.gender, L',');
-		getline(wsin, a.dob, L',');
-		getline(wsin, a.soid, L',');
-		a.id_class = user_choose_id_class;
-		a.id_course = nullptr;
-		if (notExistStudent(pStudent.head, a) == 1) {
-			if (pStudent.head == nullptr) {
-				pStudent.head = new in4_student;
-				pStudent.tail = pStudent.head;
-				pStudent.head->pNext = pStudent.head->pPrev = nullptr;
-				pCur = pStudent.head;
+		if (temp[0] == 65279)remove_65279(temp);
+		if (temp[0] != L'\0') {
+			wstringstream wsin(temp);
+			in4_student a;
+			getline(wsin, No, L',');
+			getline(wsin, a.id, L',');
+			getline(wsin, a.lname, L',');
+			getline(wsin, a.fname, L',');
+			getline(wsin, a.gender, L',');
+			getline(wsin, a.dob, L',');
+			getline(wsin, a.soid, L',');
+			a.id_class = user_choose_id_class;
+			a.id_course = nullptr;
+			if (notExistStudent(pStudent.head, a) == 1) {
+				if (pStudent.head == nullptr) {
+					pStudent.head = new in4_student;
+					pStudent.tail = pStudent.head;
+					pStudent.head->pNext = pStudent.head->pPrev = nullptr;
+					pCur = pStudent.head;
+				}
+				else {
+					pCur = pStudent.tail;
+					pCur->pNext = new in4_student;
+					pCur->pNext->pPrev = pCur;
+					pCur = pCur->pNext;
+					pCur->pNext = nullptr;
+					pStudent.tail = pCur;
+				}
+				a.pPrev = pCur->pPrev;
+				a.pNext = pCur->pNext;
+				(*pCur) = a;
+				makeAccountStudent(student, pCur);
 			}
-			else {
-				pCur = pStudent.tail;
-				pCur->pNext = new in4_student;
-				pCur->pNext->pPrev = pCur;
-				pCur = pCur->pNext;
-				pCur->pNext = nullptr;
-				pStudent.tail = pCur;
-			}
-			a.pPrev = pCur->pPrev;
-			a.pNext = pCur->pNext;
-			(*pCur) = a;
-			makeAccountStudent(student, pCur);
 		}
 	}
 	wfin.close();
@@ -161,7 +172,20 @@ void update_student_in4_csv(HT_in4_student& pStudent) {
 			wfout << L"," << pCur2->id;
 			pCur2 = pCur2->pNext;
 		}
-		wfout << endl;
+		if(pCur->pNext)wfout << endl;
+		pCur = pCur->pNext;
+	}
+	wfout.close();
+}
+void update_course_csv(HT_course& pCourse) {
+	wofstream wfout;
+	wfout.open(path_course_csv);
+	wfout << wchar_t(239) << wchar_t(187) << wchar_t(191);
+	wfout.imbue(utf8_locale);
+	course* pCur = pCourse.head;
+	while (pCur) {
+		wfout << pCur->id << L"," << pCur->name << L"," << pCur->teacher_name << L"," << pCur->num_cre << L"," << pCur->max_student << L"," << pCur->session;
+		if (pCur->pNext) wfout << endl;
 		pCur = pCur->pNext;
 	}
 	wfout.close();
