@@ -12,6 +12,7 @@ void DisableResizeWindow();
 void DisableControlButon(bool Close, bool Min, bool Max);
 void ShowScrollBar(BOOL Show);
 void ShowCur(bool CursorVisibility);
+void Exit();
 
 #endif // !HELP_H_
 

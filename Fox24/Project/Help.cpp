@@ -121,3 +121,8 @@ void ShowCur(bool CursorVisibility)
 
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
+
+void Exit()
+{
+	exit(0);
+}
