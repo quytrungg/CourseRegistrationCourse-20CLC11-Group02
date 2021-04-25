@@ -217,6 +217,8 @@ void DeleteClass(id_class* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
+    pHead->pNext = nullptr;
+    pHead->pPrev = nullptr;
 }
 
 //Deallocate course
@@ -227,11 +229,17 @@ void DeleteCourse(course* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
+    pHead->pNext = nullptr;
+    pHead->pPrev = nullptr;
 }
 
 //Input file staff_account.txt
 void load_account(std::string path, account*& acc) {
     std::fstream fin;
+    if(!fin){
+        std::cout << "Can't open file!";
+        return;
+    }
     fin.open(path);
     account* pCur = 0;
     while (!fin.eof()) {
@@ -271,6 +279,8 @@ void DeallocateAccount(account* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
+    pHead->pNext = nullptr;
+    pHead->pPrev = nullptr;
 }
 
 //Tìm account cần đổi pass
@@ -343,8 +353,37 @@ void Enroll(std::string path, in4_student* &pHead1, course* &pHead2){
     in4_student* pCur = FindReturnStudent(path, pHead1);
     pCur->id_course = new id_course_of_student;
     pCur->id_course->id = pTemp->id;
+    pCur->id_course->session = pTemp->session;
     pCur->id_course = pCur->id_course->pNext;
 }
+
+/*
+void LoadCourse(std::string path, course* &pHead){
+    std::wfstream fin;
+    if(!fin){
+        std::cout << "Can't open file!";
+        return;
+    }
+    fin.open(path);
+    course* pCur = nullptr;
+    while(!fin.eof()){
+        if(pHead == nullptr){
+            pHead = new course;
+            fin >> pHead->id >> pHead->session
+            pHead->pNext = pHead->pPrev = nullptr;
+            pCur = pHead;
+        }
+        else{
+            pCur->pNext = new course;
+            pCur->pNext->pPrev = pCur;
+            pCur = pCur->pNext;
+            fin >> pCur->id >> pCur->session;
+            pCur->pNext = nullptr;
+        }
+    }
+    fin.close();
+}
+*/
 
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
     int option;
@@ -374,6 +413,8 @@ void DeallocateStudent(in4_student* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
+    pHead->pNext = nullptr;
+    pHead->pPrev = nullptr;
 }
 
 void DeallocateCourseOfStudent(id_course_of_student* &pHead){
@@ -383,6 +424,8 @@ void DeallocateCourseOfStudent(id_course_of_student* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
+    pHead->pNext = nullptr;
+    pHead->pPrev = nullptr;
 }
 
 void DeallocateScore(Score* &pHead){
@@ -392,5 +435,27 @@ void DeallocateScore(Score* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
+    pHead->pNext = nullptr;
+    pHead->pPrev = nullptr;
 }
+
+bool CheckCourseQuantity(in4_student* &pHead){
+    in4_student* pCur = pHead;
+    int temp = 0;
+    while(pCur != nullptr){
+        temp++;
+        pCur = pCur->pNext;
+    }
+    if(temp > 5) return false;
+    return true;
+}
+
+/*
+bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
+    course* pCur = pHead1;
+    while(pCur->pNext != nullptr){
+        if(check_conflicted_course())
+    }
+}
+*/
 

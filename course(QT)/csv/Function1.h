@@ -38,6 +38,7 @@ struct id_class {
 //id khóa học dùng cho cái in4_student
 struct id_course_of_student {
     std::string id;
+    std::string session;
     id_course_of_student* pNext, * pPrev;
 };
 
@@ -126,9 +127,11 @@ void SaveAccout(std::string path, account* &pHead);
 course* FindCourse(course* &pHead);
 void Enroll(std::string path, in4_student* &pHead1, course* &pHead2);
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2);
+bool CheckCourseQuantity(in4_student* &pHead);
 
 void DeallocateStudent(in4_student* &pHead);
 void DeallocateCourseOfStudent(id_course_of_student* &pHead);
+
 void DeallocateScore(Score* &pHead);
 
 #endif /* Function1_h */
