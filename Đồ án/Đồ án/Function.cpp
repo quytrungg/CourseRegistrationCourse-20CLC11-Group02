@@ -272,3 +272,31 @@ score* inputScore(score*& t, std::wfstream& finScore)
     _setmode(_fileno(stdin), _O_TEXT);
     _setmode(_fileno(stdout), _O_TEXT);
 }
+
+ void forceNotComma(std::wstring a)
+ {
+     int temp = 1;
+     wchar_t* x = new wchar_t[a.length() + 1];
+     while (true)
+     {
+         temp = 1;
+         for (int i = 0; i < a.length(); i++)
+         {
+             if (x[i] == L',')
+             {
+                 temp = 0;
+             }
+         }
+         if (temp == 1)
+         {
+             break;
+         }
+         else
+         {
+             std::cout << "Pls enter again: ";
+             std::wstring b;
+             getline(std::wcin, b);
+             x = new wchar_t[b.length() + 1];
+         }
+     }
+ }
