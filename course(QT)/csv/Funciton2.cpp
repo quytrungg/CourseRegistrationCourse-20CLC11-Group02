@@ -100,3 +100,109 @@ short Menu(std::string list[], short size, short Xposition, short Yposition) {
     }
 }
 */
+
+/*
+ void Menu()
+ {
+     int b[BOARD_SIZE][BOARD_SIZE];
+     std::string C[50];
+     Nguoichoi d;
+     // Ham Menu
+     ShowCur(0);
+     std::string menu[] = { "Start","Load Game","Information","How to play","Exit" };
+     int pointer = 0;
+     int color = 0;
+     while (1) {
+         //xoa man hinh
+         system("cls");
+         PrintCaro(color);
+         color++;
+         //in menu ra man hinh
+         for (int i = 0; i < Max_List_Menu; i++)
+         {
+             if (pointer == i) {
+                 SetColor(15, 4);
+                 GotoXY(50 , 20 + i);
+                 std::cout << "    " << menu[i] << std::endl;
+             }
+             else {
+                 SetColor(15, 3);
+                 GotoXY(50, 20 + i);
+                 std::cout << "    " << menu[i] << std::endl;
+             }
+
+         }
+         while (1) {
+             if (_kbhit()) {
+                 char key = _getch();
+                 if (key == 72 || key == 'w' || key == 'W') {
+                     PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
+                     if (pointer > 0) {
+                         pointer--;
+                     }
+                     else {
+                         pointer = Max_List_Menu - 1;
+                     }
+                     break;
+                 }
+                 if (key == 80 || key == 's' || key == 'S') {
+                     if (pointer < Max_List_Menu - 1) {
+                         pointer++;
+                     }
+                     else {
+                         pointer = 0;
+                     }
+                     break;
+                 }
+                 if (key == 13) {
+                     switch (pointer) {
+                     case 0:
+                         Start();
+                         break;
+                     case 1:
+                         DSluu(-100,d,b);
+                         break;
+                     case 2:
+                         Information();
+                         break;
+                     case 3:
+                         Howtoplay();
+                         break;
+                     case 4:
+                         Exit();
+                         flag = -1;
+                         std::cout << "Goodbye" << std::endl;
+                         break;
+                     default:
+                         std::cout << "Erorr" << std::endl;
+                     }
+                     break;
+                 }
+             }
+         }
+         if (flag == -1) {
+             break;
+         }
+         Sleep(100);
+     }
+     std::cout << "Thank you very much. Bye!" << std::endl;
+     Sleep(100);
+     _getch();
+ }
+ */
+
+std::string InputHidden(){
+    char temp = std::cin.get();
+    std::string pass;
+    while (true)
+    {
+        if (temp == KEY_ENTER) break;
+        else if (temp == KEY_ESC) return "";
+        if (temp >= ' ' && temp <= '~') {
+            std::cout << "*";
+            pass.push_back(temp);
+        }
+    }
+    std::cout << '\n';
+    return pass;
+}

@@ -2,6 +2,7 @@
 #include "Time.h"
 #include "Help.h"
 #include "Save.h"
+#include "Delete.h"
 
 char* Create_second_folder(std::string str, char* main_folder) {
 	int n = str.length() + 2 + strlen(main_folder);
@@ -137,6 +138,7 @@ void Save_cla_to_test(Node_cla* pHead, char* folder) {
 		file = Create_file_1( pHead->cla.Name, folder, ".txt");
 		std::wofstream fout(file);
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+		fout << pHead->cla.Name << std::endl;
 		fout << pHead->cla.StudentID << std::endl;
 		pHead = pHead->pNext;
 		fout.close();
@@ -144,11 +146,61 @@ void Save_cla_to_test(Node_cla* pHead, char* folder) {
 }
 
 void Save_name_class(Node_cla* pHead) {
+	Node_cla* pHead_1 = new Node_cla;
+	Node_cla* pCur = pHead_1;
+	std::wstring str;
+	std::wifstream fin("Class.txt");
+	if (!fin) {
+
+	}
+	else {
+		fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+		while (!fin.eof()) {
+			pCur->pNext = new Node_cla;
+			pCur->pNext->pPre = pCur;
+			std::getline(fin, str);
+			pCur->pNext->cla.Name = new wchar_t[str.length() + 1];
+			str.copy(pCur->pNext->cla.Name, str.length(), 0);
+			pCur->pNext->cla.Name[str.length()] = L'\0';
+			pCur = pCur->pNext;
+			pCur->pNext = nullptr;
+		}
+		if (pHead_1->pNext == nullptr) {
+			delete pHead_1;
+			pHead_1 = nullptr;
+		}
+		else {
+			Node_cla* pTemp = pHead_1;
+			pHead_1 = pHead_1->pNext;
+			delete pTemp;
+		}
+	}
+	fin.close();
+	pCur = pHead_1;
 	std::wofstream fout("Class.txt");
 	fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+	while (pCur != nullptr) {
+		fout << pCur->cla.Name << std::endl;
+		pCur = pCur->pNext;
+	}
 	while (pHead != nullptr) {
 		fout << pHead->cla.Name << std::endl;
 		pHead = pHead->pNext;
 	}
 	fout.close();
+	Delete_Node_cla(pHead_1);
+}
+
+void Save_cou_to_test(Node_cou* pHead, char* folder) {
+	wchar_t* file;
+	while (pHead != nullptr) {
+		file = Create_file_1(pHead->cou.ID, folder, ".txt");
+		std::wofstream fout(file);
+		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+		fout << pHead->cou.ID << L',' << pHead->cou.Name << L',' << pHead->cou.Teacher_Name << L',' << pHead->cou.Credit << L',' << pHead->cou.max_stu << L',' << pHead->cou.count << std::endl;
+		fout << pHead->cou.ses_1.day_of_week << L',' << pHead->cou.ses_1.session << L',' << pHead->cou.ses_2.day_of_week << L',' << pHead->cou.ses_2.session << std::endl;
+		fout << pHead->cou.StudentID << std::endl;
+		pHead = pHead->pNext;
+		fout.close();
+	}
 }

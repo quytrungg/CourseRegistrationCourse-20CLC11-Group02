@@ -50,46 +50,49 @@ void load_student_in4(HT_in4_student& pStudent) {
 	pCur = nullptr;
 	while (getline(wfin, temp))
 	{
-		wstringstream wsin(temp);
-		if (pStudent.head == nullptr) {
-			pStudent.head = new in4_student;
-			pStudent.tail = pStudent.head;
-			pStudent.head->pNext = pStudent.head->pPrev = nullptr;
-			pCur = pStudent.head;
-		}
-		else {
-			pCur->pNext = new in4_student;
-			pCur->pNext->pPrev = pCur;
-			pCur = pCur->pNext;
-			pCur->pNext = nullptr;
-			pStudent.tail = pCur;
-		}
-		getline(wsin, pCur->id, L',');
-		getline(wsin, pCur->lname, L',');
-		getline(wsin, pCur->fname, L',');
-		getline(wsin, pCur->gender, L',');
-		getline(wsin, pCur->dob, L',');
-		getline(wsin, pCur->soid, L',');
-		getline(wsin, pCur->id_class, L',');
-		pCur->id_course = nullptr;
-		wstring temp;
-		id_course_of_student* pCur2;
-		pCur2 = nullptr;
-		while (getline(wsin, temp, L',')) {
-			if (pCur->id_course == nullptr) {
-				pCur->id_course = new id_course_of_student;
-				pCur->id_course->pNext = pCur->id_course->pPrev = nullptr;
-				pCur2 = pCur->id_course;
+		if (temp[0] == 65279)remove_65279(temp);
+		if (temp[0] != L'\0') {
+			wstringstream wsin(temp);
+			if (pStudent.head == nullptr) {
+				pStudent.head = new in4_student;
+				pStudent.tail = pStudent.head;
+				pStudent.head->pNext = pStudent.head->pPrev = nullptr;
+				pCur = pStudent.head;
 			}
 			else {
-				pCur2->pNext = new id_course_of_student;
-				pCur2->pNext->pPrev = pCur2;
-				pCur2 = pCur2->pNext;
-				pCur2->pNext = nullptr;
+				pCur->pNext = new in4_student;
+				pCur->pNext->pPrev = pCur;
+				pCur = pCur->pNext;
+				pCur->pNext = nullptr;
+				pStudent.tail = pCur;
 			}
-			pCur2->id = temp;
-			getline(wsin, temp, L',');
-			pCur2->teacher_name = temp;
+			getline(wsin, pCur->id, L',');
+			getline(wsin, pCur->lname, L',');
+			getline(wsin, pCur->fname, L',');
+			getline(wsin, pCur->gender, L',');
+			getline(wsin, pCur->dob, L',');
+			getline(wsin, pCur->soid, L',');
+			getline(wsin, pCur->id_class, L',');
+			pCur->id_course = nullptr;
+			wstring temp;
+			id_course_of_student* pCur2;
+			pCur2 = nullptr;
+			while (getline(wsin, temp, L',')) {
+				if (pCur->id_course == nullptr) {
+					pCur->id_course = new id_course_of_student;
+					pCur->id_course->pNext = pCur->id_course->pPrev = nullptr;
+					pCur2 = pCur->id_course;
+				}
+				else {
+					pCur2->pNext = new id_course_of_student;
+					pCur2->pNext->pPrev = pCur2;
+					pCur2 = pCur2->pNext;
+					pCur2->pNext = nullptr;
+				}
+				pCur2->id = temp;
+				getline(wsin, temp, L',');
+				pCur2->teacher_name = temp;
+			}
 		}
 	}
 	/*pCur = pStudent.head;
@@ -113,37 +116,48 @@ void load_course(HT_course& pCourse) {
 	course* pCur;
 	pCur = nullptr;
 	while (!wfin.eof()) {
-		getline(wfin, temp);
-		wstringstream wsin(temp);
-		if (pCourse.head == nullptr) {
-			pCourse.head = new course;
-			pCourse.tail = pCourse.head;
-			pCourse.head->pNext = pCourse.head->pPrev = nullptr;
-			pCur = pCourse.head;
+			getline(wfin, temp);
+			if (temp[0] == 65279)remove_65279(temp);
+			if (temp[0] != L'\0') {
+			wstringstream wsin(temp);
+			if (pCourse.head == nullptr) {
+				pCourse.head = new course;
+				pCourse.tail = pCourse.head;
+				pCourse.head->pNext = pCourse.head->pPrev = nullptr;
+				pCur = pCourse.head;
+			}
+			else {
+				pCur->pNext = new course;
+				pCur->pNext->pPrev = pCur;
+				pCur = pCur->pNext;
+				pCur->pNext = nullptr;
+				pCourse.tail = pCur;
+			}
+			getline(wsin, pCur->id, L',');
+			getline(wsin, pCur->name, L',');
+			getline(wsin, pCur->teacher_name, L',');
+			wstring temp2;
+			wsin >> pCur->num_cre;
+			wsin.ignore(100,L',');
+			wsin >> pCur->max_student;
+			wsin.ignore(100,L',');
+			getline(wsin, pCur->session, L',');
 		}
-		else {
-			pCur->pNext = new course;
-			pCur->pNext->pPrev = pCur;
-			pCur = pCur->pNext;
-			pCur->pNext = nullptr;
-			pCourse.tail = pCur;
-		}
-		getline(wsin, pCur->id, L',');
-		getline(wsin, pCur->name, L',');
-		getline(wsin, pCur->teacher_name, L',');
-		wstring temp2;
-		getline(wsin, temp2, L',');
-		pCur->num_cre = wconvert_num(temp2);
-		getline(wsin, temp2, L',');
-		pCur->max_student= wconvert_num(temp2);
-		getline(wsin, pCur->session, L',');
 	}
+	//wcout << pCourse.head->max_student << endl;
+	wfin.close();
 }
-void loadSchoolYear(string& school_year,bool& done_create_class,bool& done_add_student,bool& done_create_semester,bool& done_create_registration_session) {
+void loadSchoolYear(string& school_year,bool& done_create_class,bool& done_add_student,bool& done_create_semester) {
 	ifstream fin;
 	fin.open(path_school_year);
 	getline(fin, school_year);
-	fin >> done_create_class >> done_add_student >> done_create_semester >> done_create_registration_session;
+	fin >> done_create_class >> done_add_student >> done_create_semester ;
+	fin.close();
+}
+void loadSemesterPeriod(bool& done_create_registration_session, bool& active_registration_session) {
+	ifstream fin;
+	fin.open(path_semester_period);
+	fin >> done_create_registration_session >> active_registration_session;
 	fin.close();
 }
 void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {

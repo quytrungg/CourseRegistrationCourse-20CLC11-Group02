@@ -17,3 +17,12 @@ void Delete_Node_cla(Node_cla*& pHead) {
 		pTemp = pHead;
 	}
 }
+
+void Delete_Node_cou(Node_cou*& pHead) {
+	Node_cou* pTemp = pHead;
+	while (pHead != nullptr) {
+		pHead = pHead->pNext;
+		delete pTemp;
+		pTemp = pHead;
+	}
+}

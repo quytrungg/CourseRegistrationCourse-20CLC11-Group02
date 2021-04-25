@@ -4,5 +4,6 @@
 
 void Delete_Node_cla(Node_cla*& pHead);
 void Delete_Node_stu(Node_stu*& pHead);
+void Delete_Node_cou(Node_cou*& pHead);
 
 #endif // !DELETE_H_
