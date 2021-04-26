@@ -81,5 +81,7 @@ void add_score(score*& sc, score temp);
 score ChangeScoreToData(std::wstring line);
 score* inputScore(score*& t, std::wfstream& finScore);
 void OutputScore(score*& sc);
+void forceNotComma(std::wstring a);
+
 
 #endif // !HEADER_H
