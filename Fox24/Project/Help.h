@@ -13,6 +13,7 @@ void DisableControlButon(bool Close, bool Min, bool Max);
 void ShowScrollBar(BOOL Show);
 void ShowCur(bool CursorVisibility);
 void Exit();
+bool checkFileWithFstream(std::wstring path);
 
 #endif // !HELP_H_
 

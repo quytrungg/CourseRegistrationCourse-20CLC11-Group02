@@ -615,6 +615,7 @@ void Input_course_direct(Node_cou* &pHead_cou) {
 		delete pTemp;
 	}
 	Save_cou_to_test(pHead_cou, Create_third_folder("1", Create_second_folder("Semester", current_year)));
+	Save_name_course(pHead_cou);
 	std::wcout << "Input success" << std::endl;
 }
 
@@ -654,6 +655,7 @@ void Input_course_by_file(Node_cou*& pHead_cou) {
 	}
 	fin.close();
 	Save_cou_to_test(pHead_cou, Create_third_folder("1", Create_second_folder("Semester", current_year)));
+	Save_name_course(pHead_cou);
 	std::wcout << "Input success" << std::endl;
 }
 
@@ -739,7 +741,8 @@ void main() {
 	Input_student_data(pHead_stu, pHead_cla);
 	Delete_Node_cla(pHead_cla);
 	Delete_Node_stu(pHead_stu);*/
-	Node_cou* pHead_cou;
-	Input_course_by_file(pHead_cou);
-	Delete_Node_cou(pHead_cou);
+	Node_cou* pHead;
+	Node_cla* pHead_cla;
+	Node_stu* pHead_stu;
+	Input_course_data(pHead);
 }

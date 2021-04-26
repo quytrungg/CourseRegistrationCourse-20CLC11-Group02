@@ -126,3 +126,8 @@ void Exit()
 {
 	exit(0);
 }
+
+bool checkFileWithFstream(std::wstring path) {
+	std::ifstream isf(path);
+	return isf.good();
+}
