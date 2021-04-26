@@ -248,13 +248,3 @@ void Delete_the_course(course*& pHead) {
 		pTemp = pHead;
 	}
 }
-
-void main() {
-	_setmode(_fileno(stdin), _O_U16TEXT);
-	_setmode(_fileno(stdout), _O_U16TEXT);
-
-	course* pHead;
-	Input_course(pHead);
-	Output_the_course(pHead);
-	Delete_the_course(pHead);
-}
