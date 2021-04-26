@@ -317,7 +317,7 @@ void ChangePassword(account* &pHead){
 }
 
 //Cập nhật password vào file txt
-void SaveAccout(std::string path, account* &pHead){
+void SaveAccount(std::string path, account* &pHead){
     std::fstream fout;
     if(!fout){
         std::cout << "Can't open file!";
@@ -355,6 +355,27 @@ void Enroll(std::string path, in4_student* &pHead1, course* &pHead2){
     pCur->id_course->id = pTemp->id;
     pCur->id_course->session = pTemp->session;
     pCur->id_course = pCur->id_course->pNext;
+}
+
+void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2){
+    course* pTemp = FindCourse(pHead2);
+    in4_student* pCur = FindReturnStudent(path, pHead1);
+    in4_student* pTemp2 = pCur;
+    while(pTemp2->id_course->pNext != nullptr){
+        if(pTemp2->id_course->pNext->id == pTemp->id){
+            id_course_of_student* pDel = pTemp2->id_course->pNext;
+            pTemp2->id_course->pNext = pTemp2->id_course->pNext->pNext;
+            delete pDel;
+            return;
+        }
+        else pTemp2->id_course = pTemp2->id_course->pNext;
+    }
+    if(pCur->id_course->id == pTemp->id){
+        id_course_of_student* pNew = pCur->id_course;
+        pCur->id_course = pCur->id_course->pNext;
+        delete pNew;
+        return;
+    }
 }
 
 /*
