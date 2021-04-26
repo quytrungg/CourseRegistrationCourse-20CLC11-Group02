@@ -584,6 +584,9 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	a[end - begin] = L'\0';
 	pCur->cou.ses_2.session = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
+
+	pCur->cou.StudentID = new wchar_t[1];
+	pCur->cou.StudentID[0] = L'\0';
 }
 
 void Input_course_direct(Node_cou* &pHead_cou) {
@@ -635,7 +638,6 @@ void Input_course_by_file(Node_cou*& pHead_cou) {
 		while (!fin.eof()) {
 			std::getline(fin, a);
 			pCur_cou->pNext = new Node_cou;
-			fin.ignore();
 			Input_one_course_by_file(a, pCur_cou->pNext);
 			pCur_cou = pCur_cou->pNext;
 			pCur_cou->pNext = nullptr;
