@@ -122,10 +122,11 @@ void PrintAccount(account* pHead);
 void DeallocateAccount(account* &pHead);
 account* FindAccount(account* &pHead);
 void ChangePassword(account* &pHead);
-void SaveAccout(std::string path, account* &pHead);
+void SaveAccount(std::string path, account* &pHead);
 
 course* FindCourse(course* &pHead);
 void Enroll(std::string path, in4_student* &pHead1, course* &pHead2);
+void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2);
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2);
 bool CheckCourseQuantity(in4_student* &pHead);
 
