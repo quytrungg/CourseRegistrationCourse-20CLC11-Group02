@@ -117,10 +117,19 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 		else {
 			while (done_create_semester == 0)
 			{
-				wcout << L"1. Đăng xuất" << endl;
+				wcout << L" _Công việc của nhân viên_" << endl;
+				wstring* menu = new wstring[2];
+				COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+				menu[0] = L"Quay về";
+				menu[1] = (school_year == "\0" ? L"Tạo năm học mới." : (done_create_class == 0 ? L"Tạo lớp học mới." : (done_add_student == 0 ? L"Thêm học sinh. " : L"Tạo thời gian 3 học kì.")));
+				int choose = choose_menu(cursor.X, cursor.Y, menu, 2);
+				delete[]menu;
+				/*wcout << L"1. Đăng xuất" << endl;
 				wcout << "2. " << (school_year == "\0" ? L"Tạo năm học mới." : (done_create_class == 0 ? L"Tạo lớp học mới." : (done_add_student == 0 ? L"Thêm học sinh. " : L"Tạo thời gian 3 học kì."))) << endl;
 				wcout << L"Chọn: ";
+				//code cũ
 				int choose = user_choose_exist(1, 2);
+				*/
 				switch (choose) {
 				case 1: return;
 				case 2:

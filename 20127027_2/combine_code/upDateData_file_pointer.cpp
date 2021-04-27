@@ -100,6 +100,17 @@ void makeAccountStudent(account*& student,in4_student*& pCur) {
 	string t2(pCur->dob.begin(), pCur->dob.end());
 	student->pass = t2;
 }
+void update_staff_account(account*& staff) {
+	ofstream out;
+	out.open(path_staff_account);
+	account* pCur = staff;
+	while (pCur) {
+		out << pCur->account_name << endl << pCur->pass;
+		if (pCur->pNext)out << endl;
+		pCur = pCur->pNext;
+	}
+	out.close();
+}
 void update_student_account(account*& student) {
 	ofstream out;
 	out.open(path_student_account);

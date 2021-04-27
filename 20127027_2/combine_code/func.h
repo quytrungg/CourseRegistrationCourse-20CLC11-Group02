@@ -5,9 +5,10 @@
 int choose_type_account();
 bool check_exist_user(account, account*&);
 account login(int, account*&, account*&);
+void changePassword(account*&);
 //courseManage
 void add_course(HT_course&);
-void courseManage(HT_course&);
+void courseManage(HT_course&, bool&);
 bool Check_session(wstring);
 //deletePointer
 void deleteall_course(course*&);
@@ -19,6 +20,10 @@ int convert_num(string&);
 int wconvert_num(wstring&);
 int user_choose_exist(int, int);
 void remove_65279(wstring&);
+void negativeClose();
+void GotoXY(short, short);
+int choose_menu(int, int, wstring*&, int);
+COORD GetConsoleCursorPosition(HANDLE);
 //loadData
 void load_account(string, account*&);
 void load_class(id_class*&);
@@ -45,6 +50,7 @@ void AddClass(id_class*&);
 void add_student_in4(string, HT_in4_student&,wstring&,account*&);
 void update_student_in4_csv(HT_in4_student&);
 void update_student_account(account*&);
+void update_staff_account(account*&);
 void update_date_registration_session(LocalTime, LocalTime);
 void update_course_csv(HT_course&);
 void update_semester_period(bool&, bool&);

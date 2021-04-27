@@ -11,7 +11,8 @@
 #include <time.h>
 //#include <stdlib.h>
 #include <algorithm>
-#include < conio.h>//wgetch()
+#include <conio.h>//wgetch()
+#include<Windows.h>
 using namespace std;
 #define path_staff_account "staff_account.txt"
 #define path_student_account "student_account.txt"
