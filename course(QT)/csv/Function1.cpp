@@ -499,6 +499,7 @@ bool CheckStudentQuantity(course* &pHead){
 //Kiểm tra toàn bộ điều kiện để đăng kí môn học
 bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
     in4_student* pCur = pHead2;
+    if(!CheckStudentQuantity(pHead1) and CheckCourseQuantity(pHead2)) return false;
     while(pCur != nullptr){
         if(CheckConflictedEnroll(pHead1, pCur->id_course)){
             return false;
