@@ -357,6 +357,7 @@ void Enroll(std::string path, in4_student* &pHead1, course* &pHead2){
     pCur->id_course = pCur->id_course->pNext;
 }
 
+//Hàm dùng để huỷ đăng kí môn học đó trong idcourseofstudent
 void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2){
     course* pTemp = FindCourse(pHead2);
     in4_student* pCur = FindReturnStudent(path, pHead1);
@@ -406,6 +407,7 @@ void LoadCourse(std::string path, course* &pHead){
 }
 */
 
+//Menu dùng để đăng kí môn học
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
     int option;
     std::cout << "1. Enroll course\n" << "0. Exit\n";
@@ -415,8 +417,10 @@ void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
         switch (option) {
             case 1:{
                 std::cout << "Choose your course: ";
+                //loadcoursefile
                 course* pCur = FindCourse(pHead2);
                 EnrollCourse(path, pHead1, pCur);
+                //savecoursetostudentfile
                 break;
             }
             default:
@@ -427,6 +431,7 @@ void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
     }
 }
 
+//Delete Student
 void DeallocateStudent(in4_student* &pHead){
     in4_student* pTemp = pHead;
     while(pHead != nullptr){
@@ -438,6 +443,7 @@ void DeallocateStudent(in4_student* &pHead){
     pHead->pPrev = nullptr;
 }
 
+//Delete id course of student
 void DeallocateCourseOfStudent(id_course_of_student* &pHead){
     id_course_of_student* pTemp = pHead;
     while(pHead != nullptr){
@@ -449,6 +455,7 @@ void DeallocateCourseOfStudent(id_course_of_student* &pHead){
     pHead->pPrev = nullptr;
 }
 
+//Delete Score
 void DeallocateScore(Score* &pHead){
     Score* pTemp = pHead;
     while(pHead != nullptr){
@@ -460,6 +467,7 @@ void DeallocateScore(Score* &pHead){
     pHead->pPrev = nullptr;
 }
 
+//Kiểm tra số lương môn học đăng kí có vượt quá 5 không
 bool CheckCourseQuantity(in4_student* &pHead){
     in4_student* pCur = pHead;
     int temp = 0;
@@ -471,12 +479,37 @@ bool CheckCourseQuantity(in4_student* &pHead){
     return true;
 }
 
-/*
-bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
-    course* pCur = pHead1;
-    while(pCur->pNext != nullptr){
-        if(check_conflicted_course())
-    }
+//Kiểm tra xem giờ học có bị trùng nhau không
+bool CheckConflictedEnroll(course* &pHead1, id_course_of_student* &pHead2){
+    char m[6], n[6], p[6], q[6];
+    pHead1->session.copy(m, 5);
+    pHead1->session.copy(n, 5, '_' + 1);
+    pHead2->session.copy(p, 5);
+    pHead2->session.copy(q, 5, '_' + 1);
+    if(!strcmp(m, p) or !strcmp(m, q) or !strcmp(n, p) or !strcmp(n, q)) return true;
+    return false;
 }
-*/
+
+//Kiểm tra xem môn học đó đã đủ học sinh chưa
+bool CheckStudentQuantity(course* &pHead){
+    course* pTemp = FindCourse(pHead);
+    return pTemp->count <= 50;
+}
+
+//Kiểm tra toàn bộ điều kiện để đăng kí môn học
+bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
+    in4_student* pCur = pHead2;
+    while(pCur != nullptr){
+        if(CheckConflictedEnroll(pHead1, pCur->id_course)){
+            return false;
+        }
+        else pCur->id_course = pCur->id_course->pNext;
+    }
+    return true;
+}
+
+
+void MenuEnrollCourse(){
+    
+}
 
