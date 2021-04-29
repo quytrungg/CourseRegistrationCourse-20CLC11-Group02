@@ -102,6 +102,58 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	a[end - begin] = L'\0';
 	pCur->stu.SocialID = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
+
+	// Course 1
+	pCur->stu.course_1.ID = new wchar_t[2];
+	pCur->stu.course_1.ID[0] = L'0';
+	pCur->stu.course_1.ID[1] = L'\0';
+	pCur->stu.course_1.FinalMark = 0;
+	pCur->stu.course_1.MidtermMark = 0;
+	pCur->stu.course_1.OtherMark = 0;
+	pCur->stu.course_1.TotalMark = 0;
+
+	// Course 2
+	pCur->stu.course_2.ID = new wchar_t[2];
+	pCur->stu.course_2.ID[0] = L'0';
+	pCur->stu.course_2.ID[1] = L'\0';
+	pCur->stu.course_2.FinalMark = 0;
+	pCur->stu.course_2.MidtermMark = 0;
+	pCur->stu.course_2.OtherMark = 0;
+	pCur->stu.course_2.TotalMark = 0;
+
+	// Course 3
+	pCur->stu.course_3.ID = new wchar_t[2];
+	pCur->stu.course_3.ID[0] = L'0';
+	pCur->stu.course_3.ID[1] = L'\0';
+	pCur->stu.course_3.FinalMark = 0;
+	pCur->stu.course_3.MidtermMark = 0;
+	pCur->stu.course_3.OtherMark = 0;
+	pCur->stu.course_3.TotalMark = 0;
+
+	// Course 4
+	pCur->stu.course_4.ID = new wchar_t[2];
+	pCur->stu.course_4.ID[0] = L'0';
+	pCur->stu.course_4.ID[1] = L'\0';
+	pCur->stu.course_4.FinalMark = 0;
+	pCur->stu.course_4.MidtermMark = 0;
+	pCur->stu.course_4.OtherMark = 0;
+	pCur->stu.course_4.TotalMark = 0;
+
+	// Course 5
+	pCur->stu.course_5.ID = new wchar_t[2];
+	pCur->stu.course_5.ID[0] = L'0';
+	pCur->stu.course_5.ID[1] = L'\0';
+	pCur->stu.course_5.FinalMark = 0;
+	pCur->stu.course_5.MidtermMark = 0;
+	pCur->stu.course_5.OtherMark = 0;
+	pCur->stu.course_5.TotalMark = 0;
+
+	// Schedule
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 7; j++) {
+			pCur->stu.Schedule[i][j] = 0;
+		}
+	}
 }
 
 void Input_student(std::wstring str, Node_stu*& pHead) {
@@ -504,8 +556,9 @@ void Input_one_course_direct(Node_cou* pCur) {
 			break;
 		}
 	}
-	pCur->cou.StudentID = new wchar_t[1];
-	pCur->cou.StudentID[0] = L'\0';
+	pCur->cou.StudentID = new wchar_t[2];
+	pCur->cou.StudentID[0] = L'0';
+	pCur->cou.StudentID[1] = L'\0';
 }
 
 void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
@@ -585,8 +638,9 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	pCur->cou.ses_2.session = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 
-	pCur->cou.StudentID = new wchar_t[1];
-	pCur->cou.StudentID[0] = L'\0';
+	pCur->cou.StudentID = new wchar_t[2];
+	pCur->cou.StudentID[0] = L'0';
+	pCur->cou.StudentID[1] = L'\0';
 }
 
 void Input_course_direct(Node_cou* &pHead_cou) {
@@ -733,16 +787,3 @@ void Input_course_data(Node_cou*& pHead_cou) {
 	Delete_Node_cou(pHead_cou);
 }
 
-void main() {
-	_setmode(_fileno(stdin), _O_WTEXT);
-	_setmode(_fileno(stdout), _O_WTEXT);
-	/*Node_stu* pHead_stu;
-	Node_cla* pHead_cla;
-	Input_student_data(pHead_stu, pHead_cla);
-	Delete_Node_cla(pHead_cla);
-	Delete_Node_stu(pHead_stu);*/
-	Node_cou* pHead;
-	Node_cla* pHead_cla;
-	Node_stu* pHead_stu;
-	Input_course_data(pHead);
-}

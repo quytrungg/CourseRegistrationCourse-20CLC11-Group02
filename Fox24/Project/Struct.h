@@ -35,6 +35,14 @@ struct Time {
 	int hours;
 };
 
+struct Score {
+	wchar_t* ID;
+	double TotalMark;
+	double FinalMark;
+	double MidtermMark;
+	double OtherMark;
+};
+
 struct Student {
 	int ID;
 	wchar_t* FirstName;
@@ -43,6 +51,12 @@ struct Student {
 	Date Birthday;
 	int SocialID;
 	Account account;
+	Score course_1;
+	Score course_2;
+	Score course_3;
+	Score course_4;
+	Score course_5;
+	int Schedule[4][7];
 };
 
 struct Class {
@@ -65,7 +79,6 @@ struct Course {
 	Timetable ses_1;
 	Timetable ses_2;
 	wchar_t* StudentID;
-
 };
 
 struct Node_stu {

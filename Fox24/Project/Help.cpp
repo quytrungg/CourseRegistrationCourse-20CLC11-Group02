@@ -23,6 +23,37 @@ int Convert_char_to_int(char* a, int n)
 	return m;
 }
 
+double Conver_wchart_to_double(wchar_t* a, int n) {
+	double m = 0;
+	int find = 0;
+	double p;
+	for (int i = 0; i < n; i++) {
+		if (a[i] == L'.') {
+			find = i;
+			break;
+		}
+	}
+	if (find == 0) {
+		for (int i = 0; i < n; i++) {
+			p = a[i] - L'0';
+			m = m * 10 + p;
+		}
+	}
+	else {
+		double r = 10;
+		for (int i = 0; i < find; i++) {
+			p = a[i] - L'0';
+			m = m * 10 + p;
+		}
+		for (int i = find + 1; i < n; i++) {
+			p = a[i] - L'0';
+			m = m + p / r;
+			r = r * 10;
+		}
+	}
+	return m;
+}
+
 char* Convert_int_to_char(int n) {
 	int count = 0;
 	for (int i = n; i > 0; i = i / 10) {
