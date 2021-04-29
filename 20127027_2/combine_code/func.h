@@ -5,7 +5,7 @@
 int choose_type_account();
 bool check_exist_user(account, account*&);
 account login(int, account*&, account*&);
-void changePassword(account*&);
+void changePassword(account*&,account&);
 //courseManage
 void add_course(HT_course&);
 void courseManage(HT_course&, bool&);
@@ -46,11 +46,10 @@ LocalTime currentDateTime();
 //upDateData
 void update_school_year_txt(string&, bool&, bool&, bool&);
 void update_class_txt(id_class*&);
-void AddClass(id_class*&);
+void AddClass(id_class*&,bool&);
 void add_student_in4(string, HT_in4_student&,wstring&,account*&);
 void update_student_in4_csv(HT_in4_student&);
-void update_student_account(account*&);
-void update_staff_account(account*&);
+void update_account(account*&);
 void update_date_registration_session(LocalTime, LocalTime);
 void update_course_csv(HT_course&);
 void update_semester_period(bool&, bool&);

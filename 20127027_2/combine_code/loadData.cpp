@@ -15,8 +15,8 @@ void load_account(string path, account*& acc) {
 			pCur->pNext = new account;
 			pCur->pNext->pPrev = pCur;
 			pCur = pCur->pNext;
-			getline(fin, acc->account_name, '\n');
-			getline(fin, acc->pass, '\n');
+			getline(fin, pCur->account_name, '\n');
+			getline(fin, pCur->pass, '\n');
 			pCur->pNext = nullptr;
 		}
 	}
@@ -144,6 +144,7 @@ void load_course(HT_course& pCourse) {
 			wsin >> pCur->max_student;
 			wsin.ignore(100,L',');
 			getline(wsin, pCur->session, L',');
+			wsin >> pCur->count;
 		}
 	}
 	//wcout << pCourse.head->max_student << endl;

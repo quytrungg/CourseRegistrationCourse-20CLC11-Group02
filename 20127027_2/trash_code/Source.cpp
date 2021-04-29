@@ -59,9 +59,15 @@ COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
         return invalid;
     }
 }
+int*& g(int* a) {
+    return a;
+}
 void main()
 {
-    cout << getTheMove_enter();
+    int* a=new int;
+    int* t=g(a);
+    cout << t << " " << a << " ";
+    delete a;
     /*GotoXY(10, 11);
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));

@@ -55,41 +55,36 @@ account login(int choose, account*& staff, account*& student) {
 	system("cls");
 	return user;
 }
-//account* FindNodeAccount(account*& pHead) {
-//	account* pCur = pHead;
-//	std::string finduser;
-//	std::cin >> finduser;
-//	while (pCur != nullptr) {
-//		if (pCur->account_name == finduser) {
-//			break;;
-//		}
-//		pCur = pCur->pNext;
-//	}
-//	return pCur;
-//}
-//
-////Đổi pass cho account đó,update file
-//void hangePassword(account*& pHead) {
-//	std::string newpass, temp;
-//	account* pCur = FindNodeAccount(pHead);
-//	wcout << L"Nhập mật khẩu của bạn: ";
-//	getline(cin, newpass, '\n');
-//	wcout << L"Xác nhận mật khẩu: ";
-//	getline(cin, temp, '\n');
-//	while (newpass != temp) {
-//		wcout << L"Mật khẩu xác nhận không đúng"<<endl;
-//		COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
-//		wstring* menu = new wstring[2];
-//		menu[0] = L"Nhập lại";
-//		menu[1] = L"Quay về";
-//		int choose = choose_menu(cursor.X, cursor.Y, menu, 2);
-//		switch (choose) {
-//		case 1:return;
-//		case 2:getline(cin, temp, '\n');
-//		}
-//	}
-//	pCur->pass = newpass;
-//	update_staff_account(pHead);
-//
-//	//update .txt
-//}
+account* FindNodeAccount(account*& pHead,account&user) {
+	account* pCur = pHead;
+	while (pCur != nullptr) {
+		if (pCur->account_name == user.account_name) break;
+		pCur = pCur->pNext;
+	}
+	return pCur;
+}
+//Đổi pass cho account đó,update file
+void changePassword(account*& pHead,account& user) {
+	string newpass, temp;
+	account* pCur = FindNodeAccount(pHead,user);
+	wcout << L"Nhập mật khẩu của bạn: ";
+	getline(cin, newpass, '\n');
+	wcout << L"Xác nhận mật khẩu: ";
+	getline(cin, temp, '\n');
+	while (newpass != temp) {
+		wcout << L"Mật khẩu xác nhận không đúng"<<endl;
+		COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+		wstring* menu = new wstring[2];
+		menu[0] = L"Nhập lại";
+		menu[1] = L"Quay về";
+		int choose = choose_menu(cursor.X, cursor.Y, menu, 2);
+		switch (choose) {
+		case 1:return;
+		case 2:getline(cin, temp, '\n');
+		}
+	}
+	user.pass=pCur->pass = newpass;
+	update_account(pHead);
+
+	//update .txt
+}

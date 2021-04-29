@@ -38,7 +38,8 @@ struct course {
 	wstring id;
 	wstring name, teacher_name;
 	int num_cre;
-	int max_student = 50;
+	int max_student;
+	int count = 0;
 	//day of the week
 	wstring session;//MONS1_MONS3 hoặc MONS1_FRIS3
 	course* pNext, * pPrev;

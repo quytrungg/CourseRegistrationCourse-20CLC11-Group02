@@ -42,12 +42,22 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 			//wcout << cTime.date.Day << " " << cTime.date.Month << " " << cTime.date.Year;
 			int t = 1;
 			while (done_create_registration_session == 0 || t/*compare2Times(cTime, aEnd)*/) {
-				wcout << L"1. Đăng xuất" << endl;
+				wcout << L" _Công việc của nhân viên_" << endl;
+				wstring* menu = new wstring[2];
+				COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+				menu[0] = L"Quay về";
+				if (done_create_registration_session == 0)
+					menu[1] = L"Tạo phiên đăng kí học phần.";
+				else
+					menu[1] = L"Tạo khóa học.";
+				int choose1 = choose_menu(cursor.X, cursor.Y, menu, 2);
+				delete[]menu;
+				/*wcout << L"1. Đăng xuất" << endl;
 				if (done_create_registration_session == 0)
 					wcout << L"2. Tạo phiên đăng kí học phần." << endl; 
 				else
 					wcout << L"2. Tạo khóa học." << endl;
-				wcout << L"Chọn: "; int choose1 = user_choose_exist(1, 2);
+				wcout << L"Chọn: "; int choose1 = user_choose_exist(1, 2);*/
 				switch (choose1) {
 				case 1:return;
 				case 2:
@@ -112,6 +122,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 						}
 					}
 				}
+				system("cls");
 			}
 		}
 		else {
@@ -136,14 +147,17 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 					if (school_year == "\0")
 						create_school_year(school_year, done_create_class, done_add_student, done_create_semester);
 					else if (done_create_class == 0) {
-						AddClass(idClass);
-						wcout << L"Đây là toàn bộ các lớp của năm học chưa? 1.Rồi, 2.Chưa: ";
-						choose = user_choose_exist(1, 2);
-						if (choose == 1) {
-							done_create_class = 1;
-							update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
+						bool isAdd = 0;
+						AddClass(idClass,isAdd);
+						if (isAdd) {
+							wcout << L"Đây là toàn bộ các lớp của năm học chưa? 1.Rồi, 2.Chưa: ";
+							choose = user_choose_exist(1, 2);
+							if (choose == 1) {
+								done_create_class = 1;
+								update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
+							}
+							update_class_txt(idClass);
 						}
-						update_class_txt(idClass);
 					}
 					else if (done_add_student == 0) {
 						string t = choose_id_class(idClass), file_csv;
@@ -153,7 +167,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 							file_csv = file_csv + ".csv";
 							add_student_in4(file_csv, student_in4, user_choose_id_class,student);
 							update_student_in4_csv(student_in4);
-							update_student_account(student);
+							update_account(student);
 							wcout << L"Đây là toàn bộ các học sinh của năm nhất chưa? 1.Rồi, 2.Chưa: ";
 							choose = user_choose_exist(1, 2);
 							if (choose == 1) {
@@ -167,6 +181,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 						update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 					}
 				}
+				system("cls");
 			}
 		}
 	}
