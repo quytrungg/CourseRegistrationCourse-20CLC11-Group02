@@ -1,4 +1,4 @@
-﻿#include"func.h"
+#include"func.h"
 int convert_num(string& a) {
 	char t = a[0];
 	int num = 0, i = 0;
@@ -59,8 +59,9 @@ int getTheMove_enter() {
 	else if (_COMMAND == 224 && _COMMAND2 == 80) return 1;
 	else if (_COMMAND == 224 && _COMMAND2 == 77) return 3;
 	else if (_COMMAND == 13) return 4;
+    else if (_COMMAND == 8) return 5;
 	return -1;
-}//0 lên,1 xuống,2 trái,3 phải,4 enter
+}//0 lên,1 xuống,2 trái,3 phải,4 enter, 5 backspace
 int choose_menu(int x, int y, wstring*& menu, int n) {
 	int i = 0;
 	for (i = 0; i < n; i++) {

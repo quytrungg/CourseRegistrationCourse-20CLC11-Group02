@@ -120,6 +120,16 @@ void Save_stu_to_test(Node_stu* pHead, char* folder) {
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
 		fout << pHead->stu.account.ID << L"," << pHead->stu.account.Pass << std::endl;
 		fout << pHead->stu.ID << L"," << pHead->stu.FirstName << L"," << pHead->stu.LastName << L"," << pHead->stu.Gender << L"," << pHead->stu.Birthday.Day << L"/" << pHead->stu.Birthday.Month << L"/" << pHead->stu.Birthday.Year << L"," << pHead->stu.SocialID << std::endl;
+		fout << pHead->stu.course_1.ID << L"," << pHead->stu.course_1.TotalMark << L"," << pHead->stu.course_1.FinalMark << L"," << pHead->stu.course_1.MidtermMark << L"," << pHead->stu.course_1.OtherMark << std::endl;
+		fout << pHead->stu.course_2.ID << L"," << pHead->stu.course_2.TotalMark << L"," << pHead->stu.course_2.FinalMark << L"," << pHead->stu.course_2.MidtermMark << L"," << pHead->stu.course_2.OtherMark << std::endl;
+		fout << pHead->stu.course_3.ID << L"," << pHead->stu.course_3.TotalMark << L"," << pHead->stu.course_3.FinalMark << L"," << pHead->stu.course_3.MidtermMark << L"," << pHead->stu.course_3.OtherMark << std::endl;
+		fout << pHead->stu.course_4.ID << L"," << pHead->stu.course_4.TotalMark << L"," << pHead->stu.course_4.FinalMark << L"," << pHead->stu.course_4.MidtermMark << L"," << pHead->stu.course_4.OtherMark << std::endl;
+		fout << pHead->stu.course_5.ID << L"," << pHead->stu.course_5.TotalMark << L"," << pHead->stu.course_5.FinalMark << L"," << pHead->stu.course_5.MidtermMark << L"," << pHead->stu.course_5.OtherMark << std::endl;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 7; j++) {
+				fout << pHead->stu.Schedule[i][j];
+			}
+		}
 		pHead = pHead->pNext;
 		fout.close();
 	}
@@ -203,7 +213,7 @@ void Save_cou_to_test(Node_cou* pHead, char* folder) {
 		file = Create_file_1(pHead->cou.ID, folder, ".txt");
 		std::wofstream fout(file);
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
-		fout << pHead->cou.ID << L',' << pHead->cou.Name << L',' << pHead->cou.Teacher_Name << L',' << pHead->cou.Credit << L',' << pHead->cou.max_stu << L',' << pHead->cou.count << std::endl;
+		fout << pHead->cou.ID << L',' << pHead->cou.Name << L',' << pHead->cou.Teacher_Name << L',' << pHead->cou.Credit << L',' << pHead->cou.max_stu << L',' << pHead->cou.count << L',';
 		fout << pHead->cou.ses_1.day_of_week << L',' << pHead->cou.ses_1.session << L',' << pHead->cou.ses_2.day_of_week << L',' << pHead->cou.ses_2.session << std::endl;
 		fout << pHead->cou.StudentID << std::endl;
 		pHead = pHead->pNext;
