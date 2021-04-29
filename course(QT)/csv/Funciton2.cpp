@@ -7,7 +7,7 @@
 
 #include "Function1.h"
 #include "Funciton2.h"
-
+/*
 const std::string currentDateTime() {
     time_t     now = time(0);
     struct tm  tstruct;
@@ -16,7 +16,9 @@ const std::string currentDateTime() {
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
     return buf;
 }
+*/
 
+//Change to Vietnamese
 /*
 void ReadVietnamese()
 {
@@ -37,6 +39,7 @@ char* StringToCharPointer(std::string text){
     return s;
 }
 
+/*
 //compare 2 wstring
 bool comparei(std::wstring stringA , std::wstring stringB)
 {
@@ -44,9 +47,10 @@ bool comparei(std::wstring stringA , std::wstring stringB)
     transform(stringB.begin(), stringB.end(), stringB.begin(), toupper);
     return (stringA == stringB);
 }
+*/
 
 //Giao diện menu cho system (hiện tại là đăng kí course cho stu, tiện việc khỏi check conflict)
-/*
+
 void GotoXY(short x, short y) {
     COORD coord;
     coord.X = x;
@@ -99,7 +103,7 @@ short Menu(std::string list[], short size, short Xposition, short Yposition) {
         else if (book == KEY_ESC) { return -1; }
     }
 }
-*/
+
 
 /*
  void Menu()
@@ -191,6 +195,7 @@ short Menu(std::string list[], short size, short Xposition, short Yposition) {
  }
  */
 
+//Chuyển password thành dấu *
 std::string InputHidden(){
     char temp = std::cin.get();
     std::string pass;
@@ -205,4 +210,14 @@ std::string InputHidden(){
     }
     std::cout << '\n';
     return pass;
+}
+
+//Convert string to wstring
+std::wstring StringToWString(std::wstring& ws, const std::string& s)
+{
+    std::wstring wsTmp(s.begin(), s.end());
+
+    ws = wsTmp;
+
+    return ws;
 }
