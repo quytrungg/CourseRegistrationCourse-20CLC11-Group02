@@ -158,10 +158,10 @@ void update_student_in4_csv(HT_in4_student& pStudent) {
 	wfout.imbue(utf8_locale);
 	in4_student* pCur = pStudent.head;
 	while (pCur) {
-		wfout << pCur->id << L"," << pCur->lname << L"," << pCur->fname << L"," << pCur->gender << L"," << pCur->dob << L"," << pCur->id_class;
+		wfout << pCur->id << L"," << pCur->lname << L"," << pCur->fname << L"," << pCur->gender << L"," << pCur->dob << L"," << pCur->soid << L"," << pCur->id_class;
 		id_course_of_student* pCur2 = pCur->id_course;
 		while (pCur2) {
-			wfout << L"," << pCur2->id;
+			wfout << L"," << pCur2->id << L"," << pCur2->teacher_name << L"," << pCur2->session;
 			pCur2 = pCur2->pNext;
 		}
 		if(pCur->pNext)wfout << endl;

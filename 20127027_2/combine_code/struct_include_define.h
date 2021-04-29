@@ -49,7 +49,8 @@ struct HT_course {
 };
 
 struct id_course_of_student {
-	wstring id, teacher_name;
+	wstring id,teacher_name;
+	wstring session;
 	id_course_of_student* pNext, * pPrev;
 };//id khóa học dùng cho cái in4_student
 struct in4_student {
@@ -70,9 +71,9 @@ struct HT_in4_student {
 };
 
 struct Date {
-	int Day;
-	int Month;
-	int Year;
+	int Day=0;
+	int Month=0;
+	int Year=0;
 };
 //struct Time {
 //	int Seconds;

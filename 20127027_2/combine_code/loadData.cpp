@@ -50,8 +50,9 @@ void load_student_in4(HT_in4_student& pStudent) {
 	wstring temp;
 	in4_student* pCur;
 	pCur = nullptr;
-	while (getline(wfin, temp))
+	while (!wfin.eof())
 	{
+		getline(wfin, temp);
 		if (temp[0] == 65279)remove_65279(temp);
 		if (temp[0] != L'\0') {
 			wstringstream wsin(temp);
@@ -94,6 +95,8 @@ void load_student_in4(HT_in4_student& pStudent) {
 				pCur2->id = temp;
 				getline(wsin, temp, L',');
 				pCur2->teacher_name = temp;
+				getline(wsin, temp, L',');
+				pCur2->session = temp;
 			}
 		}
 	}
