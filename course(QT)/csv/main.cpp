@@ -33,7 +33,7 @@ int main() {
             case 1:{
                 std::cout << "Enter your username: ";
                 ChangePassword(pHead);
-                SaveAccout("/Users/quytrunggg/Desktop/staff_account.txt", pHead);
+                SaveAccount("/Users/quytrunggg/Desktop/staff_account.txt", pHead);
                 break;
             }
             default:
