@@ -153,11 +153,13 @@ void ShowCur(bool CursorVisibility)
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
 
+// Ham Exit
 void Exit()
 {
 	exit(0);
 }
 
+// Ham kiem tra file co ton tai khong
 bool checkFileWithFstream(std::wstring path) {
 	std::ifstream isf(path);
 	return isf.good();

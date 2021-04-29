@@ -78,6 +78,8 @@ wchar_t* Login_stu() {
 void Change_pass_stu(wchar_t* file) {
 	system("cls");
 	SetColor(15, 0);
+
+	// Information student
 	Node_stu* pHead_stu = new Node_stu;
 	std::wstring str;
 	std::wifstream fin(file);
@@ -104,6 +106,7 @@ void Change_pass_stu(wchar_t* file) {
 		}
 	}
 	fin.close();
+
 	_wremove(file);
 	//std::wcin.ignore();
 	std::wcout << "Input the new password: ";
@@ -294,6 +297,7 @@ void Register_course(Node_cou*& pHead_cou, wchar_t* file) {
 	Node_cou* pCur_cou;
 	std::wstring str;
 	
+	// Information student
 	Node_stu* pHead_stu_1 = new Node_stu;
 	std::wifstream fin(file);
 	fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
@@ -320,6 +324,7 @@ void Register_course(Node_cou*& pHead_cou, wchar_t* file) {
 	}
 	fin.close();
 	
+	// Course
 	if (checkFileWithFstream(L"Course.txt")) {
 		pHead_cou = new Node_cou;
 		pCur_cou = pHead_cou;

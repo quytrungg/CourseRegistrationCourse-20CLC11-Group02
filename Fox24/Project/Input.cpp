@@ -214,7 +214,7 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 		count++;
 		pCur_stu = pCur_stu->pNext;
 	}
-	pCur_cla->cla.StudentID = new wchar_t[count * 9];
+	pCur_cla->cla.StudentID = new wchar_t[count * 9 + 1];
 	pCur_stu = pHead_stu;
 	k = 0;
 	for (int i = 0; i < count; i++) {
@@ -231,7 +231,7 @@ void Input_one_class(std::wstring str, Node_cla* pCur_cla, Node_stu* pHead_stu) 
 		k++;
 		pCur_stu = pCur_stu->pNext;
 	}
-	pCur_cla->cla.StudentID[count * 9 - 1] = L'\0';
+	pCur_cla->cla.StudentID[count * 9] = L'\0';
 }
 
 void Input_student_data(Node_stu*& pHead_stu, Node_cla*& pHead_cla) {
@@ -273,6 +273,7 @@ void Input_student_data(Node_stu*& pHead_stu, Node_cla*& pHead_cla) {
 
 void Input_one_course_direct(Node_cou* pCur) {
 	system("cls");
+
 	// ID
 	std::wstring str;
 	std::wcin.ignore();
@@ -318,7 +319,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 			if (_kbhit()) {
 				key = _getch();
 				if (key == 72 || key == 'w' || key == 'W') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer > 0) {
 						pointer--;
 					}
@@ -328,7 +328,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 					break;
 				}
 				if (key == 80 || key == 's' || key == 'S') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer < Max_List_Menu - 1) {
 						pointer++;
 					}
@@ -385,7 +384,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 			if (_kbhit()) {
 				key = _getch();
 				if (key == 72 || key == 'w' || key == 'W') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer > 0) {
 						pointer--;
 					}
@@ -395,7 +393,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 					break;
 				}
 				if (key == 80 || key == 's' || key == 'S') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer < Max_List_Menu - 1) {
 						pointer++;
 					}
@@ -445,7 +442,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 			if (_kbhit()) {
 				key = _getch();
 				if (key == 72 || key == 'w' || key == 'W') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer > 0) {
 						pointer--;
 					}
@@ -455,7 +451,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 					break;
 				}
 				if (key == 80 || key == 's' || key == 'S') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer < Max_List_Menu - 1) {
 						pointer++;
 					}
@@ -512,7 +507,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 			if (_kbhit()) {
 				key = _getch();
 				if (key == 72 || key == 'w' || key == 'W') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer > 0) {
 						pointer--;
 					}
@@ -522,7 +516,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 					break;
 				}
 				if (key == 80 || key == 's' || key == 'S') {
-					//PlaySound(TEXT("dichuyen.wav"), NULL, SND_FILENAME | SND_ASYNC);
 					if (pointer < Max_List_Menu - 1) {
 						pointer++;
 					}
@@ -564,24 +557,28 @@ void Input_one_course_direct(Node_cou* pCur) {
 void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	wchar_t* a;
 
+	// ID
 	int begin = 0;
 	int end = str.find(',', begin + 1);
 	pCur->cou.ID = new wchar_t[end - begin + 1];
 	str.copy(pCur->cou.ID, end - begin, begin);
 	pCur->cou.ID[end - begin] = L'\0';
 
+	// Course Name
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	pCur->cou.Name = new wchar_t[end - begin + 1];
 	str.copy(pCur->cou.Name, end - begin, begin);
 	pCur->cou.Name[end - begin] = L'\0';
 
+	// Teacher Name
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	pCur->cou.Teacher_Name = new wchar_t[end - begin + 1];
 	str.copy(pCur->cou.Teacher_Name, end - begin, begin);
 	pCur->cou.Teacher_Name[end - begin] = L'\0';
 
+	// Credit
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
@@ -590,6 +587,7 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	pCur->cou.Credit = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 
+	// Max student = 50
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
@@ -598,6 +596,7 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	pCur->cou.max_stu = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 
+	// Count student in class
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
@@ -606,6 +605,7 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	pCur->cou.count = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 
+	// Session 1
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
@@ -622,6 +622,7 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	pCur->cou.ses_1.session = Convert_wchart_to_int(a, end - begin);
 	delete[] a;
 
+	// Session 2
 	begin = end + 1;
 	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
