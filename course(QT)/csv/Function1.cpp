@@ -501,7 +501,7 @@ bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
 }
 
 /*
-//Load file course.txt
+//Load file course.csv
 void LoadCourse(std::string path, course*& pHead) {
     std::wfstream fin;
     if (!fin) {
