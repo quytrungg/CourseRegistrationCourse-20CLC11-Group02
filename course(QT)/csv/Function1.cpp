@@ -109,9 +109,9 @@ void FindStudent(std::string path, in4_student* &pHead){
     std::wstring findid;
     std::wcin >> findid;
     in4_student* pCur = pHead;
-    while(comparei(pCur->id, findid)){
-        if(pCur->id == find){
-            std::cout << pCur->id << std::endl;
+    while(pCur->id == findid){
+        if(pCur->id == findid){
+            std::wcout << pCur->id << std::endl;
             std::wcout << pCur->fname << std::endl;
             std::wcout << pCur->lname << std::endl;
             std::wcout << pCur->gender << std::endl;
@@ -137,7 +137,7 @@ in4_student* FindReturnStudent(std::string path, in4_student* &pHead){
     std::wcin >> findid;
     in4_student* pCur = pHead;
     while(pCur != nullptr){
-        if(comparei(pCur->id, findid)){
+        if(pCur->id == findid){
             break;
         }
         else pCur = pCur->pNext;
@@ -279,8 +279,6 @@ void DeallocateAccount(account* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Tìm account cần đổi pass
@@ -300,7 +298,7 @@ account* FindAccount(account* &pHead){
 //Đổi pass cho account đó
 void ChangePassword(account* &pHead){
     std::string newpass, temp;
-    account* pCur = FindAccount(pHead);
+    account* pNew = FindAccount(pHead);
     while(pNew == nullptr){
         std::cout << "Can't find your account, please enter again: ";
         pNew = FindAccount(pHead);
@@ -379,7 +377,6 @@ void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2){
     }
 }
 
-/*
 void LoadCourse(std::string path, course* &pHead){
     std::wfstream fin;
     if(!fin){
@@ -391,7 +388,7 @@ void LoadCourse(std::string path, course* &pHead){
     while(!fin.eof()){
         if(pHead == nullptr){
             pHead = new course;
-            fin >> pHead->id >> pHead->session
+            fin >> pHead->id;// >> pHead->session;
             pHead->pNext = pHead->pPrev = nullptr;
             pCur = pHead;
         }
@@ -399,13 +396,13 @@ void LoadCourse(std::string path, course* &pHead){
             pCur->pNext = new course;
             pCur->pNext->pPrev = pCur;
             pCur = pCur->pNext;
-            fin >> pCur->id >> pCur->session;
+            fin >> pCur->id;// >> pCur->session;
             pCur->pNext = nullptr;
         }
     }
     fin.close();
 }
-*/
+
 
 //Menu dùng để đăng kí môn học
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
@@ -419,7 +416,7 @@ void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
                 std::cout << "Choose your course: ";
                 //loadcoursefile
                 course* pCur = FindCourse(pHead2);
-                EnrollCourse(path, pHead1, pCur);
+                Enroll(path, pHead1, pCur);
                 //savecoursetostudentfile
                 break;
             }
@@ -439,8 +436,6 @@ void DeallocateStudent(in4_student* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Delete id course of student
@@ -451,8 +446,6 @@ void DeallocateCourseOfStudent(id_course_of_student* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Delete Score
@@ -463,8 +456,6 @@ void DeallocateScore(Score* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Kiểm tra số lương môn học đăng kí có vượt quá 5 không
@@ -509,8 +500,29 @@ bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
     return true;
 }
 
+/*
+//Load file course.csv
+void LoadCourse(std::string path, course*& pHead) {
+    std::wfstream fin;
+    if (!fin) {
+        std::cout << "Can't open file!";
+        return;
+    }
+    fin.open(path, std::wfstream::in);
+    ReadVietnamese();
+    pHead = nullptr;
+    course* pCur = nullptr;
+    while (!fin.eof()) {
+        if (pHead == nullptr) {
+            pHead = new course;
+            pCur = pHead;
+        }
+        else {
+            pCur->pNext = new course;
+            pCur = pCur->pNext;
+        }
+        fin >> pCur->id >> L"," >> pCur->name >> L"," >> pCur->teacher_name >> L"," >> pCur->num_cre >> L"," >> pCur->count >> L"," >> pCur->session >> L",";
 
-void MenuEnrollCourse(){
-    
+    }
 }
-
+*/
