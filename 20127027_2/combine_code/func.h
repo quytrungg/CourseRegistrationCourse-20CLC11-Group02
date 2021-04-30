@@ -50,7 +50,8 @@ void AddClass(id_class*&,bool&);
 void add_student_in4(string, HT_in4_student&,wstring&,account*&);
 void update_student_in4_csv(HT_in4_student&);
 void update_account(account*&);
-void update_date_registration_session(LocalTime, LocalTime);
+void update_date_create_course(LocalTime, LocalTime);
 void update_course_csv(HT_course&);
 void update_semester_period(bool&, bool&);
+void update_date_sign_course();
 #endif

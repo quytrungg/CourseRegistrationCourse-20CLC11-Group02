@@ -177,7 +177,11 @@ void courseManage(HT_course& pCourse,bool& active_registration_session) {
 		case 3: update_course_list(pCourse); break;
 		case 4: delete_a_course(pCourse); break;
 		case 5: view_list_course(pCourse); break;
-		case 6:if (pCourse.head)active_registration_session = 1; else wcout << L"Chưa có khóa học nào!";
+		case 6:if (pCourse.head) { 
+			active_registration_session = 1; 
+			update_date_sign_course();
+		}
+			  else wcout << L"Chưa có khóa học nào!";
 		}
 		if (choose <= 4 && choose >= 2) update_course_csv(pCourse);
 		system("cls");

@@ -52,17 +52,11 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 					menu[1] = L"Tạo khóa học.";
 				int choose1 = choose_menu(cursor.X, cursor.Y, menu, 2);
 				delete[]menu;
-				/*wcout << L"1. Đăng xuất" << endl;
-				if (done_create_registration_session == 0)
-					wcout << L"2. Tạo phiên đăng kí học phần." << endl; 
-				else
-					wcout << L"2. Tạo khóa học." << endl;
-				wcout << L"Chọn: "; int choose1 = user_choose_exist(1, 2);*/
 				switch (choose1) {
 				case 1:return;
 				case 2:
 					if (done_create_registration_session) {
-						courseManage(pCourse, active_registration_session);
+						courseManage(pCourse,active_registration_session);
 						update_semester_period(done_create_registration_session, active_registration_session);
 					}
 					else {
@@ -117,7 +111,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 						}//ngày kết thúc đăng kí khóa học
 						if (done_create_registration_session) {
 							cin.ignore(100, '\n');
-							update_date_registration_session(aBegin, aEnd);
+							update_date_create_course(aBegin, aEnd);
 							update_semester_period(done_create_registration_session, active_registration_session);
 						}
 					}

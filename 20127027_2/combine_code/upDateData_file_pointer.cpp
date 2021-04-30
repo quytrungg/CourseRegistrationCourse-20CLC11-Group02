@@ -23,8 +23,8 @@ void update_class_txt(id_class*& idClass) {
 	}
 	out.close();
 }
-void update_date_registration_session(LocalTime a, LocalTime b) {
-	ofstream out(path_date_registration);
+void update_date_create_course(LocalTime a, LocalTime b) {
+	ofstream out(path_date_create_course);
 	out << a.date.Day << " " << a.date.Month << " " << a.date.Year << endl;
 	out << b.date.Day << " " << b.date.Month << " " << b.date.Year;
 	out.close();
@@ -181,4 +181,7 @@ void update_course_csv(HT_course& pCourse) {
 		pCur = pCur->pNext;
 	}
 	wfout.close();
+}
+void update_date_sign_course() {
+	ofstream out(path_date_sign_course);
 }
