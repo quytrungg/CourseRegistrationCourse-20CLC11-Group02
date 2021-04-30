@@ -49,14 +49,15 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 				if (done_create_registration_session == 0)
 					menu[1] = L"Tạo phiên đăng kí học phần.";
 				else
-					menu[1] = L"Tạo khóa học.";
+					if(active_registration_session==0)menu[1] = L"Tạo khóa học.";
+				else menu[1] = L"Xem thông tin lớp và khóa học";
 				int choose1 = choose_menu(cursor.X, cursor.Y, menu, 2);
 				delete[]menu;
 				switch (choose1) {
 				case 1:return;
 				case 2:
 					if (done_create_registration_session) {
-						courseManage(pCourse,active_registration_session);
+						courseManage(pCourse, active_registration_session, idClass, student_in4);
 						update_semester_period(done_create_registration_session, active_registration_session);
 					}
 					else {

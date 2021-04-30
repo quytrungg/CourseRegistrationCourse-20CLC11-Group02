@@ -172,7 +172,7 @@ void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {
 	in >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;
 	in.close();
 }
-void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {
+void load_deadline_sign_course(LocalTime& aBegin, LocalTime& aEnd) {
 	ifstream in(path_date_sign_course);
 	
 }

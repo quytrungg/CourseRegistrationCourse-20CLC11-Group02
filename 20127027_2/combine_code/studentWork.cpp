@@ -121,7 +121,7 @@ void viewSignCourse(in4_student*& nodeStudent_in4) {
 void do_student_work(string& username, id_class*& idClass, HT_in4_student& student_in4, HT_course& pCourse, account*& student) {
 	//xem còn thời gian đăng kí không trong date_registration.txt 
 	LocalTime aBegin, aEnd, cTime = currentDateTime();
-	load_deadline_registration(aBegin, aEnd);
+	load_deadline_sign_course(aBegin, aEnd);
 	int t_inTime = 1;/*compare2Times(cTime, aEnd);*///so sánh cTime có nằm trong abegin, aend không
 	if (!check_active_course_registration()) {
 		wcout << L"Chưa có hoạt động nào, nhấn bất kì để tiếp tục";

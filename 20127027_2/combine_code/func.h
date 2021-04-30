@@ -8,7 +8,7 @@ account login(int, account*&, account*&);
 void changePassword(account*&,account&);
 //courseManage
 void add_course(HT_course&);
-void courseManage(HT_course&, bool&);
+void courseManage(HT_course&, bool&,id_class*&,HT_in4_student&);
 bool Check_session(wstring);
 //deletePointer
 void deleteall_course(course*&);
@@ -30,6 +30,7 @@ void load_class(id_class*&);
 void load_student_in4(HT_in4_student&);
 void loadSchoolYear(string&, bool&, bool&, bool&);
 void load_deadline_registration(LocalTime&, LocalTime&);
+void load_deadline_sign_course(LocalTime&, LocalTime&);
 void load_course(HT_course&);
 void loadSemesterPeriod(bool&, bool&);
 //staffWork
