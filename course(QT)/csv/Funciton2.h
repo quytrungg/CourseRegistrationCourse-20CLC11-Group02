@@ -14,14 +14,14 @@
 #ifndef GUNCTION2_H
 #define FUNCTION2_H
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include <io.h>
 #include <fcntl.h>
 #include <locale>
 #include <windows.h>
 #include <codecvt>
 #include <sstream>
-
-#define _CRT_SECURE_NO_WARNINGS
 
 #define On_Black  "\033[40m"//tô nền màu đen
 #define On_White  "\033[0;107m" //tô nền màu trắng
@@ -46,19 +46,23 @@
 #define KEY_ESC 27// phim esc
 
 //void ReadVietnamese();
+void ChangeToVietnamese();
 
-//const std::string currentDateTime();
+const std::string currentDateTime();
 char* StringToCharPointer(std::string text);
+
 //bool comparei(std::wstring stringA , std::wstring stringB);
 
 void GotoXY(short x, short y);
 std::string WriteMenu(std::string str);
-//short Menu(std::string list[], short size, short Xposition, short Yposition);
+short Menu(std::string list[], short size, short Xposition, short Yposition);
 
-void Menu();
+//void Menu();
 
 std::string InputHidden();
 
 std::wstring StringToWString(std::wstring& ws, const std::string& s);
+
+int ChangeStringToInt(std::wstring a);
 
 #endif /* Funciton2_h */

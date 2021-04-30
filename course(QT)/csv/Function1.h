@@ -11,6 +11,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 #define _CRT_SECURE_NO_WARNINGS
 
@@ -143,5 +144,10 @@ bool CheckConflictedEnroll(course* &pHead1, id_course_of_student* &pHead2);
 bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2);
 
 void LoadCourse(std::string path, course*& pHead);
+
+void AddCourse(course*& cou, course temp);
+course ChangeToData(std::wstring line);
+course* InputCourse(course*& pHead, std::wfstream& fin);
+void PrintCourse(course* data, std::string path);
 
 #endif /* Function1_h */

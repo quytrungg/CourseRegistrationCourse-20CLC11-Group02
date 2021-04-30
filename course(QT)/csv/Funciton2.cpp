@@ -7,7 +7,7 @@
 
 #include "Function1.h"
 #include "Funciton2.h"
-/*
+
 const std::string currentDateTime() {
     time_t     now = time(0);
     struct tm  tstruct;
@@ -16,7 +16,6 @@ const std::string currentDateTime() {
     strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
     return buf;
 }
-*/
 
 //Change to Vietnamese
 /*
@@ -28,6 +27,17 @@ void ReadVietnamese()
     _setmode(fileno(stdout), _O_WTEXT);
 }
 */
+
+void ChangeToVietnamese() {
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    HANDLE hdlConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_FONT_INFOEX consoleFont;
+    consoleFont.cbSize = sizeof(consoleFont);
+    GetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
+    memcpy(consoleFont.FaceName, L"Consolas", sizeof(consoleFont.FaceName));
+    SetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
+}
 
 //String to char*
 char* StringToCharPointer(std::string text){
@@ -220,4 +230,15 @@ std::wstring StringToWString(std::wstring& ws, const std::string& s)
     ws = wsTmp;
 
     return ws;
+}
+
+int ChangeStringToInt(std::wstring a)
+{
+
+    int num = 0;
+    for (int i = 0; i < a.length(); i++)
+    {
+        num = num * 10 + a[i] - '0';
+    }
+    return num;
 }

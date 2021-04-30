@@ -22,7 +22,7 @@ int main() {
     system("clear");
     ChooseClass(pHead);
     getchar();*/
-    account* pHead = nullptr;
+    /*account* pHead = nullptr;
     int option;
     load_account("staff_account.txt", pHead);
     std::cout << "1. Change password\n" << "0. Exit\n";
@@ -44,5 +44,10 @@ int main() {
         std::cin >> option;
     }
     PrintAccount(pHead);
-    DeallocateAccount(pHead);
+    DeallocateAccount(pHead);*/
+    std::string list[3] = { "Student", "Staff", "Exit" };
+    short size = 3;
+    short x = 1;
+    short y = 3;
+    Menu(list, size, x, y);
 }
