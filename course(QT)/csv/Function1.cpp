@@ -130,7 +130,7 @@ void FindStudent(std::string path, in4_student* &pHead){
 }
 
 //Tìm student trong file csv rồi trả về node in4student
-in4_student* FindReturnStudent(std::string path, in4_student* &pHead){
+in4_student* FindReturnStudent(std::string path, in4_student* &pHead){//, account* &pHead2){
     std::fstream fin;
     fin.open(path, std::fstream::in);
     std::wstring findid;
@@ -290,7 +290,7 @@ account* FindAccount(account* &pHead){
         if(pCur->account_name == finduser){
             break;;
         }
-        pCur = pCur->pNext;
+        else pCur = pCur->pNext;
     }
     return pCur;
 }
@@ -396,7 +396,7 @@ void LoadCourse(std::string path, course* &pHead){
             pCur->pNext = new course;
             pCur->pNext->pPrev = pCur;
             pCur = pCur->pNext;
-            fin >> pCur->id;// >> pCur->session;
+            fin >> pCur->id >> pCur->teacher_name;// >> pCur->session;
             pCur->pNext = nullptr;
         }
     }
@@ -552,7 +552,7 @@ course ChangeToData(std::wstring line) {
 
     start = end + 1;
     end = line.find(L',', start);
-    std::wstring temp;
+    //std::wstring temp;
     //cou.session = StringToWString(temp, cou.session);
 
     return cou;
@@ -602,4 +602,117 @@ void PrintCourse(course* data, std::string path) {
     fout.close();
     _setmode(_fileno(stdin), _O_TEXT);
     _setmode(_fileno(stdout), _O_TEXT);
+}
+
+bool FindStudentClass(in4_student*& pHead, std::wstring find) {
+    in4_student* pCur = pHead;
+    while (pCur != nullptr) {
+        if (pCur->id_class == find) {
+            return true;
+        }
+        else pCur = pCur->pNext;
+    }
+    return false;
+}
+
+void PrintStudentClass(in4_student* pHead, std::string path) {
+    ChangeToVietnamese();
+
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wfstream fout;
+    if (!fout) {
+        std::cout << "Can't open file!";
+        return;
+    }
+    fout.open(path, std::wfstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    fout << wchar_t(0xfeff);
+
+    std::wstring find;
+    std::wcin >> find;
+
+    in4_student* temp = pHead;
+    pHead = pHead->pNext;
+    delete temp;
+    in4_student* pCur = pHead;
+
+    while (pCur != nullptr) {
+        if (pCur->id_class == find) {
+            std::wcout << pCur->id;
+            std::wcout << "  " << pCur->fname;
+            const wchar_t* fname = pCur->fname.c_str();
+            std::wcout << std::setw(27 - wcslen(fname)) << pCur->lname;
+            std::wcout << std::setw(8) << pCur->gender;
+            std::wcout << "   " << pCur->dob;
+            std::wcout << std::setw(8) << pCur->soid << "\n";
+        }
+        else pCur = pCur->pNext;
+    }
+
+    fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+//0 lên,1 xuống,2 trái,3 phải,4 enter, 5 backspace
+int getTheMove_enter() {
+    int _COMMAND, _COMMAND2;
+    _COMMAND = toupper(_getwch());
+    _COMMAND2 = (_COMMAND == 224 ? toupper(_getwch()) : 0);
+    if (_COMMAND == 224 && _COMMAND2 == 75) return 2;
+    else if (_COMMAND == 224 && _COMMAND2 == 72) return 0;
+    else if (_COMMAND == 224 && _COMMAND2 == 80) return 1;
+    else if (_COMMAND == 224 && _COMMAND2 == 77) return 3;
+    else if (_COMMAND == 13) return 4;
+    else if (_COMMAND == 8) return 5;
+    return -1;
+}
+
+//int ChooseMenu(Menu*& pHead, int x, int y) {
+//    Menu* pCur = pHead;
+//    int i = 0;
+//    while (pCur != nullptr) {
+//        GotoXY(x + 2, y + i);
+//        std::wcout << Menu.option;
+//        i++;
+//    }
+//    i = 0;
+//    GotoXY(x, y + i);
+//    std::wcout << "->";
+//    int move = -1;
+//    while (move != 5) {
+//        move = getTheMove_enter();
+//        if (!((move > 1 && move < 5) || (i == 0 && move == 0) || (i == n - 1 && move == 1))) {
+//            GotoXY(x, y + i); std::wcout << " ";
+//            if (move == 0) i--;
+//            if (move == 1) i++;
+//            GotoXY(x, y + i); std::wcout << "->";
+//        }
+//    }
+//    system("cls");
+//    return i + 1;
+//}
+
+int choose_menu(int x, int y, std::wstring*& menu, int n) {
+    int i = 0;
+    for (i = 0; i < n; i++) {
+        GotoXY(x + 2, y + i); std::wcout << menu[i];
+    }
+    i = 0;
+    GotoXY(x, y + i);
+    std::wcout << "->";
+    int move = -1;
+    while (move != 4) {
+        move = getTheMove_enter();
+        if (!((move > 1 && move < 4) || (i == 0 && move == 0) || (i == n - 1 && move == 1))) {
+            GotoXY(x, y + i); std::wcout << "  ";
+            if (move == 0) i--;
+            if (move == 1) i++;
+            GotoXY(x, y + i); std::wcout << "->";
+        }
+    }
+    system("cls");
+    return i + 1;
 }

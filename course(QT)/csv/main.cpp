@@ -15,6 +15,12 @@
     std::cout << currentDateTime();
 */
 
+/*std::string list[3] = { "Student", "Staff", "Exit" };
+    short size = 3;
+    short x = 1;
+    short y = 3;
+    Menu(list, size, x, y);*/
+
 int main() {
     /*id_class* pHead = nullptr;
     AddClass(pHead);

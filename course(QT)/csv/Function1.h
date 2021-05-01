@@ -21,6 +21,11 @@ struct account {
     account* pNext, * pPrev;
 };
 
+struct Menu {
+    int option;
+    Menu* pNext, * pPrev;
+};
+
 //Khoá học
 struct course {
     std::wstring id;
@@ -42,8 +47,8 @@ struct id_class {
 //id khóa học dùng cho cái in4_student
 struct id_course_of_student {
     std::wstring id;
-    std::string session;
     std::wstring teacher_name;
+    std::string session;
     id_course_of_student* pNext, * pPrev;
 };
 
@@ -66,7 +71,6 @@ struct HT_in4_student {
     //a.data.id_course.data.id
 };
 
-/*
 struct Date
 {
     int day;
@@ -95,7 +99,6 @@ struct Semester
     DateTime end;
     //Course data;
 };
-*/
 
 struct Score{
     wchar_t* no;
@@ -149,5 +152,7 @@ void AddCourse(course*& cou, course temp);
 course ChangeToData(std::wstring line);
 course* InputCourse(course*& pHead, std::wfstream& fin);
 void PrintCourse(course* data, std::string path);
+
+bool FindStudentClass(in4_student*& pHead, std::wstring find);
 
 #endif /* Function1_h */
