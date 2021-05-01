@@ -109,9 +109,9 @@ void FindStudent(std::string path, in4_student* &pHead){
     std::wstring findid;
     std::wcin >> findid;
     in4_student* pCur = pHead;
-    while(comparei(pCur->id, findid)){
-        if(pCur->id == find){
-            std::cout << pCur->id << std::endl;
+    while(pCur->id == findid){
+        if(pCur->id == findid){
+            std::wcout << pCur->id << std::endl;
             std::wcout << pCur->fname << std::endl;
             std::wcout << pCur->lname << std::endl;
             std::wcout << pCur->gender << std::endl;
@@ -137,7 +137,7 @@ in4_student* FindReturnStudent(std::string path, in4_student* &pHead){
     std::wcin >> findid;
     in4_student* pCur = pHead;
     while(pCur != nullptr){
-        if(comparei(pCur->id, findid)){
+        if(pCur->id == findid){
             break;
         }
         else pCur = pCur->pNext;
@@ -279,8 +279,6 @@ void DeallocateAccount(account* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Tìm account cần đổi pass
@@ -300,7 +298,7 @@ account* FindAccount(account* &pHead){
 //Đổi pass cho account đó
 void ChangePassword(account* &pHead){
     std::string newpass, temp;
-    account* pCur = FindAccount(pHead);
+    account* pNew = FindAccount(pHead);
     while(pNew == nullptr){
         std::cout << "Can't find your account, please enter again: ";
         pNew = FindAccount(pHead);
@@ -379,7 +377,6 @@ void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2){
     }
 }
 
-/*
 void LoadCourse(std::string path, course* &pHead){
     std::wfstream fin;
     if(!fin){
@@ -391,7 +388,7 @@ void LoadCourse(std::string path, course* &pHead){
     while(!fin.eof()){
         if(pHead == nullptr){
             pHead = new course;
-            fin >> pHead->id >> pHead->session
+            fin >> pHead->id;// >> pHead->session;
             pHead->pNext = pHead->pPrev = nullptr;
             pCur = pHead;
         }
@@ -399,13 +396,13 @@ void LoadCourse(std::string path, course* &pHead){
             pCur->pNext = new course;
             pCur->pNext->pPrev = pCur;
             pCur = pCur->pNext;
-            fin >> pCur->id >> pCur->session;
+            fin >> pCur->id;// >> pCur->session;
             pCur->pNext = nullptr;
         }
     }
     fin.close();
 }
-*/
+
 
 //Menu dùng để đăng kí môn học
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
@@ -419,7 +416,7 @@ void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2){
                 std::cout << "Choose your course: ";
                 //loadcoursefile
                 course* pCur = FindCourse(pHead2);
-                EnrollCourse(path, pHead1, pCur);
+                Enroll(path, pHead1, pCur);
                 //savecoursetostudentfile
                 break;
             }
@@ -439,8 +436,6 @@ void DeallocateStudent(in4_student* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Delete id course of student
@@ -451,8 +446,6 @@ void DeallocateCourseOfStudent(id_course_of_student* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Delete Score
@@ -463,8 +456,6 @@ void DeallocateScore(Score* &pHead){
         delete pTemp;
         pTemp = pHead;
     }
-    pHead->pNext = nullptr;
-    pHead->pPrev = nullptr;
 }
 
 //Kiểm tra số lương môn học đăng kí có vượt quá 5 không
@@ -509,8 +500,106 @@ bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2){
     return true;
 }
 
-
-void MenuEnrollCourse(){
-    
+//Thêm 1 course vào linked list
+void AddCourse(course*& cou, course temp) {
+    cou->id = temp.id;
+    cou->name = temp.name;
+    cou->teacher_name = temp.teacher_name;
+    cou->num_cre = temp.num_cre;
+    cou->max_student = temp.max_student;
+    cou->session = temp.session;
+    cou->pNext = new course;
+    cou->pNext->pPrev = cou;
+    cou = cou->pNext;
 }
 
+//Lọc data từ file
+course ChangeToData(std::wstring line) {
+    course cou;
+    int start = line.find(L',', 0) + 1;
+    int end = line.find(L',', start);
+
+    wchar_t* temp = new wchar_t[end - start + 1];
+    temp[end - start] = L'\0';
+    line.copy(temp, end - start, start);
+    cou.id = ChangeStringToInt(temp);
+    delete[] temp;
+    
+    start = end + 1;
+    end = line.find(L',', start);
+    cou.name = new wchar_t[end - start + 1];
+    cou.name[end - start] = L'\0';
+    //line.copy(cou.name, end - start, start);
+
+    start = end + 1;
+    end = line.find(L',', start);
+    cou.teacher_name = new wchar_t[end - start + 1];
+    cou.teacher_name[end - start] = L'\0';
+    //line.copy(cou.teacher_name, end - , start);
+
+    start = end + 1;
+    end = line.find(L',', start);
+    cou.num_cre = new wchar_t[end - start + 1];
+    cou.num_cre[end - start] = L'\0';
+    //line.copy(cou.num_cre, end - start, start);
+
+    start = end + 1;
+    end = line.find(L',', start);
+    temp = new wchar_t[end - start + 1];
+    temp[end - start] = L'\0';
+    cou.max_student = ChangeStringToInt(temp);
+    delete[] temp;
+
+    start = end + 1;
+    end = line.find(L',', start);
+    std::wstring temp;
+    //cou.session = StringToWString(temp, cou.session);
+
+    return cou;
+}
+
+//Lấy data từ file
+course* InputCourse(course*& pHead, std::wfstream& fin) {
+    if (!fin) {
+        std::cout << "Can't open file!";
+    }
+    fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    std::wstring temp;
+    while (!fin.eof()) {
+        ChangeToVietnamese();
+        std::getline(fin, temp);
+        //if (temp.length() != 0) AddCourse(pHead, ChangeToData(temp));
+    }
+    return pHead;
+}
+
+void PrintCourse(course* data, std::string path) {
+    ChangeToVietnamese();
+
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wfstream fout;
+    fout.open(path, std::wfstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    fout << wchar_t(0xfeff);
+
+    course* temp = data;
+    data = data->pNext;
+    delete temp;
+    course* cur = data;
+    while (cur != nullptr) {
+        std::wcout << cur->id;
+        std::wcout << " " << cur->name;
+        std::wcout << std::setw(10) << cur->teacher_name;
+        std::wcout << std::setw(10) << cur->num_cre;
+        std::wcout << " " << cur->max_student;
+        //std::wcout << std::setw(8) << cur->session << "\n";
+        fout << cur->id << L',' << cur->name << L',' << cur->teacher_name << L',' << cur->num_cre << L',' << cur->max_student << L','; //<< cur->session << L',';
+        cur = cur->pNext;
+    }
+
+    fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}

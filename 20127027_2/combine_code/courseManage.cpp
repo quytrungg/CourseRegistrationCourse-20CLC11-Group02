@@ -1,12 +1,18 @@
 ﻿#include"func.h"
 void add_course(HT_course& pHead) {
-	int n;
-	std::wcout << L"1. Nhập môn học" << std::endl;
+	wcout << L" _Thêm khóa học_" << endl;
+	wstring* menu = new wstring[2];
+	COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+	menu[0] = L"Nhập môn học";
+	menu[1] = L"Dừng";
+	int choose = choose_menu(cursor.X, cursor.Y, menu, 2);
+	delete[]menu;
+	/*std::wcout << L"1. Nhập môn học" << std::endl;
 	std::wcout << L"2. Dừng" << std::endl;
 	std::wcout << L"Chọn: ";
-	n = user_choose_exist(1, 2);
+	n = user_choose_exist(1, 2);*/
 	course* pCur = nullptr;
-	while (n != 2) {
+	while (choose != 2) {
 		if (pHead.head == nullptr) {
 			pHead.head = new course;
 			pHead.tail = pHead.head;
@@ -45,12 +51,15 @@ void add_course(HT_course& pHead) {
 			std::wcout << L"Nhập 2 buổi học trong tuần (Ex: MONS1_TUES3): ";
 			getline(wcin, pCur->session);
 		} while (!Check_session(pCur->session));
-		wcout << L"1. Nhập môn học" << endl;
-		wcout << L"2. Dừng" << endl;
-		wcout << L"Chọn: ";
-		_setmode(_fileno(stdin), _O_TEXT);
-		n = user_choose_exist(1, 2);
+		wcout << L" _Thêm khóa học_" << endl;
+		wstring* menu = new wstring[2];
+		COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+		menu[0] = L"Nhập môn học";
+		menu[1] = L"Dừng";
+		choose = choose_menu(cursor.X, cursor.Y, menu, 2);
+		delete[]menu;
 	}
+	_setmode(_fileno(stdin), _O_TEXT);
 }
 void update_course_list(HT_course& pCourse) {
 	course* pCur = pCourse.head;
@@ -132,34 +141,145 @@ void view_list_course(HT_course& pCourse) {
 	course* pCur = pCourse.head;
 	int n = 0;
 	if (pCur == nullptr) wcout << L"Chưa có khóa học nào."; else
-	wcout << L"No, id, tên khóa học, tên giảng viên, số tín chỉ, số sinh viên tối đa, thời gian 2 buổi/1tuần." << endl;
+	wcout << L"No, id, tên khóa học, tên giảng viên, số tín chỉ, số sinh viên tối đa, thời gian 2 buổi/1tuần,lượng học sinh hiện tại." << endl;
 	while (pCur) {
 		n++;
-		wcout << n << L". " << pCur->id << "," << pCur->name << "," << pCur->teacher_name << "," << pCur->num_cre << "," << pCur->max_student << "," << pCur->session << endl;
+		wcout << n << L". " << pCur->id << "," << pCur->name << "," << pCur->teacher_name << "," << pCur->num_cre << "," << pCur->max_student << "," << pCur->session << "," << pCur->count << endl;
 		pCur = pCur->pNext;
 	}
+	wcout << L"Nhập bất kì để tiếp tục.";
 	_getwch();
 }
-void courseManage(HT_course& pCourse,bool& active_registration_session) {
-	int choose;
-	do {
-		wcout << L"1. Quay về." << endl;
-		wcout << L"2.Thêm khóa học." << endl;
-		wcout << L"3.Cập nhật khóa học." << endl;
-		wcout << L"4.Xóa khóa học." << endl;
-		wcout << L"5.Xem danh sách khóa học." << endl;
-		wcout << L"6. Kích hoạt phiên đăng kí khóa học của học kì hiện tại" << endl;
-		wcout << L"Chọn: ";
-		choose = user_choose_exist(1, 5);
-		switch (choose) {
-		case 2: add_course(pCourse); break;
-		case 3: update_course_list(pCourse); break;
-		case 4: delete_a_course(pCourse); break;
-		case 5: view_list_course(pCourse); break;
-		case 6:active_registration_session = 1;
+void viewClass_StudentInClass(id_class*& idClass, HT_in4_student& student_in4) {
+	int n = 0;
+	id_class* pCurClass = idClass;
+	while (pCurClass) {
+		n++;
+		wstring temp(pCurClass->id.begin(), pCurClass->id.end());
+		wcout << n << ". " << temp << endl;
+		pCurClass = pCurClass->pNext;
+	}
+	wcout << n + 1 << L". Quay về" << endl;
+	int choose = user_choose_exist(1, n + 1);
+	if (choose == n + 1) return;
+	n = 0;
+	pCurClass = idClass;
+	while (pCurClass) {
+		n++;
+		if (n == choose) break;
+		pCurClass = pCurClass->pNext;
+	}
+	wstring temp(pCurClass->id.begin(), pCurClass->id.end());
+	in4_student* pCurStudent = student_in4.head;
+	n = 0;
+	while (pCurStudent) {
+		if (pCurStudent->id_class == temp) {
+			n++;
+			wcout << n << ". " << pCurStudent->id << "," << pCurStudent->lname << "," << pCurStudent->fname << "," << pCurStudent->gender << "," << pCurStudent->dob << "," << pCurStudent->soid << "," << pCurStudent->id_class << endl;
 		}
-		if (choose <= 4 && choose >= 2) update_course_csv(pCourse);
-	}while (choose != 1);
+		pCurStudent = pCurStudent->pNext;
+	}
+	wcout << L"Nhấn bất kì để quay về.";
+	_getch();
+}
+bool studentInThisCourse(in4_student*& pCurStudent, course*& pCurCourse) {
+	id_course_of_student* pCurCourseStudent = pCurStudent->id_course;
+	while (pCurCourseStudent) {
+		if (pCurCourseStudent->id == pCurCourse->id && pCurCourseStudent->teacher_name == pCurCourse->teacher_name && pCurCourseStudent->session == pCurCourseStudent->session)
+			return 1;
+		pCurCourseStudent = pCurCourseStudent->pNext;
+	}
+	return 0;
+}
+void viewCourse_StudentInCourse(HT_course& pCourse, HT_in4_student& student_in4) {
+	course* pCurCourse = pCourse.head;
+	int n = 0;
+	if (pCurCourse == nullptr) wcout << L"Chưa có khóa học nào."; else
+		wcout << L"No, id, tên khóa học, tên giảng viên, số tín chỉ, số sinh viên tối đa, thời gian 2 buổi/1tuần,lượng học sinh hiện tại." << endl;
+	while (pCurCourse) {
+		n++;
+		wcout << n << L". " << pCurCourse->id << "," << pCurCourse->name << "," << pCurCourse->teacher_name << "," << pCurCourse->num_cre << "," << pCurCourse->max_student << "," << pCurCourse->session << "," << pCurCourse->count << endl;
+		pCurCourse = pCurCourse->pNext;
+	}
+	wcout << n + 1 << L". Quay về." << endl;
+	int choose = user_choose_exist(1, n + 1);
+	if (choose == n + 1) return;
+	n = 0;
+	pCurCourse = pCourse.head;
+	while (pCurCourse) {
+		n++;
+		if (n == choose) break;
+		pCurCourse = pCurCourse->pNext;
+	}
+	in4_student* pCurStudent = student_in4.head;
+	n = 0;
+	while (pCurStudent) {
+		if (studentInThisCourse(pCurStudent,pCurCourse)) {
+			n++;
+			wcout << n << ". " << pCurStudent->id << "," << pCurStudent->lname << "," << pCurStudent->fname << "," << pCurStudent->gender << "," << pCurStudent->dob << "," << pCurStudent->soid << "," << pCurStudent->id_class << endl;
+		}
+		pCurStudent = pCurStudent->pNext;
+	}
+	wcout << L"Nhấn bất kì để tiếp tục.";
+	_getch();
+
+}
+
+void courseManage(HT_course& pCourse,bool& active_registration_session,id_class*& idClass,HT_in4_student& student_in4) {
+	int choose;
+	if (active_registration_session == 0) {
+		do {
+			wcout << L" _Khóa học_" << endl;
+			wstring* menu = new wstring[6];
+			COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+			menu[0] = L"Quay về";
+			menu[1] = L"Thêm khóa học";
+			menu[2] = L"Cập nhật khóa học";
+			menu[3] = L"Xóa khóa học";
+			menu[4] = L"Xem danh sách khóa học";
+			menu[5] = L"Kích hoạt phiên đăng kí khóa học của học kì hiện tại";
+			choose = choose_menu(cursor.X, cursor.Y, menu, 6);
+			delete[]menu;
+			/*wcout << L"1. Quay về." << endl;
+			wcout << L"2.Thêm khóa học." << endl;
+			wcout << L"3.Cập nhật khóa học." << endl;
+			wcout << L"4.Xóa khóa học." << endl;
+			wcout << L"5.Xem danh sách khóa học." << endl;
+			wcout << L"6. Kích hoạt phiên đăng kí khóa học của học kì hiện tại" << endl;
+			wcout << L"Chọn: ";
+			choose = user_choose_exist(1, 5);*/
+			switch (choose) {
+			case 2: add_course(pCourse); break;
+			case 3: update_course_list(pCourse); break;
+			case 4: delete_a_course(pCourse); break;
+			case 5: view_list_course(pCourse); break;
+			case 6:if (pCourse.head) {
+				active_registration_session = 1;
+				update_date_sign_course();
+			}
+				  else wcout << L"Chưa có khóa học nào!";
+			}
+			if (choose <= 4 && choose >= 2) update_course_csv(pCourse);
+			system("cls");
+		} while (choose != 1);
+	}
+	else {
+		do {
+			wcout << L" _Xem lớp và khóa học_" << endl;
+			wstring* menu = new wstring[3];
+			COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+			menu[0] = L"Quay về";
+			menu[1] = L"Xem lớp";
+			menu[2] = L"Xem khóa học";
+			choose = choose_menu(cursor.X, cursor.Y, menu, 3);
+			delete[]menu;
+			switch (choose) {
+			case 2:viewClass_StudentInClass(idClass, student_in4); break;
+			case 3:viewCourse_StudentInCourse(pCourse,student_in4);
+			}
+			system("cls");
+		} while (choose != 1);
+	}
 }
 bool Check_session(wstring str) {
 	wchar_t* a = new wchar_t[str.length() + 1];

@@ -11,13 +11,15 @@
         #include <sys/io.h>
 #endif
 */
-#ifndef Funciton2_h
-#define Funciton2_h
+#ifndef GUNCTION2_H
+#define FUNCTION2_H
 
-//#include <io.h>
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <io.h>
 #include <fcntl.h>
 #include <locale>
-//#include <windows.h>
+#include <windows.h>
 #include <codecvt>
 #include <sstream>
 
@@ -43,16 +45,24 @@
 #define KEY_ENTER 13//phim enter
 #define KEY_ESC 27// phim esc
 
+//void ReadVietnamese();
+void ChangeToVietnamese();
+
 const std::string currentDateTime();
 char* StringToCharPointer(std::string text);
-bool comparei(std::wstring stringA , std::wstring stringB);
 
-//void GotoXY(short x, short y);
-//std::string WriteMenu(std::string str);
-//short Menu(std::string list[], short size, short Xposition, short Yposition);
+//bool comparei(std::wstring stringA , std::wstring stringB);
+
+void GotoXY(short x, short y);
+std::string WriteMenu(std::string str);
+short Menu(std::string list[], short size, short Xposition, short Yposition);
 
 //void Menu();
 
 std::string InputHidden();
+
+std::wstring StringToWString(std::wstring& ws, const std::string& s);
+
+int ChangeStringToInt(std::wstring a);
 
 #endif /* Funciton2_h */

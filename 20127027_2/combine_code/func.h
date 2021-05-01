@@ -5,10 +5,10 @@
 int choose_type_account();
 bool check_exist_user(account, account*&);
 account login(int, account*&, account*&);
-void changePassword(account*&);
+void changePassword(account*&,account&);
 //courseManage
 void add_course(HT_course&);
-void courseManage(HT_course&, bool&);
+void courseManage(HT_course&, bool&,id_class*&,HT_in4_student&);
 bool Check_session(wstring);
 //deletePointer
 void deleteall_course(course*&);
@@ -30,6 +30,7 @@ void load_class(id_class*&);
 void load_student_in4(HT_in4_student&);
 void loadSchoolYear(string&, bool&, bool&, bool&);
 void load_deadline_registration(LocalTime&, LocalTime&);
+void load_deadline_sign_course(LocalTime&, LocalTime&);
 void load_course(HT_course&);
 void loadSemesterPeriod(bool&, bool&);
 //staffWork
@@ -46,12 +47,12 @@ LocalTime currentDateTime();
 //upDateData
 void update_school_year_txt(string&, bool&, bool&, bool&);
 void update_class_txt(id_class*&);
-void AddClass(id_class*&);
+void AddClass(id_class*&,bool&);
 void add_student_in4(string, HT_in4_student&,wstring&,account*&);
 void update_student_in4_csv(HT_in4_student&);
-void update_student_account(account*&);
-void update_staff_account(account*&);
-void update_date_registration_session(LocalTime, LocalTime);
+void update_account(account*&);
+void update_date_create_course(LocalTime, LocalTime);
 void update_course_csv(HT_course&);
 void update_semester_period(bool&, bool&);
+void update_date_sign_course();
 #endif

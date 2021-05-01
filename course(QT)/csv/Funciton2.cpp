@@ -17,6 +17,7 @@ const std::string currentDateTime() {
     return buf;
 }
 
+//Change to Vietnamese
 /*
 void ReadVietnamese()
 {
@@ -26,6 +27,17 @@ void ReadVietnamese()
     _setmode(fileno(stdout), _O_WTEXT);
 }
 */
+
+void ChangeToVietnamese() {
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    HANDLE hdlConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_FONT_INFOEX consoleFont;
+    consoleFont.cbSize = sizeof(consoleFont);
+    GetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
+    memcpy(consoleFont.FaceName, L"Consolas", sizeof(consoleFont.FaceName));
+    SetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
+}
 
 //String to char*
 char* StringToCharPointer(std::string text){
@@ -37,6 +49,7 @@ char* StringToCharPointer(std::string text){
     return s;
 }
 
+/*
 //compare 2 wstring
 bool comparei(std::wstring stringA , std::wstring stringB)
 {
@@ -44,9 +57,10 @@ bool comparei(std::wstring stringA , std::wstring stringB)
     transform(stringB.begin(), stringB.end(), stringB.begin(), toupper);
     return (stringA == stringB);
 }
+*/
 
 //Giao diện menu cho system (hiện tại là đăng kí course cho stu, tiện việc khỏi check conflict)
-/*
+
 void GotoXY(short x, short y) {
     COORD coord;
     coord.X = x;
@@ -99,7 +113,7 @@ short Menu(std::string list[], short size, short Xposition, short Yposition) {
         else if (book == KEY_ESC) { return -1; }
     }
 }
-*/
+
 
 /*
  void Menu()
@@ -191,6 +205,7 @@ short Menu(std::string list[], short size, short Xposition, short Yposition) {
  }
  */
 
+//Chuyển password thành dấu *
 std::string InputHidden(){
     char temp = std::cin.get();
     std::string pass;
@@ -205,4 +220,25 @@ std::string InputHidden(){
     }
     std::cout << '\n';
     return pass;
+}
+
+//Convert string to wstring
+std::wstring StringToWString(std::wstring& ws, const std::string& s)
+{
+    std::wstring wsTmp(s.begin(), s.end());
+
+    ws = wsTmp;
+
+    return ws;
+}
+
+int ChangeStringToInt(std::wstring a)
+{
+
+    int num = 0;
+    for (int i = 0; i < a.length(); i++)
+    {
+        num = num * 10 + a[i] - '0';
+    }
+    return num;
 }

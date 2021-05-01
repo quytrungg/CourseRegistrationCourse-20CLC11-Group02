@@ -39,12 +39,13 @@ int main() {
 				menu[2] = L"Công việc của bạn";
 				choose = choose_menu(cursor.X, cursor.Y, menu, 3);
 				switch (choose) {
-				case 2:break;//changePassword((user.account_name[0] < '0' || user.account_name[0]>'9')?staff:student); break;
+				case 2:changePassword((user.account_name[0] < '0' || user.account_name[0]>'9') ? staff : student, user); break;
 				case 3:
 					if (user.account_name[0] < '0' || user.account_name[0]>'9') 
 						do_staff_work(user.account_name, idClass, student_in4, pCourse, student, staff); 
-					//else do_student_work(user.account_name, idClass, student_in4, pCourse, student);
+					else do_student_work(user.account_name, idClass, student_in4, pCourse, student);
 				}
+				system("cls");
 			} while (choose != 1);
 		}
 	}
