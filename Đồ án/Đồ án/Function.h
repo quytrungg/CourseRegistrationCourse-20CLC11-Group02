@@ -12,6 +12,12 @@
 #include <string>
 #include <wincrypt.h>
 #include<iomanip>
+#include <iostream>
+#include<Windows.h>
+#include<sys/stat.h>
+#include<sys/types.h>
+
+
 
 
 struct in4_student {
@@ -82,6 +88,7 @@ score ChangeScoreToData(std::wstring line);
 score* inputScore(score*& t, std::wfstream& finScore);
 void OutputScore(score*& sc);
 void forceNotComma(std::wstring a);
-
-
+void makeBigfolder();
+void accessToFile(std::wfstream& fin);
+void ReverseTheList(in4_student*& pHead);
 #endif // !HEADER_H

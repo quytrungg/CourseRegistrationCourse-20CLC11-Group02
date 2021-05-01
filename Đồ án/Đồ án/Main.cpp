@@ -4,24 +4,27 @@
 int main()
 {
     std::wfstream fin;
-    std::wfstream finScore;
+    //std::wfstream finScore;
     in4_student* t = new in4_student;
     t->pPrev = nullptr;
 
-    score* p = new score;
-    p->prev = nullptr;
-    fin.open("Student_in4.csv", std::wfstream::in);
+    //score* p = new score;
+    //p->prev = nullptr;
+
+    //accessToFile(fin);
+    fin.open("20CLC11.csv", std::wfstream::in);
 
     Inputdata(t, fin);
     PrintStu(t);
 
-    finScore.open("Score1.csv", std::wfstream::in);
+    /*finScore.open("Score1.csv", std::wfstream::in);
     inputScore(p, finScore);
-    OutputScore(p);
+    OutputScore(p);*/
 
     DeallocateData(t);
-    DeallocateData(p);
+    //DeallocateData(p);
     
+    makeBigfolder();
 
     return 0;
 }

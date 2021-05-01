@@ -21,11 +21,28 @@ void ChangeToVietNamese()
     memcpy(consoleFont.FaceName, L"Consolas", sizeof(consoleFont.FaceName));
     SetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
 }
+void ReverseTheList(in4_student*& pHead)
+{
+    in4_student* pCur1 = nullptr;
+    in4_student* pCur2 = pHead;
+    in4_student* pCur3 = pHead->pPrev;
 
+    while (pCur2 != nullptr)
+    {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr)
+        {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
+}
 in4_student* Inputdata(in4_student*& t, std::wfstream &fin)
 {
     
-    if (!fin) std::cout << "Can't open !";
+    if (!fin) std::cout << "Can't open !\n";
     fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
     std::wstring temp;
     while (fin)
@@ -112,15 +129,16 @@ void PrintStu(in4_student*& data)
     in4_student* temp = data;
     data = data->pPrev;
     delete temp;
+    ReverseTheList(data);
     in4_student* cur = data;
     while (cur != nullptr)
     {
 
         std::wcout << cur->id;
-        std::wcout << " "  << cur->fname;
-        std::wcout << std::setw(10) << cur->lname;
-        std::wcout << std::setw(10) << cur->gender;
-        std::wcout << "  " << cur->dob;
+        std::wcout << "  "  << cur->fname;
+        std::wcout << std::setw(27 - wcslen(cur->fname)) << cur->lname;
+        std::wcout << std::setw(8) << cur->gender;
+        std::wcout << "   " << cur->dob;
         std::wcout << std::setw(8) << cur->soid << "\n";
 
         fout << cur->id << L',' << cur->fname << L',' << cur->lname << L',' << cur->gender << L',' << cur->dob << L',' << cur->soid << "\n";
@@ -300,3 +318,38 @@ score* inputScore(score*& t, std::wfstream& finScore)
          }
      }
  }
+
+ void makeBigfolder()
+ {
+     wchar_t* name = new wchar_t[] {L"Semester"};
+     _wmkdir(name);
+     delete[] name;
+     name = new wchar_t[] {L"Class"};
+     _wmkdir(name);
+     delete[] name;
+     name = new wchar_t[] {L"Score"};
+     _wmkdir(name);
+     delete[] name;
+     name = new wchar_t[] {L"Student"};
+     _wmkdir(name);
+     delete[] name;
+
+ }
+
+/* void accessToFile(std::wfstream& fin)
+ {
+     wchar_t name[11];
+     std::wcin >> name;
+     wchar_t* a = new wchar_t[] {L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Student\\"};
+     int n = wcslen(a);
+     for (int i = 0; i < wcslen(name); i++)
+     {
+         a[n] = name[i];
+     }
+     a[n+ wcslen(name) + 1]=L''
+     fin.open(a, std::wfstream::in);
+
+     delete[] a;
+ } */ 
+
+ 
