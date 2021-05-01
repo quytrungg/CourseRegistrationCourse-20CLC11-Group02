@@ -16,24 +16,25 @@
 */
 
 int main() {
-    //id_class* pHead = nullptr;
-    //AddClass(pHead);
-    //OutputClassFile("/Users/quytrunggg/Desktop/class.txt", pHead);
-    //system("clear");
-    //MenuClassList(pHead);
-    //getchar();
-    account* pHead = nullptr;
+    /*id_class* pHead = nullptr;
+    AddClass(pHead);
+    OutputClassFile("/Users/quytrunggg/Desktop/class.txt", pHead);
+    system("clear");
+    ChooseClass(pHead);
+    getchar();*/
+    /*account* pHead = nullptr;
     int option;
-    load_account("/Users/quytrunggg/Desktop/staff_account.txt", pHead);
+    load_account("staff_account.txt", pHead);
     std::cout << "1. Change password\n" << "0. Exit\n";
     std::cout << "Choose your option: ";
     std::cin >> option;
     while(option == 1){
         switch (option) {
             case 1:{
+                system("cls");
                 std::cout << "Enter your username: ";
                 ChangePassword(pHead);
-                SaveAccout("/Users/quytrunggg/Desktop/staff_account.txt", pHead);
+                SaveAccount("staff_account.txt", pHead);
                 break;
             }
             default:
@@ -43,5 +44,10 @@ int main() {
         std::cin >> option;
     }
     PrintAccount(pHead);
-    DeallocateAccount(pHead);
+    DeallocateAccount(pHead);*/
+    std::string list[3] = { "Student", "Staff", "Exit" };
+    short size = 3;
+    short x = 1;
+    short y = 3;
+    Menu(list, size, x, y);
 }

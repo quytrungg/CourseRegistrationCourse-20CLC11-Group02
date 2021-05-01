@@ -23,8 +23,8 @@ void update_class_txt(id_class*& idClass) {
 	}
 	out.close();
 }
-void update_date_registration_session(LocalTime a, LocalTime b) {
-	ofstream out(path_date_registration);
+void update_date_create_course(LocalTime a, LocalTime b) {
+	ofstream out(path_date_create_course);
 	out << a.date.Day << " " << a.date.Month << " " << a.date.Year << endl;
 	out << b.date.Day << " " << b.date.Month << " " << b.date.Year;
 	out.close();
@@ -37,18 +37,13 @@ bool notExistClass(id_class*& pHead, string a) {
 	}
 	return 1;
 }
-void AddClass(id_class*& pHead) {
-	int option;
-	wcout << L"1. Thêm lớp. " << endl;
-	wcout << L"2. Quay về. " << endl;
-	wcout << L"Chọn: ";
-	option = user_choose_exist(1, 2);
-	if (option == 1) {
-		wcout << L"Nhấn E để dừng. " << endl;
+void AddClass(id_class*& pHead,bool& isAdd) {
+		wcout << L"Nhập tên lớp (Nhấn E để dừng). " << endl;
 		string info;
 		getline(cin, info);
 		transform(info.begin(), info.end(), info.begin(), (int (*)(int))toupper);
 		while (info != "E") {
+			isAdd = 1;
 			if (pHead == nullptr) {
 				pHead = new id_class;
 				pHead->pNext = pHead->pPrev = nullptr;
@@ -66,10 +61,6 @@ void AddClass(id_class*& pHead) {
 			getline(cin, info);
 			transform(info.begin(), info.end(), info.begin(), (int (*)(int))toupper);
 		}
-	}
-	else {
-		wcout << endl; return;
-	}
 }
 bool notExistStudent(in4_student*& pHead, in4_student& a) {
 	in4_student* pCur = pHead;
@@ -100,12 +91,13 @@ void makeAccountStudent(account*& student,in4_student*& pCur) {
 	string t2(pCur->dob.begin(), pCur->dob.end());
 	student->pass = t2;
 }
-void update_student_account(account*& student) {
+void update_account(account*& pHead) {
+	if (!pHead) return;
 	ofstream out;
-	out.open(path_student_account);
-	account* pCur = student;
+	out.open((pHead->account_name[0] < '0' || pHead->account_name[0]>'9') ? path_staff_account : path_student_account);
+	account* pCur = pHead;
 	while (pCur) {
-		out << pCur->account_name << " " << pCur->pass;
+		out << pCur->account_name << endl << pCur->pass;
 		if (pCur->pNext)out << endl;
 		pCur = pCur->pNext;
 	}
@@ -166,10 +158,10 @@ void update_student_in4_csv(HT_in4_student& pStudent) {
 	wfout.imbue(utf8_locale);
 	in4_student* pCur = pStudent.head;
 	while (pCur) {
-		wfout << pCur->id << L"," << pCur->lname << L"," << pCur->fname << L"," << pCur->gender << L"," << pCur->dob << L"," << pCur->id_class;
+		wfout << pCur->id << L"," << pCur->lname << L"," << pCur->fname << L"," << pCur->gender << L"," << pCur->dob << L"," << pCur->soid << L"," << pCur->id_class;
 		id_course_of_student* pCur2 = pCur->id_course;
 		while (pCur2) {
-			wfout << L"," << pCur2->id;
+			wfout << L"," << pCur2->id << L"," << pCur2->teacher_name << L"," << pCur2->session;
 			pCur2 = pCur2->pNext;
 		}
 		if(pCur->pNext)wfout << endl;
@@ -184,9 +176,12 @@ void update_course_csv(HT_course& pCourse) {
 	wfout.imbue(utf8_locale);
 	course* pCur = pCourse.head;
 	while (pCur) {
-		wfout << pCur->id << L"," << pCur->name << L"," << pCur->teacher_name << L"," << pCur->num_cre << L"," << pCur->max_student << L"," << pCur->session;
+		wfout << pCur->id << L"," << pCur->name << L"," << pCur->teacher_name << L"," << pCur->num_cre << L"," << pCur->max_student << L"," << pCur->session<<L","<<pCur->count;
 		if (pCur->pNext) wfout << endl;
 		pCur = pCur->pNext;
 	}
 	wfout.close();
+}
+void update_date_sign_course() {
+	ofstream out(path_date_sign_course);
 }

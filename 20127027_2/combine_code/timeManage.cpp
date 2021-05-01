@@ -29,7 +29,6 @@ bool checkYear(int year)
 }
 
 bool checkDayIsTrue(LocalTime& a) {
-	int n;
 	if (a.date.Year < 0) return false;
 	if (a.date.Month <= 0 || a.date.Month > 12)	return false;
 	if (a.date.Day <= 0) return false;

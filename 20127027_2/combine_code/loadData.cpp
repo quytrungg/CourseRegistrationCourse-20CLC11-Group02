@@ -6,7 +6,8 @@ void load_account(string path, account*& acc) {
 	while (!fin.eof()) {
 		if (acc == 0) {
 			acc = new account;
-			fin >> acc->account_name >> acc->pass;
+			getline(fin, acc->account_name, '\n');
+			getline(fin, acc->pass, '\n');
 			acc->pNext = acc->pPrev = nullptr;
 			pCur = acc;
 		}
@@ -14,7 +15,8 @@ void load_account(string path, account*& acc) {
 			pCur->pNext = new account;
 			pCur->pNext->pPrev = pCur;
 			pCur = pCur->pNext;
-			fin >> pCur->account_name >> pCur->pass;
+			getline(fin, pCur->account_name, '\n');
+			getline(fin, pCur->pass, '\n');
 			pCur->pNext = nullptr;
 		}
 	}
@@ -48,8 +50,9 @@ void load_student_in4(HT_in4_student& pStudent) {
 	wstring temp;
 	in4_student* pCur;
 	pCur = nullptr;
-	while (getline(wfin, temp))
+	while (!wfin.eof())
 	{
+		getline(wfin, temp);
 		if (temp[0] == 65279)remove_65279(temp);
 		if (temp[0] != L'\0') {
 			wstringstream wsin(temp);
@@ -92,6 +95,8 @@ void load_student_in4(HT_in4_student& pStudent) {
 				pCur2->id = temp;
 				getline(wsin, temp, L',');
 				pCur2->teacher_name = temp;
+				getline(wsin, temp, L',');
+				pCur2->session = temp;
 			}
 		}
 	}
@@ -142,6 +147,7 @@ void load_course(HT_course& pCourse) {
 			wsin >> pCur->max_student;
 			wsin.ignore(100,L',');
 			getline(wsin, pCur->session, L',');
+			wsin >> pCur->count;
 		}
 	}
 	//wcout << pCourse.head->max_student << endl;
@@ -161,8 +167,12 @@ void loadSemesterPeriod(bool& done_create_registration_session, bool& active_reg
 	fin.close();
 }
 void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {
-	ifstream in(path_date_registration);
+	ifstream in(path_date_create_course);
 	in >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;
 	in >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;
 	in.close();
+}
+void load_deadline_sign_course(LocalTime& aBegin, LocalTime& aEnd) {
+	ifstream in(path_date_sign_course);
+	
 }

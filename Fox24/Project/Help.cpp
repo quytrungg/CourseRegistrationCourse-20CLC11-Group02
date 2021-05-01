@@ -23,12 +23,59 @@ int Convert_char_to_int(char* a, int n)
 	return m;
 }
 
+double Conver_wchart_to_double(wchar_t* a, int n) {
+	double m = 0;
+	int find = 0;
+	double p;
+	for (int i = 0; i < n; i++) {
+		if (a[i] == L'.') {
+			find = i;
+			break;
+		}
+	}
+	if (find == 0) {
+		for (int i = 0; i < n; i++) {
+			p = a[i] - L'0';
+			m = m * 10 + p;
+		}
+	}
+	else {
+		double r = 10;
+		for (int i = 0; i < find; i++) {
+			p = a[i] - L'0';
+			m = m * 10 + p;
+		}
+		for (int i = find + 1; i < n; i++) {
+			p = a[i] - L'0';
+			m = m + p / r;
+			r = r * 10;
+		}
+	}
+	return m;
+}
+
 char* Convert_int_to_char(int n) {
 	int count = 0;
 	for (int i = n; i > 0; i = i / 10) {
 		count++;
 	}
 	char* a = new char[count + 1];
+	int r;
+	for (int i = 0; i < count; i++) {
+		r = n % 10;
+		n = n / 10;
+		a[count - 1 - i] = r + '0';
+	}
+	a[count] = '\0';
+	return a;
+}
+
+wchar_t* Convert_int_to_wchart(int n) {
+	int count = 0;
+	for (int i = n; i > 0; i = i / 10) {
+		count++;
+	}
+	wchar_t* a = new wchar_t[count + 1];
 	int r;
 	for (int i = 0; i < count; i++) {
 		r = n % 10;
@@ -122,7 +169,14 @@ void ShowCur(bool CursorVisibility)
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
 
+// Ham Exit
 void Exit()
 {
 	exit(0);
+}
+
+// Ham kiem tra file co ton tai khong
+bool checkFileWithFstream(std::wstring path) {
+	std::ifstream isf(path);
+	return isf.good();
 }
