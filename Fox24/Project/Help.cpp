@@ -70,6 +70,22 @@ char* Convert_int_to_char(int n) {
 	return a;
 }
 
+wchar_t* Convert_int_to_wchart(int n) {
+	int count = 0;
+	for (int i = n; i > 0; i = i / 10) {
+		count++;
+	}
+	wchar_t* a = new wchar_t[count + 1];
+	int r;
+	for (int i = 0; i < count; i++) {
+		r = n % 10;
+		n = n / 10;
+		a[count - 1 - i] = r + '0';
+	}
+	a[count] = '\0';
+	return a;
+}
+
 void GotoXY(int x, int y)
 {
 	COORD coord;
