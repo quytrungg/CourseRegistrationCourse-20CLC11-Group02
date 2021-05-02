@@ -321,18 +321,17 @@ score* inputScore(score*& t, std::wfstream& finScore)
 
  void makeBigfolder()
  {
-     wchar_t* name = new wchar_t[] {L"Semester"};
+     wchar_t* name = new wchar_t[] {L"Data"};
      _wmkdir(name);
      delete[] name;
-     name = new wchar_t[] {L"Class"};
-     _wmkdir(name);
-     delete[] name;
-     name = new wchar_t[] {L"Score"};
-     _wmkdir(name);
-     delete[] name;
-     name = new wchar_t[] {L"Student"};
-     _wmkdir(name);
-     delete[] name;
+    
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 2");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 3");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1\\Course");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1\\Score");
 
  }
 
