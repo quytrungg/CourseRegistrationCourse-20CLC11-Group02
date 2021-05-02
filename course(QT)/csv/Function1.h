@@ -154,5 +154,9 @@ course* InputCourse(course*& pHead, std::wfstream& fin);
 void PrintCourse(course* data, std::string path);
 
 bool FindStudentClass(in4_student*& pHead, std::wstring find);
+void ReverseTheList(in4_student*& pHead);
+void PrintStudentClass(in4_student* pHead, std::string path);
+
+
 
 #endif /* Function1_h */

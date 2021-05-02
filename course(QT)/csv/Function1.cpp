@@ -568,9 +568,25 @@ course* InputCourse(course*& pHead, std::wfstream& fin) {
     while (!fin.eof()) {
         ChangeToVietnamese();
         std::getline(fin, temp);
-        //if (temp.length() != 0) AddCourse(pHead, ChangeToData(temp));
+        if (temp.length() != 0) AddCourse(pHead, ChangeToData(temp));
     }
     return pHead;
+}
+
+void ReverseTheList(course*& pHead) {
+    course* pCur1 = nullptr;
+    course* pCur2 = pHead;
+    course* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr) {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr) {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
 }
 
 void PrintCourse(course* data, std::string path) {
@@ -588,13 +604,16 @@ void PrintCourse(course* data, std::string path) {
     data = data->pNext;
     delete temp;
     course* cur = data;
+
+    ReverseTheList(data);
+
     while (cur != nullptr) {
         std::wcout << cur->id;
         std::wcout << " " << cur->name;
         std::wcout << std::setw(10) << cur->teacher_name;
         std::wcout << std::setw(10) << cur->num_cre;
         std::wcout << " " << cur->max_student;
-        //std::wcout << std::setw(8) << cur->session << "\n";
+        std::cout << std::setw(8) << cur->session << "\n";
         fout << cur->id << L',' << cur->name << L',' << cur->teacher_name << L',' << cur->num_cre << L',' << cur->max_student << L','; //<< cur->session << L',';
         cur = cur->pNext;
     }
@@ -613,6 +632,22 @@ bool FindStudentClass(in4_student*& pHead, std::wstring find) {
         else pCur = pCur->pNext;
     }
     return false;
+}
+
+void ReverseTheList(in4_student*& pHead) {
+    in4_student* pCur1 = nullptr;
+    in4_student* pCur2 = pHead;
+    in4_student* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr) {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr) {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
 }
 
 void PrintStudentClass(in4_student* pHead, std::string path) {
@@ -637,6 +672,8 @@ void PrintStudentClass(in4_student* pHead, std::string path) {
     pHead = pHead->pNext;
     delete temp;
     in4_student* pCur = pHead;
+
+    ReverseTheList(pHead);
 
     while (pCur != nullptr) {
         if (pCur->id_class == find) {
@@ -670,44 +707,23 @@ int getTheMove_enter() {
     return -1;
 }
 
-//int ChooseMenu(Menu*& pHead, int x, int y) {
-//    Menu* pCur = pHead;
-//    int i = 0;
-//    while (pCur != nullptr) {
-//        GotoXY(x + 2, y + i);
-//        std::wcout << Menu.option;
-//        i++;
-//    }
-//    i = 0;
-//    GotoXY(x, y + i);
-//    std::wcout << "->";
-//    int move = -1;
-//    while (move != 5) {
-//        move = getTheMove_enter();
-//        if (!((move > 1 && move < 5) || (i == 0 && move == 0) || (i == n - 1 && move == 1))) {
-//            GotoXY(x, y + i); std::wcout << " ";
-//            if (move == 0) i--;
-//            if (move == 1) i++;
-//            GotoXY(x, y + i); std::wcout << "->";
-//        }
-//    }
-//    system("cls");
-//    return i + 1;
-//}
-
-int choose_menu(int x, int y, std::wstring*& menu, int n) {
+int ChooseMenu(Menu*& pHead, int x, int y) {
+    Menu* pCur = pHead;
     int i = 0;
-    for (i = 0; i < n; i++) {
-        GotoXY(x + 2, y + i); std::wcout << menu[i];
+    while (pCur != nullptr) {
+        GotoXY(x + 2, y + i);
+        std::wcout << pCur->option;
+        i++;
+        pCur = pCur->pNext;
     }
     i = 0;
     GotoXY(x, y + i);
     std::wcout << "->";
     int move = -1;
-    while (move != 4) {
+    while (move != 5) {
         move = getTheMove_enter();
-        if (!((move > 1 && move < 4) || (i == 0 && move == 0) || (i == n - 1 && move == 1))) {
-            GotoXY(x, y + i); std::wcout << "  ";
+        if (!((move > 1 && move < 5) || (i == 0 && move == 0) || (i == n - 1 && move == 1))) {
+            GotoXY(x, y + i); std::wcout << " ";
             if (move == 0) i--;
             if (move == 1) i++;
             GotoXY(x, y + i); std::wcout << "->";
@@ -716,3 +732,4 @@ int choose_menu(int x, int y, std::wstring*& menu, int n) {
     system("cls");
     return i + 1;
 }
+
