@@ -11,8 +11,8 @@ int main()
     //score* p = new score;
     //p->prev = nullptr;
 
-    //accessToFile(fin);
-    fin.open("20CLC11.csv", std::wfstream::in);
+    makeAccess(fin);
+    //fin.open("20CLC11.csv", std::wfstream::in);
 
     Inputdata(t, fin);
     PrintStu(t);

@@ -42,7 +42,12 @@ void ReverseTheList(in4_student*& pHead)
 in4_student* Inputdata(in4_student*& t, std::wfstream &fin)
 {
     
-    if (!fin) std::cout << "Can't open !\n";
+    if (!fin)
+    {
+        std::cout << "Can't open !\n";
+        t = nullptr;
+        return t;
+    }
     fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
     std::wstring temp;
     while (fin)
@@ -118,7 +123,10 @@ in4_student ChangeToData(std::wstring line)
 void PrintStu(in4_student*& data)
 {
     ChangeToVietNamese();
-
+    if (data == nullptr)
+    {
+        return;
+    }
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stdout), _O_U16TEXT);
     std::wfstream fout;
@@ -324,7 +332,12 @@ score* inputScore(score*& t, std::wfstream& finScore)
      wchar_t* name = new wchar_t[] {L"Data"};
      _wmkdir(name);
      delete[] name;
-    
+     
+     std::string choose;
+
+     std::cout << "Pls enter the year you want to access: ";
+     std::cin >> choose;
+
      _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021");
      _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student");
      _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1");
@@ -335,20 +348,37 @@ score* inputScore(score*& t, std::wfstream& finScore)
 
  }
 
-/* void accessToFile(std::wfstream& fin)
+ void makeAccess(std::wfstream& fin)
  {
-     wchar_t name[11];
-     std::wcin >> name;
-     wchar_t* a = new wchar_t[] {L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Student\\"};
-     int n = wcslen(a);
-     for (int i = 0; i < wcslen(name); i++)
-     {
-         a[n] = name[i];
-     }
-     a[n+ wcslen(name) + 1]=L''
-     fin.open(a, std::wfstream::in);
+     std::string choose;
 
-     delete[] a;
- } */ 
+     std::cout << "Pls enter the year you want to access: ";
+     std::cin >> choose;
+
+     if (choose == "2021")
+     {
+         std::cout << "Pls enter your choose:\n1. Sem 1 - press 1\n2. Sem 2 - press 2\n3. Sem 3 - press 3\n4. Student - press 4\n";
+         int num;
+         std::cin >> num;
+         if (num == 1)
+         {
+             // Đường dẫn tới file ( còn mấy cái if nữa nha !! :>)
+         }
+         if (num == 2)
+         {
+             // như trên :>
+         }
+         if (num == 3)
+         {
+             // như trên nốt
+         }
+         if (num == 4)
+         {
+             fin.open(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student\\20CLC11.csv", std::wfstream::in);
+         }
+     }
+
+ }
+ 
 
  

@@ -91,4 +91,5 @@ void forceNotComma(std::wstring a);
 void makeBigfolder();
 void accessToFile(std::wfstream& fin);
 void ReverseTheList(in4_student*& pHead);
+void makeAccess(std::wfstream& fin);
 #endif // !HEADER_H
