@@ -377,6 +377,8 @@ void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2){
     }
 }
 
+//UpdateCourseToStudentFile
+
 void LoadCourse(std::string path, course* &pHead){
     std::wfstream fin;
     if(!fin){
@@ -573,6 +575,7 @@ course* InputCourse(course*& pHead, std::wfstream& fin) {
     return pHead;
 }
 
+//Reverse Course List
 void ReverseTheList(course*& pHead) {
     course* pCur1 = nullptr;
     course* pCur2 = pHead;
@@ -589,6 +592,7 @@ void ReverseTheList(course*& pHead) {
     pHead = pCur1;
 }
 
+//Output Course to console and file
 void PrintCourse(course* data, std::string path) {
     ChangeToVietnamese();
 
@@ -623,6 +627,7 @@ void PrintCourse(course* data, std::string path) {
     _setmode(_fileno(stdout), _O_TEXT);
 }
 
+//Tìm học sinh theo lớp
 bool FindStudentClass(in4_student*& pHead, std::wstring find) {
     in4_student* pCur = pHead;
     while (pCur != nullptr) {
@@ -634,6 +639,7 @@ bool FindStudentClass(in4_student*& pHead, std::wstring find) {
     return false;
 }
 
+//Reverse Student List
 void ReverseTheList(in4_student*& pHead) {
     in4_student* pCur1 = nullptr;
     in4_student* pCur2 = pHead;
@@ -650,6 +656,7 @@ void ReverseTheList(in4_student*& pHead) {
     pHead = pCur1;
 }
 
+//In ra student theo class vào file
 void PrintStudentClass(in4_student* pHead, std::string path) {
     ChangeToVietnamese();
 
@@ -707,13 +714,16 @@ int getTheMove_enter() {
     return -1;
 }
 
-int ChooseMenu(Menu*& pHead, int x, int y) {
-    Menu* pCur = pHead;
+//Chọn menu theo Doubly Linked List
+int ChooseMenu(MenuList* pHead, int x, int y, int n) {
+    MenuList* pCur = pHead;
     int i = 0;
+    n = 0;
     while (pCur != nullptr) {
         GotoXY(x + 2, y + i);
         std::wcout << pCur->option;
         i++;
+        n++;
         pCur = pCur->pNext;
     }
     i = 0;
@@ -733,3 +743,34 @@ int ChooseMenu(Menu*& pHead, int x, int y) {
     return i + 1;
 }
 
+//Tìm student theo Score để sửa điểm
+Score* FindStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
+    in4_student* pFind = FindReturnStudent(path, pHead2);
+    Score* pCur = pHead1;
+    while (pCur != nullptr) {
+        if (pCur->id == pFind->id) {
+            break;
+        }
+        else pCur = pCur->pNext;
+    }
+    return pCur;
+}
+
+//Sửa điểm cho studnet
+void ChangeScore(Score*& pHead1, in4_student* &pHead2, std::string path) {
+    std::wstring newtotalscore, newmidterm, newfinal, newother, newgpa, newovrgpa;
+    std::wcin >> newtotalscore >> newmidterm >> newfinal >> newother >> newgpa >> newovrgpa;
+    const wchar_t* n1 = newtotalscore.c_str();
+    const wchar_t* n2 = newmidterm.c_str();
+    const wchar_t* n3 = newfinal.c_str();
+    const wchar_t* n4 = newother.c_str();
+    const wchar_t* n5 = newgpa.c_str();
+    const wchar_t* n6 = newovrgpa.c_str();
+    Score* pCur = FindStudentScore(pHead1, pHead2, path);
+    pCur->totalScore = (wchar_t*)n1;
+    pCur->midterm = (wchar_t*)n2;
+    pCur->final = (wchar_t*)n3;
+    pCur->other = (wchar_t*)n4;
+    pCur->gpa = (wchar_t*)n5;
+    pCur->ovrgpa = (wchar_t*)n6;
+}

@@ -21,11 +21,6 @@ struct account {
     account* pNext, * pPrev;
 };
 
-struct Menu {
-    int option;
-    Menu* pNext, * pPrev;
-};
-
 //Khoá học
 struct course {
     std::wstring id;
@@ -114,6 +109,13 @@ struct Score{
     Score *pNext, *pPrev;
 };
 
+struct MenuList
+{
+    int option;
+    MenuList* pNext;
+    MenuList* pPrev;
+};
+
 void AddClass(id_class* &pHead);
 void OutputClassFile(std::string path, id_class* pHead);
 id_class* FindClass(std::string path, id_class* &pHead);
@@ -151,12 +153,14 @@ void LoadCourse(std::string path, course*& pHead);
 void AddCourse(course*& cou, course temp);
 course ChangeToData(std::wstring line);
 course* InputCourse(course*& pHead, std::wfstream& fin);
+void ReverseTheList(course*& pHead);
 void PrintCourse(course* data, std::string path);
 
 bool FindStudentClass(in4_student*& pHead, std::wstring find);
 void ReverseTheList(in4_student*& pHead);
 void PrintStudentClass(in4_student* pHead, std::string path);
 
-
+Score* FindStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path);
+void ChangeScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 
 #endif /* Function1_h */
