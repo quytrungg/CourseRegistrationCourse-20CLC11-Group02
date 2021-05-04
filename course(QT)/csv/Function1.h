@@ -162,5 +162,7 @@ void PrintStudentClass(in4_student* pHead, std::string path);
 
 Score* FindStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 void ChangeScore(Score*& pHead1, in4_student*& pHead2, std::string path);
+void ReverseTheList(Score*& pHead);
+void UpdateScore(Score*& pHead, std::string path);
 
 #endif /* Function1_h */

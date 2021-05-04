@@ -554,8 +554,9 @@ course ChangeToData(std::wstring line) {
 
     start = end + 1;
     end = line.find(L',', start);
-    //std::wstring temp;
-    //cou.session = StringToWString(temp, cou.session);
+    std::string temp = cou.session;
+    std::wstring replace;
+    //replace = StringToWString(temp, cou.session);
 
     return cou;
 }
@@ -773,4 +774,52 @@ void ChangeScore(Score*& pHead1, in4_student* &pHead2, std::string path) {
     pCur->other = (wchar_t*)n4;
     pCur->gpa = (wchar_t*)n5;
     pCur->ovrgpa = (wchar_t*)n6;
+}
+
+void ReverseTheList(Score*& pHead) {
+    Score* pCur1 = nullptr;
+    Score* pCur2 = pHead;
+    Score* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr) {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr) {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
+}
+
+void UpdateScore(Score*& pHead, std::string path) {
+    ChangeToVietnamese();
+
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wfstream fout;
+    fout.open(path, std::fstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    fout << wchar_t(0xfeff);
+
+    Score* temp = pHead;
+    pHead = pHead->pNext;
+    delete temp;
+    Score* pCur = pHead;
+
+    ReverseTheList(pHead);
+
+    while (pCur != nullptr) {
+        std::wcout << pCur->totalScore;
+        std::wcout << " " << pCur->midterm;
+        std::wcout << std::setw(27 - wcslen(pCur->midterm)) << pCur->final;
+        std::wcout << std::setw(8) << pCur->other;
+        std::wcout << "   " << pCur->gpa;
+        std::wcout << std::setw(8) << pCur->ovrgpa<< "\n";
+        pCur = pCur->pNext;
+    }
+    fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
 }
