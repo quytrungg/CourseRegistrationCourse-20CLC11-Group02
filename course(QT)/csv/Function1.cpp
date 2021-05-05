@@ -130,7 +130,7 @@ void FindStudent(std::string path, in4_student* &pHead){
 }
 
 //Tìm student trong file csv rồi trả về node in4student
-in4_student* FindReturnStudent(std::string path, in4_student* &pHead){
+in4_student* FindReturnStudent(std::string path, in4_student* &pHead){//, account* &pHead2){
     std::fstream fin;
     fin.open(path, std::fstream::in);
     std::wstring findid;
@@ -290,7 +290,7 @@ account* FindAccount(account* &pHead){
         if(pCur->account_name == finduser){
             break;;
         }
-        pCur = pCur->pNext;
+        else pCur = pCur->pNext;
     }
     return pCur;
 }
@@ -377,6 +377,8 @@ void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2){
     }
 }
 
+//UpdateCourseToStudentFile
+
 void LoadCourse(std::string path, course* &pHead){
     std::wfstream fin;
     if(!fin){
@@ -396,7 +398,7 @@ void LoadCourse(std::string path, course* &pHead){
             pCur->pNext = new course;
             pCur->pNext->pPrev = pCur;
             pCur = pCur->pNext;
-            fin >> pCur->id;// >> pCur->session;
+            fin >> pCur->id >> pCur->teacher_name;// >> pCur->session;
             pCur->pNext = nullptr;
         }
     }
@@ -552,8 +554,7 @@ course ChangeToData(std::wstring line) {
 
     start = end + 1;
     end = line.find(L',', start);
-    std::wstring temp;
-    //cou.session = StringToWString(temp, cou.session);
+    //replace = StringToWString(temp, cou.session);
 
     return cou;
 }
@@ -568,11 +569,29 @@ course* InputCourse(course*& pHead, std::wfstream& fin) {
     while (!fin.eof()) {
         ChangeToVietnamese();
         std::getline(fin, temp);
-        //if (temp.length() != 0) AddCourse(pHead, ChangeToData(temp));
+        if (temp.length() != 0) AddCourse(pHead, ChangeToData(temp));
     }
     return pHead;
 }
 
+//Reverse Course List
+void ReverseTheList(course*& pHead) {
+    course* pCur1 = nullptr;
+    course* pCur2 = pHead;
+    course* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr) {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr) {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
+}
+
+//Output Course to console and file
 void PrintCourse(course* data, std::string path) {
     ChangeToVietnamese();
 
@@ -588,13 +607,16 @@ void PrintCourse(course* data, std::string path) {
     data = data->pNext;
     delete temp;
     course* cur = data;
+
+    ReverseTheList(data);
+
     while (cur != nullptr) {
         std::wcout << cur->id;
         std::wcout << " " << cur->name;
         std::wcout << std::setw(10) << cur->teacher_name;
         std::wcout << std::setw(10) << cur->num_cre;
         std::wcout << " " << cur->max_student;
-        //std::wcout << std::setw(8) << cur->session << "\n";
+        std::cout << std::setw(8) << cur->session << "\n";
         fout << cur->id << L',' << cur->name << L',' << cur->teacher_name << L',' << cur->num_cre << L',' << cur->max_student << L','; //<< cur->session << L',';
         cur = cur->pNext;
     }
@@ -603,3 +625,201 @@ void PrintCourse(course* data, std::string path) {
     _setmode(_fileno(stdin), _O_TEXT);
     _setmode(_fileno(stdout), _O_TEXT);
 }
+
+//Tìm học sinh theo lớp
+bool FindStudentClass(in4_student*& pHead, std::wstring find) {
+    in4_student* pCur = pHead;
+    while (pCur != nullptr) {
+        if (pCur->id_class == find) {
+            return true;
+        }
+        else pCur = pCur->pNext;
+    }
+    return false;
+}
+
+//Reverse Student List
+void ReverseTheList(in4_student*& pHead) {
+    in4_student* pCur1 = nullptr;
+    in4_student* pCur2 = pHead;
+    in4_student* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr) {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr) {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
+}
+
+//In ra student theo class vào file
+void PrintStudentClass(in4_student* pHead, std::string path) {
+    ChangeToVietnamese();
+
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wfstream fout;
+    if (!fout) {
+        std::cout << "Can't open file!";
+        return;
+    }
+    fout.open(path, std::wfstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    fout << wchar_t(0xfeff);
+
+    std::wstring find;
+    std::wcin >> find;
+
+    in4_student* temp = pHead;
+    pHead = pHead->pNext;
+    delete temp;
+    in4_student* pCur = pHead;
+
+    ReverseTheList(pHead);
+
+    while (pCur != nullptr) {
+        if (pCur->id_class == find) {
+            std::wcout << pCur->id;
+            std::wcout << "  " << pCur->fname;
+            const wchar_t* fname = pCur->fname.c_str();
+            std::wcout << std::setw(27 - wcslen(fname)) << pCur->lname;
+            std::wcout << std::setw(8) << pCur->gender;
+            std::wcout << "   " << pCur->dob;
+            std::wcout << std::setw(8) << pCur->soid << "\n";
+        }
+        else pCur = pCur->pNext;
+    }
+
+    fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+//0 lên,1 xuống,2 trái,3 phải,4 enter, 5 backspace
+int getTheMove_enter() {
+    int _COMMAND, _COMMAND2;
+    _COMMAND = toupper(_getwch());
+    _COMMAND2 = (_COMMAND == 224 ? toupper(_getwch()) : 0);
+    if (_COMMAND == 224 && _COMMAND2 == 75) return 2;
+    else if (_COMMAND == 224 && _COMMAND2 == 72) return 0;
+    else if (_COMMAND == 224 && _COMMAND2 == 80) return 1;
+    else if (_COMMAND == 224 && _COMMAND2 == 77) return 3;
+    else if (_COMMAND == 13) return 4;
+    else if (_COMMAND == 8) return 5;
+    return -1;
+}
+
+//Chọn menu theo Doubly Linked List
+int ChooseMenu(MenuList* pHead, int x, int y, int n) {
+    MenuList* pCur = pHead;
+    int i = 0;
+    n = 0;
+    while (pCur != nullptr) {
+        GotoXY(x + 2, y + i);
+        std::wcout << pCur->option;
+        i++;
+        n++;
+        pCur = pCur->pNext;
+    }
+    i = 0;
+    GotoXY(x, y + i);
+    std::wcout << "->";
+    int move = -1;
+    while (move != 5) {
+        move = getTheMove_enter();
+        if (!((move > 1 && move < 5) || (i == 0 && move == 0) || (i == n - 1 && move == 1))) {
+            GotoXY(x, y + i); std::wcout << " ";
+            if (move == 0) i--;
+            if (move == 1) i++;
+            GotoXY(x, y + i); std::wcout << "->";
+        }
+    }
+    system("cls");
+    return i + 1;
+}
+
+//Tìm student theo Score để sửa điểm
+Score* FindStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
+    in4_student* pFind = FindReturnStudent(path, pHead2);
+    Score* pCur = pHead1;
+    while (pCur != nullptr) {
+        if (pCur->id == pFind->id) {
+            break;
+        }
+        else pCur = pCur->pNext;
+    }
+    return pCur;
+}
+
+//Sửa điểm cho studnet
+void ChangeScore(Score*& pHead1, in4_student* &pHead2, std::string path) {
+    std::wstring newtotalscore, newmidterm, newfinal, newother, newgpa, newovrgpa;
+    std::wcin >> newtotalscore >> newmidterm >> newfinal >> newother >> newgpa >> newovrgpa;
+    const wchar_t* n1 = newtotalscore.c_str();
+    const wchar_t* n2 = newmidterm.c_str();
+    const wchar_t* n3 = newfinal.c_str();
+    const wchar_t* n4 = newother.c_str();
+    const wchar_t* n5 = newgpa.c_str();
+    const wchar_t* n6 = newovrgpa.c_str();
+    Score* pCur = FindStudentScore(pHead1, pHead2, path);
+    pCur->totalScore = (wchar_t*)n1;
+    pCur->midterm = (wchar_t*)n2;
+    pCur->final = (wchar_t*)n3;
+    pCur->other = (wchar_t*)n4;
+    pCur->gpa = (wchar_t*)n5;
+    pCur->ovrgpa = (wchar_t*)n6;
+}
+
+void ReverseTheList(Score*& pHead) {
+    Score* pCur1 = nullptr;
+    Score* pCur2 = pHead;
+    Score* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr) {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr) {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
+}
+
+void UpdateScore(Score*& pHead, std::string path) {
+    ChangeToVietnamese();
+
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wfstream fout;
+    fout.open(path, std::fstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+    fout << wchar_t(0xfeff);
+
+    Score* temp = pHead;
+    pHead = pHead->pNext;
+    delete temp;
+    Score* pCur = pHead;
+
+    ReverseTheList(pHead);
+
+    while (pCur != nullptr) {
+        std::wcout << pCur->totalScore;
+        std::wcout << " " << pCur->midterm;
+        std::wcout << std::setw(27 - wcslen(pCur->midterm)) << pCur->final;
+        std::wcout << std::setw(8) << pCur->other;
+        std::wcout << "   " << pCur->gpa;
+        std::wcout << std::setw(8) << pCur->ovrgpa<< "\n";
+        pCur = pCur->pNext;
+    }
+    fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+

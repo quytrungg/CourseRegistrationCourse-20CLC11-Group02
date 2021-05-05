@@ -6,7 +6,7 @@ int ChangeStringToInt(std::wstring a)
     int num = 0;
     for (int i = 0; i < a.length(); i++)
     {
-        num = num * 10 + a[i] - '0';
+        num = num * 10 + (a[i] - '0');
     }
     return num;
 }
@@ -21,14 +21,55 @@ void ChangeToVietNamese()
     memcpy(consoleFont.FaceName, L"Consolas", sizeof(consoleFont.FaceName));
     SetCurrentConsoleFontEx(hdlConsole, FALSE, &consoleFont);
 }
+void ReverseTheList(in4_student*& pHead)
+{
+    in4_student* pCur1 = nullptr;
+    in4_student* pCur2 = pHead;
+    in4_student* pCur3 = pHead->pPrev;
+
+    while (pCur2 != nullptr)
+    {
+        pCur2->pPrev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr)
+        {
+            pCur3 = pCur3->pPrev;
+        }
+    }
+    pHead = pCur1;
+}
+void ReverseTheList(score*& pHead)
+{
+    score* pCur1 = nullptr;
+    score* pCur2 = pHead;
+    score* pCur3 = pHead->prev;
+
+    while (pCur2 != nullptr)
+    {
+        pCur2->prev = pCur1;
+        pCur1 = pCur2;
+        pCur2 = pCur3;
+        if (pCur3 != nullptr)
+        {
+            pCur3 = pCur3->prev;
+        }
+    }
+    pHead = pCur1;
+}
 
 in4_student* Inputdata(in4_student*& t, std::wfstream &fin)
 {
     
-    if (!fin) std::cout << "Can't open !";
+    if (!fin)
+    {
+        std::cout << "Can't open !\n";
+        t = nullptr;
+        return t;
+    }
     fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
     std::wstring temp;
-    while (fin)
+    while (!fin.eof())
     {
         ChangeToVietNamese();
         std::getline(fin, temp);
@@ -97,11 +138,13 @@ in4_student ChangeToData(std::wstring line)
     delete[] temp;
     return stu;
 }
-
 void PrintStu(in4_student*& data)
 {
     ChangeToVietNamese();
-
+    if (data == nullptr)
+    {
+        return;
+    }
     _setmode(_fileno(stdin), _O_U16TEXT);
     _setmode(_fileno(stdout), _O_U16TEXT);
     std::wfstream fout;
@@ -112,15 +155,15 @@ void PrintStu(in4_student*& data)
     in4_student* temp = data;
     data = data->pPrev;
     delete temp;
+    ReverseTheList(data);
     in4_student* cur = data;
     while (cur != nullptr)
     {
-
         std::wcout << cur->id;
-        std::wcout << " "  << cur->fname;
-        std::wcout << std::setw(10) << cur->lname;
-        std::wcout << std::setw(10) << cur->gender;
-        std::wcout << "  " << cur->dob;
+        std::wcout << "  "  << cur->fname;
+        std::wcout << std::setw(27 - wcslen(cur->fname)) << cur->lname;
+        std::wcout << std::setw(8) << cur->gender;
+        std::wcout << "   " << cur->dob;
         std::wcout << std::setw(8) << cur->soid << "\n";
 
         fout << cur->id << L',' << cur->fname << L',' << cur->lname << L',' << cur->gender << L',' << cur->dob << L',' << cur->soid << "\n";
@@ -156,12 +199,15 @@ void DeallocateData(score*& infor)
 
 void add_score(score*& sc, score temp)
 {
-    sc->no = temp.no;
+    sc->Id = temp.Id;
     sc->fname = temp.fname;
     sc->lname = temp.lname;
     sc->totalScore = temp.totalScore;
     sc->final = temp.final;
     sc->midterm = temp.midterm;
+    sc->other = temp.other;
+    sc->GPA = temp.GPA;
+    sc->ovrGPA = temp.ovrGPA;
     sc->next = new score;
     sc->next->prev = sc;
     sc = sc->next;
@@ -169,6 +215,8 @@ void add_score(score*& sc, score temp)
 score ChangeScoreToData(std::wstring line)
 {
     score sc;
+
+    // Id - Ho & Ten Dem - Ten - dem1 - dem 2 - dem3- dem 4 - dem5
 
     int start = line.find(L',', 0) + 1;
     int end = line.find(L',', start);
@@ -214,16 +262,16 @@ score ChangeScoreToData(std::wstring line)
     line.copy(sc.other, end - start, start);
 
     start = end + 1;
-    end = line.length();
+    end = line.find(L',', start);
     sc.GPA = new wchar_t[end - start + 1];
     sc.GPA[end - start] = L'\0';
     line.copy(sc.GPA, end - start, start);
 
-    //start = end + 1;
-    //end = line.find(L',', start);
-    //sc.ovrGPA = new wchar_t[end - start + 1];
-    //sc.ovrGPA[end - start] = L'\0';
-    //line.copy(sc.ovrGPA, end - start, start);
+    start = end + 1;
+    end = line.length();
+    sc.ovrGPA = new wchar_t[end - start + 1];
+    sc.ovrGPA[end - start] = L'\0';
+    line.copy(sc.ovrGPA, end - start, start);
 
     return sc;
 }
@@ -232,13 +280,13 @@ score* inputScore(score*& t, std::wfstream& finScore)
     
     if (!finScore)
     {
-        std::cout << "Can't open !";
+        std::cout << "Can't open !\n";
         return t;
     }
 
     finScore.imbue(std::locale(finScore.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
     std::wstring temp;
-    while (finScore.eof())
+    while (finScore)
     {
         ChangeToVietNamese();
         std::getline(finScore, temp);
@@ -246,7 +294,6 @@ score* inputScore(score*& t, std::wfstream& finScore)
     }
     return t;
 }
-
  void OutputScore(score*& sc)
 {
     _setmode(_fileno(stdin), _O_U16TEXT);
@@ -259,11 +306,12 @@ score* inputScore(score*& t, std::wfstream& finScore)
     score* temp = sc;
     sc = sc->prev;
     delete temp;
+    ReverseTheList(sc);
     score* cur = sc;
     while (cur != nullptr)
     {
-        //std::wcout << cur->Id << "  " << cur->fname << "  " << cur->lname << " " << cur->totalScore << " " << cur->final << " " << cur->midterm << cur->other << cur->GPA << "\n";
-        fout << cur->Id << L',' << cur->fname << L',' << cur->lname << L',' << cur->totalScore << L',' << cur->final << L',' << cur->midterm << L',' << cur->other << cur->GPA << "\n";
+        std::wcout << cur->Id << "    " << cur->fname << "     " << cur->lname << "    " << cur->totalScore << "    " << cur->final << "    " << cur->midterm << " " << cur->other << "    "<< cur->GPA << "    " << cur->ovrGPA << "\n";
+        fout << cur->Id << L',' << cur->fname << L',' << cur->lname << L',' << cur->totalScore << L',' << cur->final << L',' << cur->midterm << L',' << cur->other << L',' << cur->GPA << L',' << cur->ovrGPA << "\n";
 
         cur = cur->prev;
     }
@@ -273,30 +321,54 @@ score* inputScore(score*& t, std::wfstream& finScore)
     _setmode(_fileno(stdout), _O_TEXT);
 }
 
- void forceNotComma(std::wstring a)
+
+ void makeBigfolder()
  {
-     int temp = 1;
-     wchar_t* x = new wchar_t[a.length() + 1];
-     while (true)
+     wchar_t* name = new wchar_t[] {L"Data"};
+     _wmkdir(name);
+     delete[] name;
+
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 2");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 3");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1\\Course");
+     _wmkdir(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1\\Score");
+
+ }
+
+ void makeAccess(std::wfstream& fin)
+ {
+     std::string choose;
+
+     std::cout << "Pls enter the year you want to access: ";
+     std::cin >> choose;
+
+     if (choose == "2021")
      {
-         temp = 1;
-         for (int i = 0; i < a.length(); i++)
+         std::cout << "Pls enter your choose:\n1. Sem 1 - press 1\n2. Sem 2 - press 2\n3. Sem 3 - press 3\n4. Student - press 4\n";
+         int num;
+         std::cin >> num;
+         if (num == 1)
          {
-             if (x[i] == L',')
-             {
-                 temp = 0;
-             }
+             fin.open(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Sem 1\\Score\\score1.csv", std::wfstream::in);
          }
-         if (temp == 1)
+         if (num == 2)
          {
-             break;
+             // như trên :>
          }
-         else
+         if (num == 3)
          {
-             std::cout << "Pls enter again: ";
-             std::wstring b;
-             getline(std::wcin, b);
-             x = new wchar_t[b.length() + 1];
+             // như trên nốt
+         }
+         if (num == 4)
+         {
+             fin.open(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student\\20CLC11.csv", std::wfstream::in);
          }
      }
+     fin.close();
  }
+ 
+
+ 
