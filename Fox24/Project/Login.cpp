@@ -920,13 +920,3 @@ void Delete_course_stu(Node_cou*& pHead_cou, wchar_t* file){
 
 }
 
-void main() {
-	_setmode(_fileno(stdin), _O_WTEXT);
-	_setmode(_fileno(stdout), _O_WTEXT);
-	/*Node_stu* pHead_stu;
-	Node_cla* pHead_cla;
-	Input_student_data(pHead_stu, pHead_cla);
-	Delete_Node_cla(pHead_cla);
-	Delete_Node_stu(pHead_stu);*/
-	Menu_stu();
-}
