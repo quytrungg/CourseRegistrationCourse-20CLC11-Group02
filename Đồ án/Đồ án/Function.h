@@ -18,8 +18,6 @@
 #include<sys/types.h>
 
 
-
-
 struct in4_student {
 	int id;
 	wchar_t* fname; 
