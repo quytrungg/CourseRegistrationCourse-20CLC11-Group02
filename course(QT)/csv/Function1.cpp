@@ -554,8 +554,6 @@ course ChangeToData(std::wstring line) {
 
     start = end + 1;
     end = line.find(L',', start);
-    std::string temp = cou.session;
-    std::wstring replace;
     //replace = StringToWString(temp, cou.session);
 
     return cou;
@@ -823,3 +821,5 @@ void UpdateScore(Score*& pHead, std::string path) {
     _setmode(_fileno(stdin), _O_TEXT);
     _setmode(_fileno(stdout), _O_TEXT);
 }
+
+
