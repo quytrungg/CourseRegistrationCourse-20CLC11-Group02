@@ -703,15 +703,6 @@ void View_course_stu(Node_cou*& pHead_cou, wchar_t* file) {
 		fin_1.close();
 		k++;
 	}
-	if (k == 0) {
-		std::wcout << "No register course" << std::endl;
-		Sleep(1000000);
-		char key = toupper(_getch());
-		if (key == 27)
-		{
-			Sub_menu_stu(file);
-		}
-	}
 	if (pHead_cou->pNext == nullptr) {
 		delete pHead_cou;
 		pHead_cou = nullptr;
@@ -720,6 +711,16 @@ void View_course_stu(Node_cou*& pHead_cou, wchar_t* file) {
 		Node_cou* pTemp = pHead_cou;
 		pHead_cou = pHead_cou->pNext;
 		delete pTemp;
+	}
+	if (k == 0) {
+		std::wcout << "No register course" << std::endl;
+		pHead_stu_1->pNext = nullptr;
+		Delete_Node_stu(pHead_stu_1);
+		char key = toupper(_getch());
+		if (key == 27)
+		{
+			Sub_menu_stu(file);
+		}
 	}
 	pCur_cou = pHead_cou;
 	count = 1;
@@ -732,6 +733,7 @@ void View_course_stu(Node_cou*& pHead_cou, wchar_t* file) {
 		pCur_cou = pCur_cou->pNext;
 		count++;
 	}
+	std::wcout << std::endl;
 	std::wcout << L"Schedule" << std::endl;
 	for (int i = 0; i < 7; i++) {
 		Cout_day_of_week(i);
@@ -750,7 +752,6 @@ void View_course_stu(Node_cou*& pHead_cou, wchar_t* file) {
 		}
 		std::wcout << std::endl;
 	}
-
 	pHead_stu_1->pNext = nullptr;
 	Delete_Node_cou(pHead_cou);
 	Delete_Node_stu(pHead_stu_1);
@@ -761,13 +762,161 @@ void View_course_stu(Node_cou*& pHead_cou, wchar_t* file) {
 	}
 }
 
-void main() {
-	_setmode(_fileno(stdin), _O_WTEXT);
-	_setmode(_fileno(stdout), _O_WTEXT);
-	/*Node_stu* pHead_stu;
-	Node_cla* pHead_cla;
-	Input_student_data(pHead_stu, pHead_cla);
-	Delete_Node_cla(pHead_cla);
-	Delete_Node_stu(pHead_stu);*/
-	Menu_stu();
+void Delete_course_stu(Node_cou*& pHead_cou, wchar_t* file){
+	Time current_time;
+	Get_current_time_to_int(current_time);
+	char* current_year = Convert_int_to_char(current_time.date.Year);
+	system("cls");
+	SetColor(15, 0);
+	ShowCur(0);
+
+	std::wstring str;
+	Node_stu* pHead_stu_1 = new Node_stu;
+	std::wifstream fin(file);
+	fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+	std::getline(fin, str);
+	int begin = str.find(',', 0) + 1;
+	int end = str.length();
+	pHead_stu_1->stu.account.Pass = new wchar_t[end - begin + 1];
+	str.copy(pHead_stu_1->stu.account.Pass, end - begin, begin);
+	pHead_stu_1->stu.account.Pass[end - begin] = L'\0';
+	std::getline(fin, str);
+	Read_file_stu(str, pHead_stu_1);
+	std::getline(fin, str);
+	Read_course_1(str, pHead_stu_1);
+	std::getline(fin, str);
+	Read_course_2(str, pHead_stu_1);
+	std::getline(fin, str);
+	Read_course_3(str, pHead_stu_1);
+	std::getline(fin, str);
+	Read_course_4(str, pHead_stu_1);
+	std::getline(fin, str);
+	Read_course_5(str, pHead_stu_1);
+	std::getline(fin, str);
+	int count = 0;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 7; j++) {
+			pHead_stu_1->stu.Schedule[i][j] = str[count] - int('0');
+			count++;
+		}
+	}
+	fin.close();
+
+	pHead_cou = new Node_cou;
+	Node_cou* pCur_cou = pHead_cou;
+	wchar_t* a = new wchar_t[2];
+	a[0] = L'0';
+	a[1] = L'\0';
+	wchar_t* file_1;
+	int k = 0;
+	if (wcscmp(a, pHead_stu_1->stu.course_1.ID) != 0) {
+		file_1 = Create_file_1(pHead_stu_1->stu.course_1.ID, Create_third_folder("1", Create_second_folder("Semester", current_year)), ".txt");
+		std::wifstream fin_1(file_1);
+		fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+		std::getline(fin_1, str);
+		pCur_cou->pNext = new Node_cou;
+		Read_file_cou(str, pCur_cou->pNext);
+		pCur_cou = pCur_cou->pNext;
+		pCur_cou->pNext = nullptr;
+		fin_1.close();
+		k++;
+	}
+	if (wcscmp(a, pHead_stu_1->stu.course_2.ID) != 0) {
+		file_1 = Create_file_1(pHead_stu_1->stu.course_2.ID, Create_third_folder("1", Create_second_folder("Semester", current_year)), ".txt");
+		std::wifstream fin_1(file_1);
+		fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+		std::getline(fin_1, str);
+		pCur_cou->pNext = new Node_cou;
+		Read_file_cou(str, pCur_cou->pNext);
+		pCur_cou = pCur_cou->pNext;
+		pCur_cou->pNext = nullptr;
+		fin_1.close();
+		k++;
+	}
+	if (wcscmp(a, pHead_stu_1->stu.course_3.ID) != 0) {
+		file_1 = Create_file_1(pHead_stu_1->stu.course_3.ID, Create_third_folder("1", Create_second_folder("Semester", current_year)), ".txt");
+		std::wifstream fin_1(file_1);
+		fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+		std::getline(fin_1, str);
+		pCur_cou->pNext = new Node_cou;
+		Read_file_cou(str, pCur_cou->pNext);
+		pCur_cou = pCur_cou->pNext;
+		pCur_cou->pNext = nullptr;
+		fin_1.close();
+		k++;
+	}
+	if (wcscmp(a, pHead_stu_1->stu.course_4.ID) != 0) {
+		file_1 = Create_file_1(pHead_stu_1->stu.course_4.ID, Create_third_folder("1", Create_second_folder("Semester", current_year)), ".txt");
+		std::wifstream fin_1(file_1);
+		fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+		std::getline(fin_1, str);
+		pCur_cou->pNext = new Node_cou;
+		Read_file_cou(str, pCur_cou->pNext);
+		pCur_cou = pCur_cou->pNext;
+		pCur_cou->pNext = nullptr;
+		fin_1.close();
+		k++;
+	}
+	if (wcscmp(a, pHead_stu_1->stu.course_5.ID) != 0) {
+		file_1 = Create_file_1(pHead_stu_1->stu.course_5.ID, Create_third_folder("1", Create_second_folder("Semester", current_year)), ".txt");
+		std::wifstream fin_1(file_1);
+		fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+		std::getline(fin_1, str);
+		pCur_cou->pNext = new Node_cou;
+		Read_file_cou(str, pCur_cou->pNext);
+		pCur_cou = pCur_cou->pNext;
+		pCur_cou->pNext = nullptr;
+		fin_1.close();
+		k++;
+	}
+	if (pHead_cou->pNext == nullptr) {
+		delete pHead_cou;
+		pHead_cou = nullptr;
+	}
+	else {
+		Node_cou* pTemp = pHead_cou;
+		pHead_cou = pHead_cou->pNext;
+		delete pTemp;
+	}
+	if (k == 0) {
+		std::wcout << "No register course" << std::endl;
+		pHead_stu_1->pNext = nullptr;
+		Delete_Node_stu(pHead_stu_1);
+		char key = toupper(_getch());
+		if (key == 27)
+		{
+			Sub_menu_stu(file);
+		}
+	}
+	pCur_cou = pHead_cou;
+	count = 1;
+	while (pCur_cou != nullptr) {
+		std::wcout << count << L',' << pCur_cou->cou.ID << L',' << pCur_cou->cou.Name << L',' << pCur_cou->cou.Teacher_Name << L',' << pCur_cou->cou.Credit << L',' << pCur_cou->cou.count << L'//' << pCur_cou->cou.max_stu << L',';
+		Cout_day_of_week(pCur_cou->cou.ses_1.day_of_week);
+		std::wcout << L" S" << pCur_cou->cou.ses_1.session + 1 << L',';
+		Cout_day_of_week(pCur_cou->cou.ses_2.day_of_week);
+		std::wcout << L" S" << pCur_cou->cou.ses_2.session + 1 << std::endl;
+		pCur_cou = pCur_cou->pNext;
+		count++;
+	}
+	int x;
+	std::wcout << "Input the number to delete course: ";
+	std::wcin >> x;
+	Node_cou* pDummy = new Node_cou;
+	pDummy->pNext = pHead_cou;
+	pCur_cou = pDummy;
+	if (x == 1) {
+
+	}
+	else {
+		for (int i = 0; i < x - 1; i++) {
+			pCur_cou = pCur_cou->pNext;
+		}
+	}
+
+	Node_cou* pTemp = pCur_cou->pNext;
+	pCur_cou->pNext = pCur_cou->pNext->pNext;
+	delete pTemp;
+
 }
+
