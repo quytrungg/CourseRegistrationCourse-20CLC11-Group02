@@ -9,7 +9,7 @@ void update_school_year_txt(string& school_year, bool& done_create_class, bool& 
 void update_semester_period(bool& done_create_registration_session, bool& active_registration_session) {
 	ofstream fout;
 	fout.open(path_semester_period);
-	fout << done_create_registration_session<<" "<<active_registration_session;
+	fout << done_create_registration_session <<" "<<active_registration_session;
 	fout.close();
 }
 void update_class_txt(id_class*& idClass) {
@@ -177,6 +177,21 @@ void update_course_csv(HT_course& pCourse) {
 	course* pCur = pCourse.head;
 	while (pCur) {
 		wfout << pCur->id << L"," << pCur->name << L"," << pCur->teacher_name << L"," << pCur->num_cre << L"," << pCur->max_student << L"," << pCur->session<<L","<<pCur->count;
+		if (pCur->pNext) wfout << endl;
+		pCur = pCur->pNext;
+	}
+	wfout.close();
+}
+void update_score(score*& pScore) {
+	wofstream wfout;
+	wfout.open(path_score_csv);
+	wfout << wchar_t(239) << wchar_t(187) << wchar_t(191);
+	wfout.imbue(utf8_locale);
+	score* pCur = pScore;
+	while (pCur) {
+		wfout << pCur->id << "," << pCur->fullname << "," << pCur->id_class << "," << pCur->id_course << "," << pCur->teacher_name << "," << pCur->session << "," << pCur->schoolYear << ",";
+		wfout << pCur->dateStartSemester.date.Day << "," << pCur->dateStartSemester.date.Month << "," << pCur->dateStartSemester.date.Year << ",";
+		wfout << pCur->totalMark << "," << pCur->final << "," << pCur->midterm << "," << pCur->other;
 		if (pCur->pNext) wfout << endl;
 		pCur = pCur->pNext;
 	}

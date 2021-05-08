@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <conio.h>//wgetch()
 #include<Windows.h>
+#include<iomanip>
 using namespace std;
 #define path_staff_account "staff_account.txt"
 #define path_student_account "student_account.txt"
@@ -23,7 +24,10 @@ using namespace std;
 #define path_date_create_course "date_create_course.txt"
 #define path_date_sign_course "date_sign_course.txt"
 #define path_course_csv "course.csv"
+#define path_score_csv "score.csv"
+#define path_staff_in4 "staff_in4.txt"
 #define path_semester_period "semester_period.txt"
+
 const locale utf8_locale = locale(locale(), new codecvt_utf8<wchar_t>());
 struct account {
 	string account_name, pass;
@@ -84,5 +88,21 @@ struct Date {
 struct LocalTime {
 	//struct Time time;
 	struct Date date;
+};
+struct score
+{
+	wstring id;
+	wstring fullname;
+	wstring id_class;
+	wstring id_course;
+	wstring teacher_name;
+	wstring session;
+	wstring schoolYear;
+	LocalTime dateStartSemester;
+	double totalMark = -1;
+	double final = -1;
+	double midterm = -1;
+	double other = -1;
+	score* pNext, * pPrev;
 };
 #endif
