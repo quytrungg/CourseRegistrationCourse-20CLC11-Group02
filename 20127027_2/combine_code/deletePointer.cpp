@@ -33,3 +33,10 @@ void deleteall_course(course*& pH) {
 		delete pCur;
 	}
 }
+void deleteall_score(score*& pH) {
+	while (pH) {
+		score* pCur = pH;
+		pH = pH->pNext;
+		delete pCur;
+	}
+}

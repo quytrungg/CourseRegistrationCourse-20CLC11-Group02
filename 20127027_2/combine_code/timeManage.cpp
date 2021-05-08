@@ -39,7 +39,10 @@ bool checkDayIsTrue(LocalTime& a) {
 		months[2] = 29;
 	}
 	else months[2] = 28;
-	if (a.date.Day <= 0 || a.date.Day > months[a.date.Month]) return false;
+	if (a.date.Day <= 0 || a.date.Day > months[a.date.Month]) {
+		delete[]months; return false;
+	}
+	delete[]months;
 	return true;
 }
 LocalTime currentDateTime() {

@@ -27,7 +27,7 @@ string choose_id_class(id_class*& idClass) {
 		pCur = pCur->pNext;
 	}
 }
-void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_in4,HT_course& pCourse,account*& student,account*& staff) {
+void do_staff_work(string& username, id_class*& idClass, HT_in4_student& student_in4, HT_course& pCourse, account*& student, account*& staff,score*& pScore) {
 	string school_year = "\0";
 	bool done_create_class = 0, done_create_semester = 0, done_add_student = 0;
 	bool  done_create_registration_session = 0, active_registration_session = 0;
@@ -41,7 +41,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 			load_deadline_registration(aBegin, aEnd);
 			//wcout << cTime.date.Day << " " << cTime.date.Month << " " << cTime.date.Year;
 			int t = 1;
-			while (done_create_registration_session == 0 || t/*compare2Times(cTime, aEnd)*/) {
+			while (1) {
 				wcout << L" _Công việc của nhân viên_" << endl;
 				wstring* menu = new wstring[2];
 				COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
@@ -49,15 +49,15 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 				if (done_create_registration_session == 0)
 					menu[1] = L"Tạo phiên đăng kí học phần.";
 				else
-					if(active_registration_session==0)menu[1] = L"Tạo khóa học.";
-				else menu[1] = L"Xem thông tin lớp và khóa học";
+					if (active_registration_session == 0)menu[1] = L"Tạo khóa học.";
+					else menu[1] = L"Xem thông tin lớp, khóa học và điểm";
 				int choose1 = choose_menu(cursor.X, cursor.Y, menu, 2);
 				delete[]menu;
 				switch (choose1) {
 				case 1:return;
 				case 2:
 					if (done_create_registration_session) {
-						courseManage(pCourse, active_registration_session, idClass, student_in4);
+						courseManage(pCourse, active_registration_session, idClass, student_in4,pScore);
 						update_semester_period(done_create_registration_session, active_registration_session);
 					}
 					else {
@@ -143,7 +143,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 						create_school_year(school_year, done_create_class, done_add_student, done_create_semester);
 					else if (done_create_class == 0) {
 						bool isAdd = 0;
-						AddClass(idClass,isAdd);
+						AddClass(idClass, isAdd);
 						if (isAdd) {
 							wcout << L"Đây là toàn bộ các lớp của năm học chưa? 1.Rồi, 2.Chưa: ";
 							choose = user_choose_exist(1, 2);
@@ -160,7 +160,7 @@ void do_staff_work(string& username,id_class*& idClass, HT_in4_student& student_
 						if (user_choose_id_class != L"null") {
 							wcout << L"Nhập tên file csv chứa thông tin sinh viên: "; getline(cin, file_csv);
 							file_csv = file_csv + ".csv";
-							add_student_in4(file_csv, student_in4, user_choose_id_class,student);
+							add_student_in4(file_csv, student_in4, user_choose_id_class, student);
 							update_student_in4_csv(student_in4);
 							update_account(student);
 							wcout << L"Đây là toàn bộ các học sinh của năm nhất chưa? 1.Rồi, 2.Chưa: ";
