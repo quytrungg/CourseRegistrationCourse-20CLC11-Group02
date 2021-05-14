@@ -40,3 +40,10 @@ void deleteall_score(score*& pH) {
 		delete pCur;
 	}
 }
+void deleteall_menu(MenuList*& pH) {
+	while (pH) {
+		MenuList* pCur = pH;
+		pH = pH->pNext;
+		delete pCur;
+	}
+}

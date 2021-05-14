@@ -21,8 +21,7 @@ using namespace std;
 #define path_idClass "class.txt"
 #define path_student_in4 "student_in4.csv"
 #define path_date_semester "semester.txt"
-#define path_date_create_course "date_create_course.txt"
-#define path_date_sign_course "date_sign_course.txt"
+#define path_date_create_course "date_create_course.txt"//thực ra là thời gian sinh viên đăng kí, cái này đặt nhầm tên
 #define path_course_csv "course.csv"
 #define path_score_csv "score.csv"
 #define path_staff_in4 "staff_in4.txt"
@@ -76,9 +75,9 @@ struct HT_in4_student {
 };
 
 struct Date {
-	int Day=0;
-	int Month=0;
-	int Year=0;
+	int Day=-1;
+	int Month=-1;
+	int Year=-1;
 };
 //struct Time {
 //	int Seconds;
@@ -104,5 +103,10 @@ struct score
 	double midterm = -1;
 	double other = -1;
 	score* pNext, * pPrev;
+};
+
+struct MenuList {
+	wstring option;
+	MenuList* pNext;
 };
 #endif

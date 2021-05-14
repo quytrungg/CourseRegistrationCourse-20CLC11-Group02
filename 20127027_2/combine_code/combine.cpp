@@ -18,6 +18,8 @@ int main() {
 
 	score* pScore = nullptr;
 
+	//resetData();
+
 	load_score(pScore);
 	load_course(pCourse);
 	load_class(idClass);

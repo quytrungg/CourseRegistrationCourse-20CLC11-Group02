@@ -83,6 +83,35 @@ int choose_menu(int x, int y, wstring*& menu, int n) {
 	system("cls");
 	return i + 1;
 }
+string chooseClass(id_class*& pClass) {
+	id_class* pCur = pClass;
+	int n = 0;
+	while (pCur) {
+		n++;
+		pCur = pCur->pNext;
+	}
+	wstring* menu = new wstring[n + 1];
+	menu[n] = L"Back";
+	n = 0;
+	pCur = pClass;
+	while (pCur) {
+		wstring t(pCur->id.begin(), pCur->id.end());
+		menu[n] = t;
+		n++;
+		pCur = pCur->pNext;
+	}
+	COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+	int choose=choose_menu(cursor.X, cursor.Y, menu, n + 1);
+	delete[]menu;
+	if (choose == n + 1) return "null";
+	pCur = pClass;
+	n = 0;
+	while (pCur) {
+		n++;
+		if (n == choose) return pCur->id;
+		pCur = pCur->pNext;
+	}
+}
 COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
 {
 	CONSOLE_SCREEN_BUFFER_INFO cbsi;
@@ -96,4 +125,17 @@ COORD GetConsoleCursorPosition(HANDLE hConsoleOutput)
 		COORD invalid = { 0, 0 };
 		return invalid;
 	}
+}
+void ShowCur(bool CursorVisibility)
+{
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO ConCurInf;
+
+	ConCurInf.dwSize = 10;
+	ConCurInf.bVisible = CursorVisibility;
+
+	SetConsoleCursorInfo(handle, &ConCurInf);
+}
+void resetData() {
+
 }
