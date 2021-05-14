@@ -137,5 +137,31 @@ void ShowCur(bool CursorVisibility)
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
 void resetData() {
-
+	fstream f;
+	f.open(path_date_semester, ios::in);
+	if (!f.is_open()) return;
+	LocalTime endYear;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f.close();
+	if (endYear.date.Year == -1) return;
+	LocalTime cTime = currentDateTime();
+	if (compare2Times(endYear, cTime)) {
+		f.open(path_semester_period,ios::out);
+		f << 0 << " " << 0;
+		f.close();
+		f.open(path_date_semester, ios::out);
+		f << "";
+		f.close();
+		f.open(path_school_year, ios::out);
+		f << "";
+		f.close();
+		f.open(path_date_create_course, ios::out);
+		f << "";
+		f.close();
+	}
 }

@@ -18,7 +18,7 @@ int main() {
 
 	score* pScore = nullptr;
 
-	//resetData();
+	resetData();
 
 	load_score(pScore);
 	load_course(pCourse);
