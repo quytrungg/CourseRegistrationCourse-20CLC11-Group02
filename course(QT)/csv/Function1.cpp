@@ -554,8 +554,6 @@ course ChangeToData(std::wstring line) {
 
     start = end + 1;
     end = line.find(L',', start);
-    std::string temp = cou.session;
-    std::wstring replace;
     //replace = StringToWString(temp, cou.session);
 
     return cou;
@@ -799,7 +797,7 @@ void UpdateScore(Score*& pHead, std::string path) {
     _setmode(_fileno(stdout), _O_U16TEXT);
 
     std::wfstream fout;
-    fout.open(path, std::fstream::out);
+    fout.open(path, std::wfstream::out);
     fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
     fout << wchar_t(0xfeff);
 
@@ -820,6 +818,58 @@ void UpdateScore(Score*& pHead, std::string path) {
         pCur = pCur->pNext;
     }
     fout.close();
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+void FindScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
+    in4_student* pFind = FindReturnStudent(path, pHead2);
+    Score* pCur = pHead1;
+    while (pCur != nullptr) {
+        if (pCur->id == pFind->id) {
+            std::wcout << " " << pCur->midterm;
+            std::wcout << std::setw(27 - wcslen(pCur->midterm)) << pCur->final;
+            std::wcout << std::setw(8) << pCur->other;
+            std::wcout << "   " << pCur->gpa;
+            std::wcout << std::setw(8) << pCur->ovrgpa << "\n";
+            return;
+        }
+        else pCur = pCur->pNext;
+    }
+}
+
+void PrintStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
+    ChangeToVietnamese();
+
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wfstream fout;
+    fout.open(path, std::wfstream::out);
+    fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+
+    Score* temp = pHead1;
+    pHead1 = pHead1->pNext;
+    delete temp;
+
+    Score* pCur1 = pHead1;
+    in4_student* pCur2 = pHead2;
+
+    ReverseTheList(pHead1);
+    ReverseTheList(pHead2);
+
+    std::wstring find;
+    std::wcin >> find;
+
+    while (pCur2 != nullptr) {
+        if (pCur2->id_class == find) {
+            FindScore(pHead1, pHead2, path);
+        }
+        else pCur2 = pCur2->pNext;
+    }
+
+    fout.close();
+
     _setmode(_fileno(stdin), _O_TEXT);
     _setmode(_fileno(stdout), _O_TEXT);
 }

@@ -8,13 +8,15 @@ account login(int, account*&, account*&);
 void changePassword(account*&,account&);
 //courseManage
 void add_course(HT_course&);
-void courseManage(HT_course&, bool&,id_class*&,HT_in4_student&);
+void courseManage(HT_course&, bool&, id_class*&, HT_in4_student&,score*&);
 bool Check_session(wstring);
+bool notInTheSemester(LocalTime&, LocalTime&);
 //deletePointer
 void deleteall_course(course*&);
 void deleteall_student_in4(in4_student*&);
 void deleteall_class(id_class*&);
 void deleteall_account(account*&);
+void deleteall_score(score*&);
 //extraFunction
 int convert_num(string&);
 int wconvert_num(wstring&);
@@ -33,13 +35,14 @@ void load_deadline_registration(LocalTime&, LocalTime&);
 void load_deadline_sign_course(LocalTime&, LocalTime&);
 void load_course(HT_course&);
 void loadSemesterPeriod(bool&, bool&);
+void load_score(score*&);
 //staffWork
 void create_school_year(string&, bool&, bool&, bool&);
 string choose_id_class(id_class*&);
-void do_staff_work(string&,id_class*&, HT_in4_student&,HT_course&,account*&,account*&);
+void do_staff_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&, account*&,score*&);
 bool create_3_semester();
 //studentWork
-void do_student_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&);
+void do_student_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&,score*&);
 //timeManage
 bool compare2Times(LocalTime&, LocalTime&);
 bool checkDayIsTrue(LocalTime&);
@@ -55,4 +58,5 @@ void update_date_create_course(LocalTime, LocalTime);
 void update_course_csv(HT_course&);
 void update_semester_period(bool&, bool&);
 void update_date_sign_course();
+void update_score(score*&);
 #endif

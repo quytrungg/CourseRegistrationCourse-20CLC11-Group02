@@ -22,6 +22,54 @@ void load_account(string path, account*& acc) {
 	}
 	fin.close();
 }
+void load_score(score*& pScore) {
+	wifstream wfin;
+	wfin.imbue(utf8_locale);
+	wstring temp;
+	score* pCurScore;
+	pCurScore = nullptr;
+	wfin.open(path_score_csv);
+	while (!wfin.eof())
+	{
+		getline(wfin, temp);
+		if (temp[0] == 65279)remove_65279(temp);
+		if (temp[0] != L'\0') {
+			wstringstream wsin(temp);
+			if (pScore == nullptr) {
+				pScore = new score;
+				pScore->pNext = pScore->pPrev = nullptr;
+				pCurScore = pScore;
+			}
+			else {
+				pCurScore->pNext = new score;
+				pCurScore->pNext->pPrev = pCurScore;
+				pCurScore = pCurScore->pNext;
+				pCurScore->pNext = nullptr;
+			}
+			getline(wsin, pCurScore->id, L',');
+			getline(wsin, pCurScore->fullname, L',');
+			getline(wsin, pCurScore->id_class, L',');
+			getline(wsin, pCurScore->id_course, L',');
+			getline(wsin, pCurScore->teacher_name, L',');
+			getline(wsin, pCurScore->session, L',');
+			getline(wsin, pCurScore->schoolYear, L',');
+			wsin >> pCurScore->dateStartSemester.date.Day;
+			wsin.ignore(10, L',');
+			wsin >> pCurScore->dateStartSemester.date.Month;
+			wsin.ignore(10, L',');
+			wsin >> pCurScore->dateStartSemester.date.Year;
+			wsin.ignore(10, L',');
+			wsin >> pCurScore->totalMark;
+			wsin.ignore(10,L',');
+			wsin >> pCurScore->final;
+			wsin.ignore(10, L',');
+			wsin >> pCurScore->midterm;
+			wsin.ignore(10, L',');
+			wsin >> pCurScore->other;
+		}
+	}
+	wfin.close();
+}
 void load_class(id_class*& idClass) {
 	ifstream fin;
 	fin.open(path_idClass);
@@ -173,6 +221,6 @@ void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {
 	in.close();
 }
 void load_deadline_sign_course(LocalTime& aBegin, LocalTime& aEnd) {
-	ifstream in(path_date_sign_course);
+	//ifstream in(path_date_sign_course);
 	
 }

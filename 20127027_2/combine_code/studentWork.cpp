@@ -118,11 +118,39 @@ void viewSignCourse(in4_student*& nodeStudent_in4) {
 	wcout << L"Nhấn bất kì để tiếp tục.";
 	_getch();
 }
-void do_student_work(string& username, id_class*& idClass, HT_in4_student& student_in4, HT_course& pCourse, account*& student) {
+void viewScoreBoard(in4_student*& nodeStudent_in4, score*& pScore) {
+	LocalTime cTime = currentDateTime(), dateStartSemes;
+	if (notInTheSemester(cTime, dateStartSemes)) {
+		wcout << "Thời gian hiện tại không nằm trong khoảng thời gian của học kì nào!";
+		_getch();
+		return;
+	}
+	score* pCurScore = pScore;
+	int check=0;
+	wcout << L"Điểm của " << nodeStudent_in4->id << endl << endl;
+	while (pCurScore) {
+		if (pCurScore->dateStartSemester.date.Day == dateStartSemes.date.Day && pCurScore->dateStartSemester.date.Month == dateStartSemes.date.Month && pCurScore->dateStartSemester.date.Year == dateStartSemes.date.Year)
+			if (pCurScore->id == nodeStudent_in4->id)
+			{
+				wcout << L"ID môn học: " << pCurScore->id_course << endl;
+				wcout << L"Tổng điểm: " << pCurScore->totalMark << endl;
+				wcout << L"Điểm cuối kì: " << pCurScore->final << endl;
+				wcout << L"Điểm giữa kì: " << pCurScore->midterm << endl;
+				wcout << L"Điểm khác: " << pCurScore->other << endl;
+				wcout << endl;
+				check = 1;
+			}
+		pCurScore = pCurScore->pNext;
+	}
+	if (check == 0) wcout << L"Chưa có điểm!";
+	_getch();
+	return;
+}
+void do_student_work(string& username, id_class*& idClass, HT_in4_student& student_in4, HT_course& pCourse, account*& student,score*& pScore) {
 	//xem còn thời gian đăng kí không trong date_registration.txt 
 	LocalTime aBegin, aEnd, cTime = currentDateTime();
 	load_deadline_sign_course(aBegin, aEnd);
-	int t_inTime = 1;/*compare2Times(cTime, aEnd);*///so sánh cTime có nằm trong abegin, aend không
+	int t_inTime = 0;/*compare2Times(cTime, aEnd);*///so sánh cTime có nằm trong abegin, aend không
 	if (!check_active_course_registration()) {
 		wcout << L"Chưa có hoạt động nào, nhấn bất kì để tiếp tục";
 		_getch();
@@ -143,7 +171,6 @@ void do_student_work(string& username, id_class*& idClass, HT_in4_student& stude
 				choose = choose_menu(cursor.X, cursor.Y, menu, 4);
 				delete[]menu;
 				switch (choose) {
-				case 1: return;
 				case 2:signCourse(pCourse, nodeStudent_in4); break;
 				case 3:deleteACourse(pCourse, nodeStudent_in4); break;
 				case 4:viewSignCourse(nodeStudent_in4);
@@ -156,7 +183,23 @@ void do_student_work(string& username, id_class*& idClass, HT_in4_student& stude
 			}
 		}
 		else {//overtime
-			viewSignCourse(nodeStudent_in4);
+
+			int choose = -1;
+			while (choose != 1) {
+				wcout << L" _Xem khóa học đã đăng kí và điểm_" << endl;
+				wstring* menu = new wstring[3];
+				COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));
+				menu[0] = L"Quay về";
+				menu[1] = L"Xem khóa học";
+				menu[2] = L"Xem điểm";
+				choose = choose_menu(cursor.X, cursor.Y, menu, 3);
+				delete[]menu;
+				switch (choose) {
+				case 2:viewSignCourse(nodeStudent_in4); break;
+				case 3:viewScoreBoard(nodeStudent_in4, pScore);
+				}
+				system("cls");
+			}
 		}
 	}
 }
