@@ -64,9 +64,7 @@ int* g(int* a) {
 }
 void main()
 {
-    _setmode(_fileno(stdout), _O_WTEXT);
-    string a = "111";
-    wcout<<b;
+    
     /*GotoXY(10, 11);
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
     COORD cursor = GetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE));

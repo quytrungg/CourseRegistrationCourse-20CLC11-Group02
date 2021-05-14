@@ -1,8 +1,6 @@
 ﻿#include"func.h"
 void create_school_year(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester) {
-	wcout << L"Nhập năm học mới. ";
-	//điều kiện để sau
-	getline(cin, school_year);
+	school_year = getSchoolYear();
 	update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 }
 string choose_id_class(id_class*& idClass) {
@@ -229,4 +227,34 @@ bool create_3_semester() {
 	}
 	cin.ignore(1000, '\n');
 	delete[]date;*/
+}
+string getSchoolYear() {
+	char* a = new char[10];
+	LocalTime current_time = currentDateTime();
+	int n1 = current_time.date.Year;
+	int n2 = current_time.date.Year + 1;
+	int m = 1000;
+	int r;
+	int count = 0;
+	for (int j = n1; j > 0; j = j / 10) {
+		r = n1 / m;
+		n1 = n1 - r * m;
+		m = m / 10;
+		a[count] = r + L'0';
+		count++;
+	}
+	a[count] = L'_';
+	m = 1000;
+	count++;
+	for (int j = n2; j > 0; j = j / 10) {
+		r = n2 / m;
+		n2 = n2 - r * m;
+		m = m / 10;
+		a[count] = r + L'0';
+		count++;
+	}
+	a[count] = L'\0';
+	string school_year(a);
+	delete[]a;
+	return school_year;
 }

@@ -43,6 +43,7 @@ void load_score(score*&);
 void create_school_year(string&, bool&, bool&, bool&);
 string choose_id_class(id_class*&);
 void do_staff_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&, account*&,score*&);
+string getSchoolYear();
 bool create_3_semester();
 //studentWork
 void do_student_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&,score*&);
