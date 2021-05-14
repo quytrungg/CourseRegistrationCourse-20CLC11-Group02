@@ -5,7 +5,7 @@
 #include <conio.h>
 #include<io.h>
 #include<fcntl.h>
-//#include<algorithm>
+#include<algorithm>
 using namespace std;
 void GotoXY(short x, short y) {
     COORD coord;
