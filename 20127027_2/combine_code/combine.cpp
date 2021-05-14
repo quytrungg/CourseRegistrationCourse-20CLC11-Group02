@@ -104,3 +104,14 @@ int main() {
 	deleteall_score(pScore);
 	return 0;
 }
+int user_choose_exist(int left, int right) {
+	string a;
+	getline(cin, a);
+	int t = convert_num(a);
+	while (t<left || t>right) {
+		wcout << L"Chọn lại từ " << left << L" đến " << right << ": ";
+		getline(cin, a);
+		t = convert_num(a);
+	}
+	return t;
+}
