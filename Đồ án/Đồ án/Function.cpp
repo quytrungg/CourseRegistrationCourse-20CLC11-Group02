@@ -377,10 +377,12 @@ score* inputScore(score*& t, std::wfstream& finScore)
      std::cin >> choose;
      if (choose == 1)
      {
-         fin.open(L"D:\\course_app\\systemfile");
+         fin.open(L"D:\\course_app\\system file");
      }
      if (choose == 2)
      {
+         fin.open(L"D:\\course_app\\input file");
+
      }
      if (choose == 3)
      {
