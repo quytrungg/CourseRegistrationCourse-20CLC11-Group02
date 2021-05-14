@@ -369,5 +369,23 @@ score* inputScore(score*& t, std::wfstream& finScore)
      }
  }
  
+ // hoang task
+ void taskMakeFolderAsscess(std::wfstream& fin)
+ {
+     std::cout << "1. to system - press 1\n2. to input file - press 2\n3. to output file";
+     int choose;
+     std::cin >> choose;
+     if (choose == 1)
+     {
+         fin.open(L"D:\\course_app\\systemfile");
+     }
+     if (choose == 2)
+     {
+     }
+     if (choose == 3)
+     {
+
+     }
+ }
 
  
