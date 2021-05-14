@@ -19,12 +19,6 @@ void GotoXY(int x, int y)
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-void SetColor(int background_color, int text_color)
-{
-	HANDLE hStdout = GetStdHandle(STD_OUTPUT_HANDLE);
-	int color_code = background_color * 16 + text_color;
-	SetConsoleTextAttribute(hStdout, color_code);
-}
 
 bool compare2Times(LocalTime& a, LocalTime& b) {//true khi b>a
 	if (a.date.Year > b.date.Year)

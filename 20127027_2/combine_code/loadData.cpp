@@ -204,6 +204,7 @@ void load_course(HT_course& pCourse) {
 void loadSchoolYear(string& school_year,bool& done_create_class,bool& done_add_student,bool& done_create_semester) {
 	ifstream fin;
 	fin.open(path_school_year);
+	if (!fin.is_open()) return;
 	getline(fin, school_year);
 	fin >> done_create_class >> done_add_student >> done_create_semester ;
 	fin.close();
@@ -211,16 +212,14 @@ void loadSchoolYear(string& school_year,bool& done_create_class,bool& done_add_s
 void loadSemesterPeriod(bool& done_create_registration_session, bool& active_registration_session) {
 	ifstream fin;
 	fin.open(path_semester_period);
+	if (!fin.is_open()) return;
 	fin >> done_create_registration_session >> active_registration_session;
 	fin.close();
 }
 void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {
 	ifstream in(path_date_create_course);
+	if (!fin.is_open()) return;
 	in >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;
 	in >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;
 	in.close();
-}
-void load_deadline_sign_course(LocalTime& aBegin, LocalTime& aEnd) {
-	//ifstream in(path_date_sign_course);
-	
 }
