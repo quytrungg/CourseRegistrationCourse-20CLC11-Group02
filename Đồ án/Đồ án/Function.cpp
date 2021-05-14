@@ -386,7 +386,7 @@ score* inputScore(score*& t, std::wfstream& finScore)
      }
      if (choose == 3)
      {
-
+         fin.open(L"D:\\course_app\\output file");
      }
  }
 
