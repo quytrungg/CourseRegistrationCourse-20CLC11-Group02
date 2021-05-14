@@ -18,7 +18,8 @@ int main() {
 
 	score* pScore = nullptr;
 
-	resetData();
+	resetDataSemester();
+	resetDataSchoolYear();
 
 	load_score(pScore);
 	load_course(pCourse);

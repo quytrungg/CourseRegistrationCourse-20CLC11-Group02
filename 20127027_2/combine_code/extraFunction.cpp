@@ -136,7 +136,7 @@ void ShowCur(bool CursorVisibility)
 
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
-void resetData() {
+void resetDataSchoolYear() {
 	fstream f;
 	f.open(path_date_semester, ios::in);
 	if (!f.is_open()) return;
@@ -163,5 +163,36 @@ void resetData() {
 		f.open(path_date_create_course, ios::out);
 		f << "";
 		f.close();
+		f.open(path_course_csv, ios::out);
+		f << "";
+		f.close();
 	}
+}
+void resetDataSemester() {
+	fstream f;
+	f.open(path_date_semester, ios::in);
+	if (!f.is_open()) return;
+	LocalTime aBegin, aEnd;
+	LocalTime cTime = currentDateTime();
+	bool notInSemester;
+	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk1
+	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk1
+	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk2
+	notInSemester = (compare2Times(aEnd, cTime) && compare2Times(cTime, aBegin));
+	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk2
+	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk3
+	notInSemester += (compare2Times(aEnd, cTime) && compare2Times(cTime, aBegin));
+	f.close();
+	if (notInSemester) {
+		f.open(path_semester_period, ios::out);
+		f << 0 << " " << 0;
+		f.close();
+		f.open(path_date_create_course, ios::out);
+		f << "";
+		f.close();
+		f.open(path_course_csv, ios::out);
+		f << "";
+		f.close();
+	}
+
 }

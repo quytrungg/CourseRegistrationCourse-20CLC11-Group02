@@ -29,7 +29,8 @@ int choose_menu(int, int, wstring*&, int);
 string chooseClass(id_class*&);
 COORD GetConsoleCursorPosition(HANDLE);
 void ShowCur(bool);
-void resetData();
+void resetDataSchoolYear();
+void resetDataSemester();
 //loadData
 void load_account(string, account*&);
 void load_class(id_class*&);
