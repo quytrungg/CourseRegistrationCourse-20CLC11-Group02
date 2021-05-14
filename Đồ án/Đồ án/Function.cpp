@@ -367,7 +367,6 @@ score* inputScore(score*& t, std::wfstream& finScore)
              fin.open(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student\\20CLC11.csv", std::wfstream::in);
          }
      }
-     fin.close();
  }
  
 
