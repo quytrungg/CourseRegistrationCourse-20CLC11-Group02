@@ -19,14 +19,16 @@ int main()
     Inputdata(t, fin);
     PrintStu(t);
 
-    //makeAccess(finScore);
-    finScore.open("score1.csv", std::wfstream::in);
+    makeAccess(finScore);
+    //finScore.open("score1.csv", std::wfstream::in);
     inputScore(p, finScore);
     OutputScore(p);
 
     DeallocateData(t);
     DeallocateData(p);
     
+    fin.close();
+    finScore.close();
     return 0;
 }
 
