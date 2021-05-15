@@ -172,10 +172,18 @@ void viewClass_StudentInClass(id_class*& idClass, HT_in4_student& student_in4) {
 	wstring temp(pCurClass->id.begin(), pCurClass->id.end());
 	in4_student* pCurStudent = student_in4.head;
 	n = 0;
+	wcout << "\n";
 	while (pCurStudent) {
 		if (pCurStudent->id_class == temp) {
 			n++;
-			wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27 - pCurStudent->fname.length()) << pCurStudent->fname << "  " << pCurStudent->gender << "  " << pCurStudent->dob << "  " << pCurStudent->soid << "  " << pCurStudent->id_class << endl;
+			if (n <= 9)
+			{
+				wcout << n << ".  " << pCurStudent->id << "  " << pCurStudent->lname << setw(27 - pCurStudent->lname.length()) << pCurStudent->fname << "    " << pCurStudent->gender << setw(18 - pCurStudent->gender.length()) << pCurStudent->dob << "   " << pCurStudent->soid << setw(20 -pCurStudent->soid.length()) << pCurStudent->id_class << endl;
+			}
+			else
+			{
+				wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27 - pCurStudent->lname.length()) << pCurStudent->fname << "    " << pCurStudent->gender << setw(18 - pCurStudent->gender.length()) << pCurStudent->dob << "   " << pCurStudent->soid << setw(20 - pCurStudent->soid.length()) << pCurStudent->id_class << endl;
+			}
 		}
 		pCurStudent = pCurStudent->pNext;
 	}
