@@ -178,5 +178,6 @@ void UpdateScore(Score*& pHead, std::string path);
 //-----------Student-Class-Score----------
 void FindScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 void PrintStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path);
+void PrintScoreboardCourse(in4_student*& pHead1, Score*& pHead2, course* pHead3, std::string path);
 
 #endif /* Function1_h */
