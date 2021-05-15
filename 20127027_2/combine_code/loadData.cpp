@@ -218,7 +218,7 @@ void loadSemesterPeriod(bool& done_create_registration_session, bool& active_reg
 }
 void load_deadline_registration(LocalTime& aBegin, LocalTime& aEnd) {
 	ifstream in(path_date_create_course);
-	if (!fin.is_open()) return;
+	if (!in.is_open()) return;
 	in >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;
 	in >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;
 	in.close();

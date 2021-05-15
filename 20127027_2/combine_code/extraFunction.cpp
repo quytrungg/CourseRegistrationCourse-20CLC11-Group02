@@ -21,17 +21,6 @@ int wconvert_num(wstring& a) {
 	}
 	return num;
 }
-int user_choose_exist(int left, int right) {
-	string a;
-	getline(cin, a);
-	int t = convert_num(a);
-	while (t<left || t>right) {
-		wcout << L"Chọn lại từ " << left << L" đến " << right << " ";
-		getline(cin, a);
-		t = convert_num(a);
-	}
-	return t;
-}
 void remove_65279(wstring& a) {
 	int i = 0;
 	while (a[i] == 65279) i++;
@@ -136,6 +125,63 @@ void ShowCur(bool CursorVisibility)
 
 	SetConsoleCursorInfo(handle, &ConCurInf);
 }
-void resetData() {
+void resetDataSchoolYear() {
+	fstream f;
+	f.open(path_date_semester, ios::in);
+	if (!f.is_open()) return;
+	LocalTime endYear;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f >> endYear.date.Day >> endYear.date.Month >> endYear.date.Year;
+	f.close();
+	if (endYear.date.Year == -1) return;
+	LocalTime cTime = currentDateTime();
+	if (compare2Times(endYear, cTime)) {
+		f.open(path_semester_period,ios::out);
+		f << 0 << " " << 0;
+		f.close();
+		f.open(path_date_semester, ios::out);
+		f << "";
+		f.close();
+		f.open(path_school_year, ios::out);
+		f << "";
+		f.close();
+		f.open(path_date_create_course, ios::out);
+		f << "";
+		f.close();
+		f.open(path_course_csv, ios::out);
+		f << "";
+		f.close();
+	}
+}
+void resetDataSemester() {
+	fstream f;
+	f.open(path_date_semester, ios::in);
+	if (!f.is_open()) return;
+	LocalTime aBegin, aEnd;
+	LocalTime cTime = currentDateTime();
+	bool notInSemester;
+	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk1
+	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk1
+	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk2
+	notInSemester = (compare2Times(aEnd, cTime) && compare2Times(cTime, aBegin));
+	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk2
+	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk3
+	notInSemester += (compare2Times(aEnd, cTime) && compare2Times(cTime, aBegin));
+	f.close();
+	if (notInSemester) {
+		f.open(path_semester_period, ios::out);
+		f << 0 << " " << 0;
+		f.close();
+		f.open(path_date_create_course, ios::out);
+		f << "";
+		f.close();
+		f.open(path_course_csv, ios::out);
+		f << "";
+		f.close();
+	}
 
 }

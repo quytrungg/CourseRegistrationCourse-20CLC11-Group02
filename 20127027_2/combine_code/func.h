@@ -6,6 +6,8 @@ int choose_type_account();
 bool check_exist_user(account, account*&);
 account login(int, account*&, account*&);
 void changePassword(account*&,account&);
+//combine
+int user_choose_exist(int, int);
 //courseManage
 void add_course(HT_course&);
 void courseManage(HT_course&, bool&, id_class*&, HT_in4_student&,score*&);
@@ -21,7 +23,6 @@ void deleteall_menu(MenuList&);
 //extraFunction
 int convert_num(string&);
 int wconvert_num(wstring&);
-int user_choose_exist(int, int);
 void remove_65279(wstring&);
 void negativeClose();
 void GotoXY(short, short);
@@ -29,6 +30,8 @@ int choose_menu(int, int, wstring*&, int);
 string chooseClass(id_class*&);
 COORD GetConsoleCursorPosition(HANDLE);
 void ShowCur(bool);
+void resetDataSchoolYear();
+void resetDataSemester();
 //loadData
 void load_account(string, account*&);
 void load_class(id_class*&);
@@ -42,6 +45,7 @@ void load_score(score*&);
 void create_school_year(string&, bool&, bool&, bool&);
 string choose_id_class(id_class*&);
 void do_staff_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&, account*&,score*&);
+string getSchoolYear();
 bool create_3_semester();
 //studentWork
 void do_student_work(string&, id_class*&, HT_in4_student&, HT_course&, account*&,score*&);

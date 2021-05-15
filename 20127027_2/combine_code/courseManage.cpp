@@ -245,9 +245,16 @@ void createCSVFileInACourse(HT_course& pCourse, HT_in4_student& student_in4) {
 		pCurCourse = pCurCourse->pNext;
 	}
 	string filename;
-	wcout << L"Nhập tên file csv muốn tạo"; getline(cin, filename);
-	wofstream wfout;
-	wfout.open(filename + ".csv");
+	wcout << L"Nhập tên file csv muốn tạo: "; getline(cin, filename);
+	wfstream wfout;
+	wfout.open(filename + ".csv",ios::in);
+	while (wfout.is_open()) {
+		wfout.close();
+		wcout << L"File đã tồn tại, vui lòng nhập tên khác: "; getline(cin, filename);
+		wfout.open(filename + ".csv", ios::in);
+	}
+	wfout.close();
+	wfout.open(filename + ".csv", ios::out);
 	wfout << wchar_t(239) << wchar_t(187) << wchar_t(191);
 	wfout.imbue(utf8_locale);
 	in4_student* pCurStudent = student_in4.head;
@@ -273,8 +280,13 @@ bool notExistStudentInCourse(score& a, score*& pScore) {
 	score* pCurScore = pScore;
 	while (pCurScore) {
 		if (a.id == pCurScore->id && a.id_course == pCurScore->id_course && a.teacher_name == pCurScore->teacher_name && a.session == pCurScore->session && a.schoolYear == pCurScore->schoolYear)
-			if(a.dateStartSemester.date.Day==pCurScore->dateStartSemester.date.Day && a.dateStartSemester.date.Month==pCurScore->dateStartSemester.date.Month && a.dateStartSemester.date.Year==pCurScore->dateStartSemester.date.Year)
-			return 0;
+			if (a.dateStartSemester.date.Day == pCurScore->dateStartSemester.date.Day && a.dateStartSemester.date.Month == pCurScore->dateStartSemester.date.Month && a.dateStartSemester.date.Year == pCurScore->dateStartSemester.date.Year)
+			{
+				a.pNext = pCurScore->pNext;
+				a.pPrev = pCurScore->pPrev;
+				(*pCurScore) = a;
+				return 0;
+			}
 		pCurScore = pCurScore->pNext;
 	}
 	return 1;
@@ -308,14 +320,14 @@ void importScoreBoard(score*& pScore) {
 	wifstream wfin;
 	wfin.imbue(utf8_locale);
 	wfin.open(filename + ".csv");
-	if (wfin.eof()) {
-		wcout << "File không tồn tại!";
+	if (!wfin.is_open()) {
+		wcout << L"Không thể mở file!";
 		_getch();
 		return;
 	}
 	wstring temp;
 	score* pCurScore = pScore;
-	while (pCurScore) 
+	while (pCurScore && pCurScore->pNext) 
 		if (pCurScore->pNext) pCurScore = pCurScore->pNext;
 	getline(wfin, temp);
 	while (!wfin.eof())
@@ -359,6 +371,8 @@ void importScoreBoard(score*& pScore) {
 			}
 		}
 	}
+	_getch();
+	wfin.close();
 	update_score(pScore);
 }
 void viewScoreInACourse(HT_course& pCourse, score*& pScore) {
