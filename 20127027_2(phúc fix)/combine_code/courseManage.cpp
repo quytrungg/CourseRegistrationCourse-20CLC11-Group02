@@ -213,10 +213,11 @@ void viewCourse_StudentInCourse(HT_course& pCourse, HT_in4_student& student_in4)
 	}
 	in4_student* pCurStudent = student_in4.head;
 	n = 0;
+	wcout << "\n";
 	while (pCurStudent) {
 		if (studentInThisCourse(pCurStudent,pCurCourse)) {
 			n++;
-			wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27-pCurStudent->lname.length()) << pCurStudent->fname << setw(20 - pCurStudent->fname.length()) << pCurStudent->gender << "  " << pCurStudent->dob << "  " << pCurStudent->soid << "  " << pCurStudent->id_class << endl;
+			wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27-pCurStudent->lname.length()) << pCurStudent->fname << setw(15 - pCurStudent->fname.length()) << pCurStudent->gender << "   " << pCurStudent->dob << "   " << pCurStudent->soid << setw(20 - pCurStudent->soid.length()) << pCurStudent->id_class << endl;
 		}
 		pCurStudent = pCurStudent->pNext;
 	}
