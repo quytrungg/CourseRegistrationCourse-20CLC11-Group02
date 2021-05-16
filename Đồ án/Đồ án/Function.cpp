@@ -367,8 +367,27 @@ score* inputScore(score*& t, std::wfstream& finScore)
              fin.open(L"C:\\Users\\Asus\\Desktop\\Đồ án\\Đồ án\\Data\\2021\\Student\\20CLC11.csv", std::wfstream::in);
          }
      }
-     fin.close();
  }
  
+ // hoang task
+ void taskMakeFolderAsscess(std::wfstream& fin)
+ {
+     std::cout << "1. to system - press 1\n2. to input file - press 2\n3. to output file";
+     int choose;
+     std::cin >> choose;
+     if (choose == 1)
+     {
+         fin.open(L"D:\\course_app\\system file");
+     }
+     if (choose == 2)
+     {
+         fin.open(L"D:\\course_app\\input file");
+
+     }
+     if (choose == 3)
+     {
+         fin.open(L"D:\\course_app\\output file");
+     }
+ }
 
  

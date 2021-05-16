@@ -873,3 +873,20 @@ void PrintStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
     _setmode(_fileno(stdin), _O_TEXT);
     _setmode(_fileno(stdout), _O_TEXT);
 }
+
+void PrintScoreboardCourse(in4_student* &pHead1, Score* &pHead2, course* pHead3, std::string path) {
+    ChangeToVietnamese();
+
+    Score* pTemp1 = FindStudentScore(pHead2, pHead1, path);
+    course* pTemp2 = FindCourse(pHead3);
+    in4_student* pCur = pHead1;
+    while (pCur != nullptr) {
+        if (pCur->id_course->id == pTemp2->id) {
+            FindScore(pHead2, pHead1, path);
+        }
+        pCur = pCur->pNext;
+    }
+    if (pCur == nullptr) {
+        return;
+    }
+}

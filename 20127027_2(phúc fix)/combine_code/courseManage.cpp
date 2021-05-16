@@ -172,10 +172,18 @@ void viewClass_StudentInClass(id_class*& idClass, HT_in4_student& student_in4) {
 	wstring temp(pCurClass->id.begin(), pCurClass->id.end());
 	in4_student* pCurStudent = student_in4.head;
 	n = 0;
+	wcout << "\n";
 	while (pCurStudent) {
 		if (pCurStudent->id_class == temp) {
 			n++;
-			wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27 - pCurStudent->fname.length()) << pCurStudent->fname << "  " << pCurStudent->gender << "  " << pCurStudent->dob << "  " << pCurStudent->soid << "  " << pCurStudent->id_class << endl;
+			if (n <= 9)
+			{
+				wcout << n << ".  " << pCurStudent->id << "  " << pCurStudent->lname << setw(27 - pCurStudent->lname.length()) << pCurStudent->fname << "    " << pCurStudent->gender << setw(18 - pCurStudent->gender.length()) << pCurStudent->dob << "   " << pCurStudent->soid << setw(20 -pCurStudent->soid.length()) << pCurStudent->id_class << endl;
+			}
+			else
+			{
+				wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27 - pCurStudent->lname.length()) << pCurStudent->fname << "    " << pCurStudent->gender << setw(18 - pCurStudent->gender.length()) << pCurStudent->dob << "   " << pCurStudent->soid << setw(20 - pCurStudent->soid.length()) << pCurStudent->id_class << endl;
+			}
 		}
 		pCurStudent = pCurStudent->pNext;
 	}
@@ -195,10 +203,10 @@ void viewCourse_StudentInCourse(HT_course& pCourse, HT_in4_student& student_in4)
 	course* pCurCourse = pCourse.head;
 	int n = 0;
 	if (pCurCourse == nullptr) wcout << L"Chưa có khóa học nào."; else
-		wcout << L"No" << "  " << L"id" <<"  " << L"tên khóa học"<< setw(15) <<L"tên giảng viên"<<  setw(20) << L"số tín chỉ"<< setw(3) <<L"số sinh viên tối đa"<< setw(3) << L"thời gian 2 buổi/1tuần"<< setw(3) <<L"lượng học sinh hiện tại." << endl;
+		wcout << L"No" << "    " << L"id" <<setw(20) << L"tên khóa học"<< setw(20) <<L"tên giảng viên"<<  setw(20) << L"số tín chỉ"<< "   " <<L"số sinh viên tối đa"<< "    " << L"thời gian 2 buổi/1tuần"<< "     " <<L"lượng học sinh hiện tại." << endl;
 	while (pCurCourse) {
 		n++;
-		wcout << n << L". " << pCurCourse->id << "  " << pCurCourse->name << setw(15-pCurCourse->name.length()) << pCurCourse->teacher_name << setw(20-pCurCourse->teacher_name.length()) << pCurCourse->num_cre << "  " << pCurCourse->max_student << "  " << pCurCourse->session << "  " << pCurCourse->count << endl;
+		wcout << n << L".  " << pCurCourse->id << setw(21 - pCurCourse->id.length()) << pCurCourse->name << setw(28-pCurCourse->name.length()) << pCurCourse->teacher_name << setw(27-pCurCourse->teacher_name.length()) << pCurCourse->num_cre << setw(17) << pCurCourse->max_student << setw(28) << pCurCourse->session << setw(25) << pCurCourse->count << endl;
 		pCurCourse = pCurCourse->pNext;
 	}
 	wcout << n + 1 << L". Quay về." << endl;
@@ -213,10 +221,11 @@ void viewCourse_StudentInCourse(HT_course& pCourse, HT_in4_student& student_in4)
 	}
 	in4_student* pCurStudent = student_in4.head;
 	n = 0;
+	wcout << "\n";
 	while (pCurStudent) {
 		if (studentInThisCourse(pCurStudent,pCurCourse)) {
 			n++;
-			wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27-pCurStudent->lname.length()) << pCurStudent->fname << setw(20 - pCurStudent->fname.length()) << pCurStudent->gender << "  " << pCurStudent->dob << "  " << pCurStudent->soid << "  " << pCurStudent->id_class << endl;
+			wcout << n << ". " << pCurStudent->id << "  " << pCurStudent->lname << setw(27-pCurStudent->lname.length()) << pCurStudent->fname << setw(15 - pCurStudent->fname.length()) << pCurStudent->gender << "   " << pCurStudent->dob << "   " << pCurStudent->soid << setw(20 - pCurStudent->soid.length()) << pCurStudent->id_class << endl;
 		}
 		pCurStudent = pCurStudent->pNext;
 	}

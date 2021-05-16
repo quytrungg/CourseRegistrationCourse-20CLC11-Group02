@@ -38,7 +38,7 @@ void add_course(HT_course& pHead) {
 		wcout << L"Số tín chỉ: ";
 		getline(wcin, temp);
 		pCur->num_cre = wconvert_num(temp);
-		while (pCur->num_cre == -1) {
+		while (pCur->num_cre < 1) {
 			wcout << L"Nhập lại (số tín chỉ là số tự nhiên): ";
 			getline(wcin, temp);
 			pCur->num_cre = wconvert_num(temp);
@@ -46,7 +46,7 @@ void add_course(HT_course& pHead) {
 		wcout << L"Số sinh viên tối đa: ";
 		getline(wcin, temp);
 		pCur->max_student = wconvert_num(temp);
-		if (pCur->max_student == -1) pCur->max_student = 50;
+		if (pCur->max_student < 1) pCur->max_student = 50;
 		do {
 			std::wcout << L"Nhập 2 buổi học trong tuần (Ex: MONS1_TUES3): ";
 			getline(wcin, pCur->session);
@@ -89,7 +89,7 @@ void update_course_list(HT_course& pCourse) {
 			wcout << L"Số tín chỉ: ";
 			getline(wcin, temp);
 			pCur->num_cre = wconvert_num(temp);
-			while (pCur->num_cre == -1) {
+			while (pCur->num_cre <1) {
 				wcout << L"Nhập lại (số tín chỉ là số tự nhiên): ";
 				getline(wcin, temp);
 				pCur->num_cre = wconvert_num(temp);
@@ -97,7 +97,7 @@ void update_course_list(HT_course& pCourse) {
 			wcout << L"Số sinh viên tối đa: ";
 			getline(wcin, temp);
 			pCur->max_student = wconvert_num(temp);
-			if (pCur->max_student == -1) pCur->max_student = 50;
+			if (pCur->max_student <1) pCur->max_student = 50;
 			do {
 				wcout << L"Nhập 2 buổi học trong tuần (Ex: MONS1_TUES3): ";
 				getline(wcin, pCur->session);
@@ -245,9 +245,16 @@ void createCSVFileInACourse(HT_course& pCourse, HT_in4_student& student_in4) {
 		pCurCourse = pCurCourse->pNext;
 	}
 	string filename;
-	wcout << L"Nhập tên file csv muốn tạo"; getline(cin, filename);
-	wofstream wfout;
-	wfout.open(filename + ".csv");
+	wcout << L"Nhập tên file csv muốn tạo: "; getline(cin, filename);
+	wfstream wfout;
+	wfout.open(path_direct + filename + ".csv", ios::in);
+	while (wfout.is_open()) {
+		wfout.close();
+		wcout << L"File đã tồn tại, vui lòng nhập tên khác: "; getline(cin, filename);
+		wfout.open(path_direct + filename + ".csv", ios::in);
+	}
+	wfout.close();
+	wfout.open(path_direct + filename + ".csv", ios::out);
 	wfout << wchar_t(239) << wchar_t(187) << wchar_t(191);
 	wfout.imbue(utf8_locale);
 	in4_student* pCurStudent = student_in4.head;
@@ -273,8 +280,13 @@ bool notExistStudentInCourse(score& a, score*& pScore) {
 	score* pCurScore = pScore;
 	while (pCurScore) {
 		if (a.id == pCurScore->id && a.id_course == pCurScore->id_course && a.teacher_name == pCurScore->teacher_name && a.session == pCurScore->session && a.schoolYear == pCurScore->schoolYear)
-			if(a.dateStartSemester.date.Day==pCurScore->dateStartSemester.date.Day && a.dateStartSemester.date.Month==pCurScore->dateStartSemester.date.Month && a.dateStartSemester.date.Year==pCurScore->dateStartSemester.date.Year)
-			return 0;
+			if (a.dateStartSemester.date.Day == pCurScore->dateStartSemester.date.Day && a.dateStartSemester.date.Month == pCurScore->dateStartSemester.date.Month && a.dateStartSemester.date.Year == pCurScore->dateStartSemester.date.Year)
+			{
+				a.pNext = pCurScore->pNext;
+				a.pPrev = pCurScore->pPrev;
+				(*pCurScore) = a;
+				return 0;
+			}
 		pCurScore = pCurScore->pNext;
 	}
 	return 1;
@@ -307,15 +319,15 @@ void importScoreBoard(score*& pScore) {
 	getline(cin, filename);
 	wifstream wfin;
 	wfin.imbue(utf8_locale);
-	wfin.open(filename + ".csv");
-	if (wfin.eof()) {
-		wcout << "File không tồn tại!";
+	wfin.open(path_direct + filename + ".csv");
+	if (!wfin.is_open()) {
+		wcout << L"Không thể mở file!";
 		_getch();
 		return;
 	}
 	wstring temp;
 	score* pCurScore = pScore;
-	while (pCurScore) 
+	while (pCurScore && pCurScore->pNext) 
 		if (pCurScore->pNext) pCurScore = pCurScore->pNext;
 	getline(wfin, temp);
 	while (!wfin.eof())
@@ -359,6 +371,8 @@ void importScoreBoard(score*& pScore) {
 			}
 		}
 	}
+	_getch();
+	wfin.close();
 	update_score(pScore);
 }
 void viewScoreInACourse(HT_course& pCourse, score*& pScore) {
@@ -524,14 +538,10 @@ void courseManage(HT_course& pCourse,bool& active_registration_session,id_class*
 		} while (choose != 1);
 	}
 }
-bool Check_session(wstring str) {
-	wchar_t* a = new wchar_t[str.length() + 1];
-	str.copy(a, str.length(), 0);
-	a[str.length()] = L'\0';
+bool Check_session(wstring a) {
 	if (a[0] == L'M') {
 		if (a[1] == L'O') {
 			if (a[2] == L'N') {
-
 			}
 			else return false;
 		}
@@ -544,7 +554,7 @@ bool Check_session(wstring str) {
 			}
 			else return false;
 		}
-		else return false;
+		else if (a[1] != L'H')return false;
 	}
 	else if (a[0] == L'W') {
 		if (a[1] == L'E') {
@@ -611,7 +621,7 @@ bool Check_session(wstring str) {
 			}
 			else return false;
 		}
-		else return false;
+		else if (a[1] != L'H')return false;
 	}
 	else if (a[6] == L'W') {
 		if (a[7] == L'E') {

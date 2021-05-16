@@ -1,8 +1,6 @@
 ﻿#include"func.h"
 void create_school_year(string& school_year, bool& done_create_class, bool& done_add_student, bool& done_create_semester) {
-	wcout << L"Nhập năm học mới. ";
-	//điều kiện để sau
-	getline(cin, school_year);
+	school_year = getSchoolYear();
 	update_school_year_txt(school_year, done_create_class, done_add_student, done_create_semester);
 }
 string choose_id_class(id_class*& idClass) {
@@ -61,58 +59,19 @@ void do_staff_work(string& username, id_class*& idClass, HT_in4_student& student
 						update_semester_period(done_create_registration_session, active_registration_session);
 					}
 					else {
-						done_create_registration_session = 1;
-						wcout << L"Nhập ngày bắt đầu đăng kí học phần: ";
-						cin >> aBegin.date.Day;
-						wcout << L"Nhập tháng bắt đầu đăng kí học phần: ";
-						cin >> aBegin.date.Month;
-						wcout << L"Nhập năm bắt đầu đăng kí học phần: ";
-						cin >> aBegin.date.Year;
-						while (checkDayIsTrue(aBegin) == 0) {
-							wcout << L"Ngày không tồn tại, chọn 1 để tiếp tục, chọn 2 để dừng ";
-							cin.ignore(1000, '\n');
-							int choose = user_choose_exist(1, 2);
-							if (choose == 2) {
-								done_create_registration_session = 0;
-								break;
-							}
-							else {
-								wcout << L"Nhập ngày bắt đầu đăng kí học phần: ";
-								cin >> aBegin.date.Day;
-								wcout << L"Nhập tháng bắt đầu đăng kí học phần: ";
-								cin >> aBegin.date.Month;
-								wcout << L"Nhập năm bắt đầu đăng kí học phần: ";
-								cin >> aBegin.date.Year;
-							}
-						}//ngày bắt đầu đăng kí khóa học
-						if (done_create_registration_session) {
-							wcout << L"Nhập ngày kết thúc đăng kí học phần: ";
-							cin >> aEnd.date.Day;
-							wcout << L"Nhập tháng kết thúc đăng kí học phần: ";
-							cin >> aEnd.date.Month;
-							wcout << L"Nhập năm kết thúc đăng kí học phần: ";
-							cin >> aEnd.date.Year;
-							while (checkDayIsTrue(aEnd) == 0) {
-								wcout << L"Ngày không tồn tại, chọn 1 để tiếp tục, chọn 2 để dừng ";
-								cin.ignore(1000, '\n');
-								int choose = user_choose_exist(1, 2);
-								if (choose == 2) {
-									done_create_registration_session = 0;
-									break;
-								}
-								else {
-									wcout << L"Nhập ngày kết thúc đăng kí học phần: ";
-									cin >> aEnd.date.Day;
-									wcout << L"Nhập tháng kết thúc đăng kí học phần: ";
-									cin >> aEnd.date.Month;
-									wcout << L"Nhập năm kết thúc đăng kí học phần: ";
-									cin >> aEnd.date.Year;
-								}
-							}
-						}//ngày kết thúc đăng kí khóa học
+						wcout << L"Nhập giai đoạn đăng kí khóa học." << endl;
+						_getch();
+						system("cls");
+						done_create_registration_session = inputPeriodTime(aBegin, aEnd);
+						if (done_create_registration_session == 0)
+						{
+							wcout << L"Thời gian bắt đầu lớn hơn thời gian kết thúc!";
+							_getch();
+						}
 						if (done_create_registration_session) {
 							cin.ignore(100, '\n');
 							update_date_create_course(aBegin, aEnd);
+							wcout << done_create_registration_session << endl;
 							update_semester_period(done_create_registration_session, active_registration_session);
 						}
 					}
@@ -155,11 +114,11 @@ void do_staff_work(string& username, id_class*& idClass, HT_in4_student& student
 						}
 					}
 					else if (done_add_student == 0) {
-						string t = choose_id_class(idClass), file_csv;
+						string t = chooseClass(idClass), file_csv;
 						wstring user_choose_id_class(t.begin(), t.end());
 						if (user_choose_id_class != L"null") {
 							wcout << L"Nhập tên file csv chứa thông tin sinh viên: "; getline(cin, file_csv);
-							file_csv = file_csv + ".csv";
+							file_csv = path_direct + file_csv + ".csv";
 							add_student_in4(file_csv, student_in4, user_choose_id_class, student);
 							update_student_in4_csv(student_in4);
 							update_account(student);
@@ -182,10 +141,39 @@ void do_staff_work(string& username, id_class*& idClass, HT_in4_student& student
 	}
 }
 bool create_3_semester() {
-	//điều kiện để sau
 	ofstream out;
-	out.open(path_date_semester);
-	string t;
+	LocalTime semesterStar1, semesterEnd1;
+	LocalTime semesterStar2, semesterEnd2;
+	LocalTime semesterStar3, semesterEnd3;
+	if (inputPeriodTime(semesterStar1, semesterEnd1)) {
+		if (inputPeriodTime(semesterStar2, semesterEnd2)) {
+			if (!compare2Times(semesterEnd1, semesterStar2)) {
+				wcout << L"Thời gian kết thúc học kì 1 lớn hơn thời gian bắt đầu học kì 2!";
+				_getch();
+				return 0;
+			}
+			if (inputPeriodTime(semesterStar3, semesterEnd3)) {
+				if (!compare2Times(semesterEnd2, semesterStar3)) {
+					wcout << L"Thời gian kết thúc học kì 2 lớn hơn thời gian bắt đầu học kì 3!";
+					_getch();
+					return 0;
+				}
+				out.open(path_date_semester);
+				out << semesterStar1.date.Day << " " << semesterStar1.date.Month << " " << semesterStar1.date.Year << endl;
+				out << semesterEnd1.date.Day << " " << semesterEnd1.date.Month << " " << semesterEnd1.date.Year << endl;
+				out << semesterStar2.date.Day << " " << semesterStar2.date.Month << " " << semesterStar2.date.Year << endl;
+				out << semesterEnd2.date.Day << " " << semesterEnd2.date.Month << " " << semesterEnd2.date.Year << endl;
+				out << semesterStar3.date.Day << " " << semesterStar3.date.Month << " " << semesterStar3.date.Year << endl;
+				out << semesterEnd3.date.Day << " " << semesterEnd3.date.Month << " " << semesterEnd3.date.Year;
+				out.close();
+				return 1;
+			}
+		}
+	}
+	wcout << L"Thời gian kết thúc nhỏ hơn thời gian bắt đầu!";
+	_getch();
+	return 0;
+	/*string t;
 	LocalTime* date = new LocalTime[6];
 	for (int i = 1; i <= 3; i++) {
 		wcout << L"Nhập ngày bắt đầu học kì " << i << L": ";
@@ -239,7 +227,35 @@ bool create_3_semester() {
 		if (i != 3) out << endl;
 	}
 	cin.ignore(1000, '\n');
-	delete[]date;
-	out.close();
-	return 1;
+	delete[]date;*/
+}
+string getSchoolYear() {
+	char* a = new char[10];
+	LocalTime current_time = currentDateTime();
+	int n1 = current_time.date.Year;
+	int n2 = current_time.date.Year + 1;
+	int m = 1000;
+	int r;
+	int count = 0;
+	for (int j = n1; j > 0; j = j / 10) {
+		r = n1 / m;
+		n1 = n1 - r * m;
+		m = m / 10;
+		a[count] = r + L'0';
+		count++;
+	}
+	a[count] = L'_';
+	m = 1000;
+	count++;
+	for (int j = n2; j > 0; j = j / 10) {
+		r = n2 / m;
+		n2 = n2 - r * m;
+		m = m / 10;
+		a[count] = r + L'0';
+		count++;
+	}
+	a[count] = L'\0';
+	string school_year(a);
+	delete[]a;
+	return school_year;
 }

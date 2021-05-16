@@ -107,6 +107,7 @@ void add_student_in4(string file_csv,HT_in4_student& pStudent,wstring& user_choo
 	wifstream wfin;
 	wfin.imbue(utf8_locale);
 	wfin.open(file_csv);
+	if (!wfin.is_open()) return;
 	wstring temp, No;
 	in4_student* pCur;
 	pCur = nullptr;
@@ -196,7 +197,4 @@ void update_score(score*& pScore) {
 		pCur = pCur->pNext;
 	}
 	wfout.close();
-}
-void update_date_sign_course() {
-	ofstream out(path_date_sign_course);
 }

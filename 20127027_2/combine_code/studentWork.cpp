@@ -21,8 +21,20 @@ bool check_conflicted_course(wstring& a, wstring& b) {
 	wstring b2 = b.substr(6);
 	return ((a1 == b1) || (a1 == b2) || (a2 == b1) || (a2 == b2));
 }
-
+int countCourseStudentRegis(id_course_of_student* pHead) {
+	int count = 0;
+	while (pHead != nullptr) {
+		count++;
+		pHead = pHead->pNext;
+	}
+	return count;
+}
 void signCourse(HT_course& pCourse, in4_student*& nodeStudent_in4) {
+	if (countCourseStudentRegis(nodeStudent_in4->id_course) == 5) {
+		wcout << L"Đã đủ 5 môn học!";
+		_getch();
+		return;
+	}
 	course* pCur = pCourse.head;
 	int n = 0;
 	wcout << L"No, id, tên khóa học, tên giảng viên, số tín chỉ, số sinh viên tối đa, thời gian 2 buổi/1tuần." << endl;
@@ -149,8 +161,8 @@ void viewScoreBoard(in4_student*& nodeStudent_in4, score*& pScore) {
 void do_student_work(string& username, id_class*& idClass, HT_in4_student& student_in4, HT_course& pCourse, account*& student,score*& pScore) {
 	//xem còn thời gian đăng kí không trong date_registration.txt 
 	LocalTime aBegin, aEnd, cTime = currentDateTime();
-	load_deadline_sign_course(aBegin, aEnd);
-	int t_inTime = 0;/*compare2Times(cTime, aEnd);*///so sánh cTime có nằm trong abegin, aend không
+	load_deadline_registration(aBegin, aEnd);
+	bool t_inTime = (!compare2Times(cTime, aBegin) && !compare2Times(aEnd, cTime));
 	if (!check_active_course_registration()) {
 		wcout << L"Chưa có hoạt động nào, nhấn bất kì để tiếp tục";
 		_getch();
