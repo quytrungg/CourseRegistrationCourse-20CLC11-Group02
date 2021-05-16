@@ -701,12 +701,42 @@ bool Input_time(LocalTime& a, LocalTime& b) {
 	}
 }
 
-void main() {
-	LocalTime a;
-	LocalTime b;
-	Input_time(a, b);
+
+
+std::wstring Create_school_year() {
+	wchar_t* a = new wchar_t[10];
+	LocalTime current_time;
+	Get_current_time_to_int(current_time);
+	int n1 = current_time.date.Year ;
+	int n2 = current_time.date.Year + 1;
+	int m = 1000;
+	int r;
+	int count = 0;
+	for (int j = n1; j > 0; j = j / 10) {
+		r = n1 / m;
+		n1 = n1 - r * m;
+		m = m / 10;
+		a[count] = r + L'0';
+		count++;
+	}
+	a[count] = L'_';
+	m = 1000;
+	count++;
+	for (int j = n2; j > 0; j = j / 10) {
+		r = n2 / m;
+		n2 = n2 - r * m;
+		m = m / 10;
+		a[count] = r + L'0';
+		count++;
+	}
+	a[count]  = L'\0';
+	std::wcout << a << std::endl;
+	std::wstring school_year_1(a);
+	return school_year_1;
 }
 
-
-
-
+void main() {
+	_setmode(_fileno(stdin), _O_WTEXT);
+	_setmode(_fileno(stdout), _O_WTEXT);
+	std::wcout << Create_school_year();
+}
