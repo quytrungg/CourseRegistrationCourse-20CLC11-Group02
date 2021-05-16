@@ -79,10 +79,10 @@ void signCourse(HT_course& pCourse, in4_student*& nodeStudent_in4) {
 void deleteACourse(HT_course& pCourse, in4_student*& nodeStudent_in4) {
 	id_course_of_student* pCurStudent = nodeStudent_in4->id_course;
 	int n = 0;
-	wcout << L"id khóa học,tên giảng viên,thời gian học trong tuần" << endl;
+	wcout << L"id" << "  " << L"khóa học"<< setw(20) << L"tên giảng viên" << setw(30) << L"thời gian học trong tuần" << endl;
 	while (pCurStudent) {
 		n++;
-		wcout <<n<< L". " << pCurStudent->id << "," << pCurStudent->teacher_name << "," << pCurStudent->session << endl;
+		wcout <<n<< L".    " << pCurStudent->id << setw(23-pCurStudent->id.length()) << pCurStudent->teacher_name << setw(35-pCurStudent->teacher_name.length()) << pCurStudent->session << endl;
 		pCurStudent = pCurStudent->pNext;
 	}
 	wcout << n + 1 << L". Quay về." << endl;
