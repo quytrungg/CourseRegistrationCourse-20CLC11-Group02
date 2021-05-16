@@ -166,12 +166,22 @@ void resetDataSemester() {
 	bool notInSemester;
 	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk1
 	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk1
+	notInSemester = (!compare2Times(cTime, aBegin) && !compare2Times(aEnd, cTime));
 	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk2
-	notInSemester = (compare2Times(aEnd, cTime) && compare2Times(cTime, aBegin));
 	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk2
+	notInSemester += (!compare2Times(cTime, aBegin) && !compare2Times(aEnd, cTime));
 	f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;//hk3
-	notInSemester += (compare2Times(aEnd, cTime) && compare2Times(cTime, aBegin));
+	f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;//hk3
+	notInSemester += (!compare2Times(cTime, aBegin) && !compare2Times(aEnd, cTime));
 	f.close();
+	f.open(path_date_create_course, ios::in);
+	if (f.is_open()) {
+		f >> aBegin.date.Day >> aBegin.date.Month >> aBegin.date.Year;
+		f >> aEnd.date.Day >> aEnd.date.Month >> aEnd.date.Year;
+		notInSemester += (!compare2Times(cTime, aBegin) && !compare2Times(aEnd, cTime));
+	}
+	f.close();
+	notInSemester = !notInSemester;
 	if (notInSemester) {
 		f.open(path_semester_period, ios::out);
 		f << 0 << " " << 0;

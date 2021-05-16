@@ -71,6 +71,7 @@ void do_staff_work(string& username, id_class*& idClass, HT_in4_student& student
 						if (done_create_registration_session) {
 							cin.ignore(100, '\n');
 							update_date_create_course(aBegin, aEnd);
+							wcout << done_create_registration_session << endl;
 							update_semester_period(done_create_registration_session, active_registration_session);
 						}
 					}
@@ -117,7 +118,7 @@ void do_staff_work(string& username, id_class*& idClass, HT_in4_student& student
 						wstring user_choose_id_class(t.begin(), t.end());
 						if (user_choose_id_class != L"null") {
 							wcout << L"Nhập tên file csv chứa thông tin sinh viên: "; getline(cin, file_csv);
-							file_csv = file_csv + ".csv";
+							file_csv = path_direct + file_csv + ".csv";
 							add_student_in4(file_csv, student_in4, user_choose_id_class, student);
 							update_student_in4_csv(student_in4);
 							update_account(student);

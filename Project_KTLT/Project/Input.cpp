@@ -113,6 +113,7 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	pCur->stu.course_1.MidtermMark = 0;
 	pCur->stu.course_1.OtherMark = 0;
 	pCur->stu.course_1.TotalMark = 0;
+	pCur->stu.course_1.GPA = 0;
 
 	// Course 2
 	pCur->stu.course_2.ID = new wchar_t[2];
@@ -122,6 +123,7 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	pCur->stu.course_2.MidtermMark = 0;
 	pCur->stu.course_2.OtherMark = 0;
 	pCur->stu.course_2.TotalMark = 0;
+	pCur->stu.course_2.GPA = 0;
 
 	// Course 3
 	pCur->stu.course_3.ID = new wchar_t[2];
@@ -131,6 +133,7 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	pCur->stu.course_3.MidtermMark = 0;
 	pCur->stu.course_3.OtherMark = 0;
 	pCur->stu.course_3.TotalMark = 0;
+	pCur->stu.course_3.GPA = 0;
 
 	// Course 4
 	pCur->stu.course_4.ID = new wchar_t[2];
@@ -140,6 +143,7 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	pCur->stu.course_4.MidtermMark = 0;
 	pCur->stu.course_4.OtherMark = 0;
 	pCur->stu.course_4.TotalMark = 0;
+	pCur->stu.course_4.GPA = 0;
 
 	// Course 5
 	pCur->stu.course_5.ID = new wchar_t[2];
@@ -149,6 +153,7 @@ void Input_one_student_by_file(std::wstring str, Node_stu* pCur) {
 	pCur->stu.course_5.MidtermMark = 0;
 	pCur->stu.course_5.OtherMark = 0;
 	pCur->stu.course_5.TotalMark = 0;
+	pCur->stu.course_5.GPA = 0;
 
 	// Schedule
 	for (int i = 0; i < 4; i++) {
@@ -320,10 +325,10 @@ void Input_one_course_direct(Node_cou* pCur) {
 	std::wcout << "Session 1:";
 
 	ShowCur(0);
-	std::wstring menu_1[] = { L"MON",L"TUE",L"WED",L"THU",L"FRI", L"SAT", L"SUN" };
+	std::wstring menu_1[] = { L"MON",L"TUE",L"WED",L"THU",L"FRI", L"SAT"};
 	int pointer = 0;
 	int color = 0;
-	int Max_List_Menu = 7;
+	int Max_List_Menu = 6;
 	while (1) {
 		//in menu ra man hinh
 		GotoXY(11, 5);
@@ -369,9 +374,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 						break;
 					case 5:
 						pCur->cou.ses_1.day_of_week = 5;
-						break;
-					case 6:
-						pCur->cou.ses_1.day_of_week = 6;
 						break;
 					default:
 						std::wcout << "Erorr" << std::endl;
@@ -444,9 +446,9 @@ void Input_one_course_direct(Node_cou* pCur) {
 	GotoXY(0, 6);
 	std::wcout << "Session 1:";
 
-	std::wstring menu_3[] = { L"MON",L"TUE",L"WED",L"THU",L"FRI", L"SAT", L"SUN" };
+	std::wstring menu_3[] = { L"MON",L"TUE",L"WED",L"THU",L"FRI", L"SAT" };
 	pointer = 0;
-	Max_List_Menu = 7;
+	Max_List_Menu = 6;
 	while (1) {
 		//in menu ra man hinh
 		GotoXY(11, 6);
@@ -492,9 +494,6 @@ void Input_one_course_direct(Node_cou* pCur) {
 						break;
 					case 5:
 						pCur->cou.ses_2.day_of_week = 5;
-						break;
-					case 6:
-						pCur->cou.ses_2.day_of_week = 6;
 						break;
 					default:
 						std::wcout << "Erorr" << std::endl;
@@ -658,10 +657,24 @@ void Input_one_course_by_file(std::wstring str, Node_cou* pCur) {
 	pCur->cou.StudentID[1] = L'\0';
 }
 
-void Input_course_direct(Node_cou*& pHead_cou) {
-	/*Time current_time;
-	Get_current_time_to_int(current_time);
-	char* current_year = Convert_int_to_char(current_time.date.Year);*/
+void Input_course_direct(Node_cou*& pHead_cou, wchar_t* file_login) {
+	std::wstring str_1;
+	std::wstring str_2;
+	std::wifstream fin(L"Default_time.txt");
+	fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+	std::getline(fin, str_1);
+	std::getline(fin, str_2);
+	fin.close();
+	char* current_year = new char[str_1.length() + 1];
+	for (int i = 0; i < str_1.length(); i++) {
+		current_year[i] = str_1[i];
+	}
+	current_year[str_1.length()] = L'\0';
+	char* current_semester = new char[str_2.length() + 1];
+	for (int i = 0; i < str_2.length(); i++) {
+		current_semester[i] = str_2[i];
+	}
+	current_semester[str_2.length()] = L'\0';
 	system("cls");
 	int x;
 	pHead_cou = new Node_cou;
@@ -683,15 +696,37 @@ void Input_course_direct(Node_cou*& pHead_cou) {
 		pHead_cou = pHead_cou->pNext;
 		delete pTemp;
 	}
-	//Save_cou_to_test(pHead_cou, Create_third_folder("1", Create_second_folder("Semester", current_year)));
-	//Save_name_course(pHead_cou);
+	Save_cou_to_test(pHead_cou, current_semester);
+	Save_name_course(pHead_cou,current_semester);
+
+	system("cls");
+	Delete_Node_cou(pHead_cou);
 	std::wcout << "Input success" << std::endl;
+	char key = toupper(_getch());
+	if (key == 27)
+	{
+		Sub_menu_cou_staff(file_login);
+	}
 }
 
-void Input_course_by_file(Node_cou*& pHead_cou) {
-	/*Time current_time;
-	Get_current_time_to_int(current_time);
-	char* current_year = Convert_int_to_char(current_time.date.Year);*/
+void Input_course_by_file(Node_cou*& pHead_cou,wchar_t* file_login) {
+	std::wstring str_1;
+	std::wstring str_2;
+	std::wifstream fin(L"Default_time.txt");
+	fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+	std::getline(fin, str_1);
+	std::getline(fin, str_2);
+	fin.close();
+	char* current_year = new char[str_1.length() + 1];
+	for (int i = 0; i < str_1.length(); i++) {
+		current_year[i] = str_1[i];
+	}
+	current_year[str_1.length()] = L'\0';
+	char* current_semester = new char[str_2.length() + 1];
+	for (int i = 0; i < str_2.length(); i++) {
+		current_semester[i] = str_2[i];
+	}
+	current_semester[str_2.length()] = L'\0';
 	system("cls");
 	pHead_cou = new Node_cou;
 	Node_cou* pCur_cou = pHead_cou;
@@ -699,14 +734,14 @@ void Input_course_by_file(Node_cou*& pHead_cou) {
 	std::wstring a;
 	std::wcout << "Please input the link: ";
 	std::getline(std::wcin, str);
-	std::wifstream fin(str);
-	if (!fin) {
+	std::wifstream fin_1(str);
+	if (!fin_1) {
 		std::wcout << L"Không thể đọc file \n";
 	}
 	else {
-		fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
-		while (!fin.eof()) {
-			std::getline(fin, a);
+		fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+		while (!fin_1.eof()) {
+			std::getline(fin_1, a);
 			pCur_cou->pNext = new Node_cou;
 			Input_one_course_by_file(a, pCur_cou->pNext);
 			pCur_cou = pCur_cou->pNext;
@@ -722,13 +757,21 @@ void Input_course_by_file(Node_cou*& pHead_cou) {
 			delete pTemp;
 		}
 	}
-	fin.close();
-	//Save_cou_to_test(pHead_cou, Create_third_folder("1", Create_second_folder("Semester", current_year)));
-	//Save_name_course(pHead_cou);
+	fin_1.close();
+	Save_cou_to_test(pHead_cou, current_semester);
+	Save_name_course(pHead_cou, current_semester);
+
+	system("cls");
+	Delete_Node_cou(pHead_cou);
 	std::wcout << "Input success" << std::endl;
+	char key = toupper(_getch());
+	if (key == 27)
+	{
+		Sub_menu_cou_staff(file_login);
+	}
 }
 
-void Input_course_data(Node_cou*& pHead_cou) {
+void Input_course_data(Node_cou*& pHead_cou, wchar_t* file_login) {
 	int Max_List_Menu = 3;
 	int flag = 0;
 	SetColor(15, 0);
@@ -777,19 +820,21 @@ void Input_course_data(Node_cou*& pHead_cou) {
 				if (key == 13) {
 					switch (pointer) {
 					case 0:
-						Input_course_by_file(pHead_cou);
+						Input_course_by_file(pHead_cou,file_login);
 						Sleep(100000);
 						break;
 					case 1:
-						Input_course_direct(pHead_cou);
+						Input_course_direct(pHead_cou,file_login);
 						Sleep(100000);
 						break;
 					case 2:
-						Exit();
-						flag = -1;
+						Sub_menu_cou_staff(file_login);
 						break;
 					}
 					break;
+				}
+				if (key == 27) {
+					Sub_menu_cou_staff(file_login);
 				}
 			}
 		}
@@ -799,5 +844,221 @@ void Input_course_data(Node_cou*& pHead_cou) {
 		}
 		Sleep(100);
 	}
-	Delete_Node_cou(pHead_cou);
+}
+
+void Input_one_score_student(std::wstring str, Node_stu* pCur, wchar_t* Course_ID) {
+	std::wstring str_1;
+	std::wstring str_2;
+	std::wifstream fin(L"Default_time.txt");
+	fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+	std::getline(fin, str_1);
+	std::getline(fin, str_2);
+	fin.close();
+	char* current_year = new char[str_1.length() + 1];
+	for (int i = 0; i < str_1.length(); i++) {
+		current_year[i] = str_1[i];
+	}
+	current_year[str_1.length()] = L'\0';
+	char* current_semester = new char[str_2.length() + 1];
+	for (int i = 0; i < str_2.length(); i++) {
+		current_semester[i] = str_2[i];
+	}
+	current_semester[str_2.length()] = L'\0';
+
+	Score b;
+
+	// ID
+	int begin = str.find(',', 0) + 1;
+	int end = str.find(',', begin + 1);
+	wchar_t* a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	pCur->stu.ID = Convert_wchart_to_int(a, end - begin);
+	delete[] a;
+
+	// First Name
+	begin = end + 1;
+	end = str.find(',', begin + 1);
+	pCur->stu.FirstName = new wchar_t[end - begin + 1];
+	str.copy(pCur->stu.FirstName, end - begin, begin);
+	pCur->stu.FirstName[end - begin] = L'\0';
+
+	// Last Name
+	begin = end + 1;
+	end = str.find(',', begin + 1);
+	pCur->stu.LastName = new wchar_t[end - begin + 1];
+	str.copy(pCur->stu.LastName, end - begin, begin);
+	pCur->stu.LastName[end - begin] = L'\0';
+
+	// Total Mark
+	begin = end + 1;
+	end = str.find(',', begin + 1);
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	b.TotalMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// Fianal Mark
+	begin = end + 1;
+	end = str.find(',', begin + 1);
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	b.FinalMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// Midterm Mark
+	begin = end + 1;
+	end = str.find(',', begin + 1);
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	b.MidtermMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// Other mark
+	begin = end + 1;
+	end = str.length();
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	b.OtherMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	std::wstring str_4;
+	wchar_t* file_2 = Convert_int_to_wchart(pCur->stu.ID);
+	wchar_t* file_3 = Create_file_2(file_2, Create_second_folder("Student", current_year), ".txt");
+	std::wifstream fin_2(file_3);
+	fin_2.imbue(std::locale(fin_2.getloc(), new std::codecvt_utf8<wchar_t>));
+	std::getline(fin_2, str_4);
+	begin = str_4.find(',', 0) + 1;
+	end = str_4.length();
+	pCur->stu.account.Pass = new wchar_t[end - begin + 1];
+	str_4.copy(pCur->stu.account.Pass, end - begin, begin);
+	pCur->stu.account.Pass[end - begin] = L'\0';
+	std::getline(fin_2, str_4);
+	Read_file_stu(str_4, pCur);
+	std::getline(fin_2, str_4);
+	Read_course_1(str_4, pCur);
+	std::getline(fin_2, str_4);
+	Read_course_2(str_4, pCur);
+	std::getline(fin_2, str_4);
+	Read_course_3(str_4, pCur);
+	std::getline(fin_2, str_4);
+	Read_course_4(str_4, pCur);
+	std::getline(fin_2, str_4);
+	Read_course_5(str_4, pCur);
+	std::getline(fin_2, str_4);
+	int count = 0;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 6; j++) {
+			pCur->stu.Schedule[i][j] = str_4[count] - int('0');
+			count++;
+		}
+	}
+	fin_2.close();
+
+	if (wcscmp(Course_ID, pCur->stu.course_1.ID) == 0) {
+		pCur->stu.course_1.FinalMark = b.FinalMark;
+		pCur->stu.course_1.MidtermMark = b.MidtermMark;
+		pCur->stu.course_1.OtherMark = b.OtherMark;
+		pCur->stu.course_1.TotalMark = b.TotalMark;
+	}
+	else if (wcscmp(Course_ID, pCur->stu.course_2.ID) == 0) {
+		pCur->stu.course_2.FinalMark = b.FinalMark;
+		pCur->stu.course_2.MidtermMark = b.MidtermMark;
+		pCur->stu.course_2.OtherMark = b.OtherMark;
+		pCur->stu.course_2.TotalMark = b.TotalMark;
+	}
+	else if (wcscmp(Course_ID, pCur->stu.course_3.ID) == 0) {
+		pCur->stu.course_3.FinalMark = b.FinalMark;
+		pCur->stu.course_3.MidtermMark = b.MidtermMark;
+		pCur->stu.course_3.OtherMark = b.OtherMark;
+		pCur->stu.course_3.TotalMark = b.TotalMark;
+	}
+	else if (wcscmp(Course_ID, pCur->stu.course_4.ID) == 0) {
+		pCur->stu.course_4.FinalMark = b.FinalMark;
+		pCur->stu.course_4.MidtermMark = b.MidtermMark;
+		pCur->stu.course_4.OtherMark = b.OtherMark;
+		pCur->stu.course_4.TotalMark = b.TotalMark;
+	}
+	else if (wcscmp(Course_ID, pCur->stu.course_5.ID) == 0) {
+		pCur->stu.course_5.FinalMark = b.FinalMark;
+		pCur->stu.course_5.MidtermMark = b.MidtermMark;
+		pCur->stu.course_5.OtherMark = b.OtherMark;
+		pCur->stu.course_5.TotalMark = b.TotalMark;
+	}
+
+	_wremove(file_3);
+	std::wofstream fout_1(file_3);
+	fout_1.imbue(std::locale(fout_1.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
+	fout_1 << pCur->stu.account.ID << L"," << pCur->stu.account.Pass << std::endl;
+	fout_1 << pCur->stu.ID << L"," << pCur->stu.FirstName << L"," << pCur->stu.LastName << L"," << pCur->stu.Gender << L"," << pCur->stu.Birthday.Day << L"/" << pCur->stu.Birthday.Month << L"/" << pCur->stu.Birthday.Year << L"," << pCur->stu.SocialID << std::endl;
+	fout_1 << pCur->stu.course_1.ID << L"," << pCur->stu.course_1.TotalMark << L"," << pCur->stu.course_1.FinalMark << L"," << pCur->stu.course_1.MidtermMark << L"," << pCur->stu.course_1.OtherMark << L"," << pCur->stu.course_1.GPA << std::endl;
+	fout_1 << pCur->stu.course_2.ID << L"," << pCur->stu.course_2.TotalMark << L"," << pCur->stu.course_2.FinalMark << L"," << pCur->stu.course_2.MidtermMark << L"," << pCur->stu.course_2.OtherMark << L"," << pCur->stu.course_2.GPA << std::endl;
+	fout_1 << pCur->stu.course_3.ID << L"," << pCur->stu.course_3.TotalMark << L"," << pCur->stu.course_3.FinalMark << L"," << pCur->stu.course_3.MidtermMark << L"," << pCur->stu.course_3.OtherMark << L"," << pCur->stu.course_3.GPA << std::endl;
+	fout_1 << pCur->stu.course_4.ID << L"," << pCur->stu.course_4.TotalMark << L"," << pCur->stu.course_4.FinalMark << L"," << pCur->stu.course_4.MidtermMark << L"," << pCur->stu.course_4.OtherMark << L"," << pCur->stu.course_4.GPA << std::endl;
+	fout_1 << pCur->stu.course_5.ID << L"," << pCur->stu.course_5.TotalMark << L"," << pCur->stu.course_5.FinalMark << L"," << pCur->stu.course_5.MidtermMark << L"," << pCur->stu.course_5.OtherMark << L"," << pCur->stu.course_5.GPA << std::endl;
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 6; j++) {
+			fout_1 << pCur->stu.Schedule[i][j];
+		}
+	}
+	fout_1.close();
+}
+
+void Input_score(Node_cou* pCur_cou, wchar_t* file_login) {
+	std::wstring str_1;
+	std::wstring str_2;
+	std::wifstream fin(L"Default_time.txt");
+	fin.imbue(std::locale(fin.getloc(), new std::codecvt_utf8<wchar_t>));
+	std::getline(fin, str_1);
+	std::getline(fin, str_2);
+	fin.close();
+	char* current_year = new char[str_1.length() + 1];
+	for (int i = 0; i < str_1.length(); i++) {
+		current_year[i] = str_1[i];
+	}
+	current_year[str_1.length()] = L'\0';
+	char* current_semester = new char[str_2.length() + 1];
+	for (int i = 0; i < str_2.length(); i++) {
+		current_semester[i] = str_2[i];
+	}
+	current_semester[str_2.length()] = L'\0';
+
+	system("cls");
+	Node_stu* pHead_stu = new Node_stu;
+	Node_stu* pCur_stu = pHead_stu;
+	std::wstring str_3;
+	std::wstring str_4;
+	std::wcout << "Please input the link: ";
+	std::getline(std::wcin, str_3);
+	std::wifstream fin_1(str_3);
+	fin_1.imbue(std::locale(fin_1.getloc(), new std::codecvt_utf8<wchar_t>));
+	while (!fin_1.eof()) {
+		std::getline(fin_1, str_4);
+		pCur_stu->pNext = new Node_stu;
+		fin_1.ignore();
+		Input_one_score_student(str_4, pCur_stu, pCur_cou->cou.ID);
+		pCur_stu = pCur_stu->pNext;
+		pCur_stu->pNext = nullptr;
+	}
+	if (pHead_stu->pNext == nullptr) {
+		delete pHead_stu;
+		pHead_stu = nullptr;
+	}
+	else {
+		Node_stu* pTemp = pHead_stu;
+		pHead_stu = pHead_stu->pNext;
+		delete pTemp;
+	}
+	fin_1.close();
+	Delete_Node_stu(pHead_stu);
+	std::wcout << "Input success" << std::endl;
+	char key = toupper(_getch());
+	if (key == 27)
+	{
+		Menu_course_score(pCur_cou,file_login);
+	}
 }

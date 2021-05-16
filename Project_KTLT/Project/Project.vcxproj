@@ -145,6 +145,7 @@
     <ClInclude Include="Save.h" />
     <ClInclude Include="Staff.h" />
     <ClInclude Include="Struct.h" />
+    <ClInclude Include="Student.h" />
     <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClCompile Include="Read.cpp" />
     <ClCompile Include="Save.cpp" />
     <ClCompile Include="Staff.cpp" />
+    <ClCompile Include="Student.cpp" />
     <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -187,11 +187,20 @@ void Read_course_1(std::wstring str, Node_stu* pCur) {
 
 	// Other mark
 	begin = end + 1;
-	end = str.length();
+	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
 	str.copy(a, end - begin, begin);
 	a[end - begin] = L'\0';
 	pCur->stu.course_1.OtherMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// GPA
+	begin = end + 1;
+	end = str.length();
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	pCur->stu.course_1.GPA = Conver_wchart_to_double(a, end - begin);
 	delete[] a;
 }
 
@@ -233,11 +242,20 @@ void Read_course_2(std::wstring str, Node_stu* pCur) {
 
 	// Other mark
 	begin = end + 1;
-	end = str.length();
+	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
 	str.copy(a, end - begin, begin);
 	a[end - begin] = L'\0';
 	pCur->stu.course_2.OtherMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// GPA
+	begin = end + 1;
+	end = str.length();
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	pCur->stu.course_2.GPA = Conver_wchart_to_double(a, end - begin);
 	delete[] a;
 }
 
@@ -279,11 +297,20 @@ void Read_course_3(std::wstring str, Node_stu* pCur) {
 
 	// Other mark
 	begin = end + 1;
-	end = str.length();
+	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
 	str.copy(a, end - begin, begin);
 	a[end - begin] = L'\0';
 	pCur->stu.course_3.OtherMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// GPA
+	begin = end + 1;
+	end = str.length();
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	pCur->stu.course_3.GPA = Conver_wchart_to_double(a, end - begin);
 	delete[] a;
 }
 
@@ -325,11 +352,20 @@ void Read_course_4(std::wstring str, Node_stu* pCur) {
 
 	// Other mark
 	begin = end + 1;
-	end = str.length();
+	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
 	str.copy(a, end - begin, begin);
 	a[end - begin] = L'\0';
 	pCur->stu.course_4.OtherMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// GPA
+	begin = end + 1;
+	end = str.length();
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	pCur->stu.course_4.GPA = Conver_wchart_to_double(a, end - begin);
 	delete[] a;
 }
 
@@ -371,11 +407,20 @@ void Read_course_5(std::wstring str, Node_stu* pCur) {
 
 	// Other mark
 	begin = end + 1;
-	end = str.length();
+	end = str.find(',', begin + 1);
 	a = new wchar_t[end - begin + 1];
 	str.copy(a, end - begin, begin);
 	a[end - begin] = L'\0';
 	pCur->stu.course_5.OtherMark = Conver_wchart_to_double(a, end - begin);
+	delete[] a;
+
+	// GPA
+	begin = end + 1;
+	end = str.length();
+	a = new wchar_t[end - begin + 1];
+	str.copy(a, end - begin, begin);
+	a[end - begin] = L'\0';
+	pCur->stu.course_5.GPA = Conver_wchart_to_double(a, end - begin);
 	delete[] a;
 }
 

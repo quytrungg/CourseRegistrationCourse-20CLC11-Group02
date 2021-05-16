@@ -13,11 +13,11 @@ void Save_stu_to_test(Node_stu* pHead, char* folder) {
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
 		fout << pHead->stu.account.ID << L"," << pHead->stu.account.Pass << std::endl;
 		fout << pHead->stu.ID << L"," << pHead->stu.FirstName << L"," << pHead->stu.LastName << L"," << pHead->stu.Gender << L"," << pHead->stu.Birthday.Day << L"/" << pHead->stu.Birthday.Month << L"/" << pHead->stu.Birthday.Year << L"," << pHead->stu.SocialID << std::endl;
-		fout << pHead->stu.course_1.ID << L"," << pHead->stu.course_1.TotalMark << L"," << pHead->stu.course_1.FinalMark << L"," << pHead->stu.course_1.MidtermMark << L"," << pHead->stu.course_1.OtherMark << std::endl;
-		fout << pHead->stu.course_2.ID << L"," << pHead->stu.course_2.TotalMark << L"," << pHead->stu.course_2.FinalMark << L"," << pHead->stu.course_2.MidtermMark << L"," << pHead->stu.course_2.OtherMark << std::endl;
-		fout << pHead->stu.course_3.ID << L"," << pHead->stu.course_3.TotalMark << L"," << pHead->stu.course_3.FinalMark << L"," << pHead->stu.course_3.MidtermMark << L"," << pHead->stu.course_3.OtherMark << std::endl;
-		fout << pHead->stu.course_4.ID << L"," << pHead->stu.course_4.TotalMark << L"," << pHead->stu.course_4.FinalMark << L"," << pHead->stu.course_4.MidtermMark << L"," << pHead->stu.course_4.OtherMark << std::endl;
-		fout << pHead->stu.course_5.ID << L"," << pHead->stu.course_5.TotalMark << L"," << pHead->stu.course_5.FinalMark << L"," << pHead->stu.course_5.MidtermMark << L"," << pHead->stu.course_5.OtherMark << std::endl;
+		fout << pHead->stu.course_1.ID << L"," << pHead->stu.course_1.TotalMark << L"," << pHead->stu.course_1.FinalMark << L"," << pHead->stu.course_1.MidtermMark << L"," << pHead->stu.course_1.OtherMark << L"," << pHead->stu.course_1.GPA << std::endl;
+		fout << pHead->stu.course_2.ID << L"," << pHead->stu.course_2.TotalMark << L"," << pHead->stu.course_2.FinalMark << L"," << pHead->stu.course_2.MidtermMark << L"," << pHead->stu.course_2.OtherMark << L"," << pHead->stu.course_2.GPA << std::endl;
+		fout << pHead->stu.course_3.ID << L"," << pHead->stu.course_3.TotalMark << L"," << pHead->stu.course_3.FinalMark << L"," << pHead->stu.course_3.MidtermMark << L"," << pHead->stu.course_3.OtherMark << L"," << pHead->stu.course_3.GPA << std::endl;
+		fout << pHead->stu.course_4.ID << L"," << pHead->stu.course_4.TotalMark << L"," << pHead->stu.course_4.FinalMark << L"," << pHead->stu.course_4.MidtermMark << L"," << pHead->stu.course_4.OtherMark << L"," << pHead->stu.course_4.GPA << std::endl;
+		fout << pHead->stu.course_5.ID << L"," << pHead->stu.course_5.TotalMark << L"," << pHead->stu.course_5.FinalMark << L"," << pHead->stu.course_5.MidtermMark << L"," << pHead->stu.course_5.OtherMark << L"," << pHead->stu.course_5.GPA << std::endl;
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 6; j++) {
 				fout << pHead->stu.Schedule[i][j];
@@ -113,14 +113,14 @@ void Save_cou_to_test(Node_cou* pHead, char* folder) {
 	}
 }
 
-void Save_name_course(Node_cou* pHead) {
+void Save_name_course(Node_cou* pHead, char* folder) {
 	Node_cou* pHead_1;
 	Node_cou* pCur;
 	std::wstring str;
-	if (checkFileWithFstream_wstring(L"Course.txt")) {
+	if (checkFileWithFstream_wstring(Create_file_4("Course",folder,".txt"))) {
 		pHead_1 = new Node_cou;
 		pCur = pHead_1;
-		std::wifstream fin("Course.txt");
+		std::wifstream fin(Create_file_4("Course", folder, ".txt"));
 		if (!fin) {
 
 		}
@@ -147,7 +147,7 @@ void Save_name_course(Node_cou* pHead) {
 		}
 		fin.close();
 		pCur = pHead_1;
-		std::wofstream fout("Course.txt");
+		std::wofstream fout(Create_file_4("Course", folder, ".txt"));
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
 		while (pCur->pNext != nullptr) {
 			fout << pCur->cou.ID << std::endl;
@@ -161,7 +161,7 @@ void Save_name_course(Node_cou* pHead) {
 		Delete_Node_cou(pHead_1);
 	}
 	else {
-		std::wofstream fout("Course.txt");
+		std::wofstream fout(Create_file_4("Course", folder, ".txt"));
 		fout.imbue(std::locale(fout.getloc(), new std::codecvt_utf8<wchar_t, 0x10ffff, std::consume_header>));
 		while (pHead != nullptr) {
 			fout << pHead->cou.ID << std::endl;
