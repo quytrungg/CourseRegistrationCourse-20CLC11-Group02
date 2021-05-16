@@ -74,19 +74,23 @@ void load_class(id_class*& idClass) {
 	ifstream fin;
 	fin.open(path_idClass);
 	id_class* pCur = 0;
+	string a;
 	while (!fin.eof()) {
-		if (idClass == 0) {
-			idClass = new id_class;
-			getline(fin, idClass->id);
-			idClass->pNext = idClass->pPrev = nullptr;
-			pCur = idClass;
-		}
-		else {
-			pCur->pNext = new id_class;
-			pCur->pNext->pPrev = pCur;
-			pCur = pCur->pNext;
-			getline(fin, pCur->id);
-			pCur->pNext = nullptr;
+		getline(fin, a);
+		if (a[0] != '\0') {
+			if (idClass == 0) {
+				idClass = new id_class;
+				idClass->id = a;
+				idClass->pNext = idClass->pPrev = nullptr;
+				pCur = idClass;
+			}
+			else {
+				pCur->pNext = new id_class;
+				pCur->pNext->pPrev = pCur;
+				pCur = pCur->pNext;
+				pCur->id = a;
+				pCur->pNext = nullptr;
+			}
 		}
 	}
 	fin.close();

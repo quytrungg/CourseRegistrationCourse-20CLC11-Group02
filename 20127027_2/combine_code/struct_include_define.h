@@ -14,18 +14,21 @@
 #include <conio.h>//wgetch()
 #include<Windows.h>
 #include<iomanip>
+#include<direct.h>
+
 using namespace std;
-#define path_staff_account "staff_account.txt"
-#define path_student_account "student_account.txt"
-#define path_school_year "school_year.txt"
-#define path_idClass "class.txt"
-#define path_student_in4 "student_in4.csv"
-#define path_date_semester "semester.txt"
-#define path_date_create_course "date_create_course.txt"//thực ra là thời gian sinh viên đăng kí, cái này đặt nhầm tên
-#define path_course_csv "course.csv"
-#define path_score_csv "score.csv"
-#define path_staff_in4 "staff_in4.txt"
-#define path_semester_period "semester_period.txt"
+#define path_direct "D:/data_course/"
+#define path_staff_account "D:/data_course/staff_account.txt"
+#define path_student_account "D:/data_course/student_account.txt"
+#define path_school_year "D:/data_course/school_year.txt"
+#define path_idClass "D:/data_course/class.txt"
+#define path_student_in4 "D:/data_course/student_in4.csv"
+#define path_date_semester "D:/data_course/semester.txt"
+#define path_date_create_course "D:/data_course/date_create_course.txt"//thực ra là thời gian sinh viên đăng kí, cái này đặt nhầm tên
+#define path_course_csv "D:/data_course/course.csv"
+#define path_score_csv "D:/data_course/score.csv"
+#define path_staff_in4 "D:/data_course/staff_in4.txt"
+#define path_semester_period "D:/data_course/semester_period.txt"
 
 const locale utf8_locale = locale(locale(), new codecvt_utf8<wchar_t>());
 struct account {

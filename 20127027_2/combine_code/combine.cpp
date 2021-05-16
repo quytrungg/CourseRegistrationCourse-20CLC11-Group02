@@ -1,7 +1,7 @@
 ﻿#include"struct_include_define.h"
 #include"func.h"
 int main() {
-	//cout << 1;
+	_mkdir(path_direct);
 	negativeClose();
 	_setmode(_fileno(stdout), _O_WTEXT);
 	account* staff = 0, * student = 0,  user ;
