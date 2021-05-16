@@ -774,6 +774,7 @@ void ChangeScore(Score*& pHead1, in4_student* &pHead2, std::string path) {
     pCur->ovrgpa = (wchar_t*)n6;
 }
 
+//Reverse list để xuất điểm cho Student
 void ReverseTheList(Score*& pHead) {
     Score* pCur1 = nullptr;
     Score* pCur2 = pHead;
@@ -790,6 +791,7 @@ void ReverseTheList(Score*& pHead) {
     pHead = pCur1;
 }
 
+//Hàm update điểm cho Student vào file
 void UpdateScore(Score*& pHead, std::string path) {
     ChangeToVietnamese();
 
@@ -822,6 +824,7 @@ void UpdateScore(Score*& pHead, std::string path) {
     _setmode(_fileno(stdout), _O_TEXT);
 }
 
+//Tìm điểm của student để xuất ra console
 void FindScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
     in4_student* pFind = FindReturnStudent(path, pHead2);
     Score* pCur = pHead1;
@@ -838,6 +841,7 @@ void FindScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
     }
 }
 
+//In ra điểm của Student lên console
 void PrintStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
     ChangeToVietnamese();
 
@@ -874,6 +878,7 @@ void PrintStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path) {
     _setmode(_fileno(stdout), _O_TEXT);
 }
 
+//In ra bảng điểm của student theo course
 void PrintScoreboardCourse(in4_student* &pHead1, Score* &pHead2, course* pHead3, std::string path) {
     ChangeToVietnamese();
 
@@ -889,4 +894,110 @@ void PrintScoreboardCourse(in4_student* &pHead1, Score* &pHead2, course* pHead3,
     if (pCur == nullptr) {
         return;
     }
+}
+
+void AddCourse(course*& pHead) {
+    course* pCur = pHead;
+    while (pCur->pNext != nullptr) {
+        pCur = pCur->pNext;
+    }
+    course* pNew = new course;
+    ChangeToVietnamese();
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wcin >> pNew->id;
+    std::getline(std::wcin, pNew->name);
+    std::getline(std::wcin, pNew->teacher_name);
+    std::wcin >> pNew->max_student;
+    std::wcin >> pNew->num_cre;
+    std::cin >> pNew->session;
+
+    pCur->pNext = pNew;
+    pCur->pNext->pPrev = pCur;
+    pNew->pNext = nullptr;
+
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+void AddMoreClass(id_class*& pHead) {
+    id_class* pCur = pHead;
+    while (pCur->pNext != nullptr) {
+        pCur = pCur->pNext;
+    }
+    id_class* pNew = new id_class;
+    ChangeToVietnamese();
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::cin >> pNew->id;
+
+    pCur->pNext = pNew;
+    pCur->pNext->pPrev = pCur;
+    pNew->pNext = nullptr;
+
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+void PrintStudentInCourseOnConsole(course*& pHead1, in4_student*& pHead2, std::string path) {
+    course* pCur1 = pHead1;
+    in4_student* pCur2 = pHead2;
+    ChangeToVietnamese();
+    _setmode(_fileno(stdin), _O_U16TEXT);
+    _setmode(_fileno(stdout), _O_U16TEXT);
+
+    std::wstring temp;
+    std::wstring id;
+    std::getline(std::wcin, temp);
+    while (pCur1 != nullptr) {
+        if (pCur1->name == temp) {
+            id = pCur1->id;
+            break;
+        }
+        else pCur1 = pCur1->pNext;
+    }
+
+    while (pCur2 != nullptr) {
+        if (pCur2->id_course->id == id) {
+            std::wcout << pCur2->id;
+            std::wcout << std::setw(10) << pCur2->fname << " ";
+            std::wcout << pCur2->lname;
+        }
+        pCur2 = pCur2->pNext;
+    }
+
+    _setmode(_fileno(stdin), _O_TEXT);
+    _setmode(_fileno(stdout), _O_TEXT);
+}
+
+void Exit() {
+    exit(0);
+}
+
+void ClearScreen() {
+    system("cls");
+}
+
+void EditScoreFile(Score*& pHead1, in4_student*& pHead2, std::string path) {
+    Score* pCur1 = pHead1;
+    in4_student* pCur2 = pHead2;
+    std::fstream f;
+    if (!f) {
+        std::cout << "Can't open file!";
+        return;
+    }
+    f.open(path, std::fstream::in);
+    f.imbue(std::locale(f.getloc(), new std::codecvt_utf8_utf16<wchar_t>));
+
+    while (pCur1 != nullptr) {
+        pCur1 = pCur1->pNext;
+    }
+
+    while (pCur2 != nullptr) {
+        pCur2 = pCur2->pNext;
+    }
+
+    f.close();
 }

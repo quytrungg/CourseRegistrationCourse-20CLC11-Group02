@@ -116,26 +116,27 @@ struct MenuList
     MenuList* pPrev;
 };
 
-//----------Class----------
+//--------------------Class--------------------
 void AddClass(id_class* &pHead);
 void OutputClassFile(std::string path, id_class* pHead);
 id_class* FindClass(std::string path, id_class* &pHead);
 void ChooseClass(id_class*& pHead);
 void LoadClass(std::string path, id_class*& pHead);
 int GetClassYear(id_class& a);
+void AddMoreClass(id_class*& pHead);
 
-//----------Student----------
+//--------------------Student--------------------
 void FindStudent(std::string path, in4_student* &pHead);
 in4_student* FindReturnStudent(std::string path, in4_student* &pHead);
 
-//----------Account----------
+//--------------------Account--------------------
 void load_account(std::string path, account*& acc);
 void PrintAccount(account* pHead);
 account* FindAccount(account* &pHead);
 void ChangePassword(account* &pHead);
 void SaveAccount(std::string path, account* &pHead);
 
-//----------Course-Registration----------
+//--------------------Course-Registration--------------------
 bool check_conflicted_course(course& a, course& b);
 void DeleteCourse(course*& pHead);
 course* FindCourse(course*& pHead);
@@ -143,41 +144,47 @@ void Enroll(std::string path, in4_student* &pHead1, course* &pHead2);
 void UnEnroll(std::string path, in4_student* &pHead1, course* &pHead2);
 void CourseMenu(std::string path, in4_student* &pHead1, course* &pHead2);
 
-//----------Deallocation----------
+//--------------------Deallocation--------------------
 void DeallocateStudent(in4_student* &pHead);
 void DeallocateCourseOfStudent(id_course_of_student* &pHead);
 void DeallocateScore(Score* &pHead);
 void DeleteClass(id_class*& pHead);
 void DeallocateAccount(account*& pHead);
 
-//----------Check-Course----------
+//--------------------Check-Course--------------------
 bool CheckCourseQuantity(in4_student* &pHead);
 bool CheckStudentQuantity(course* &pHead);
 bool CheckConflictedEnroll(course* &pHead1, id_course_of_student* &pHead2);
 bool CheckConflictedCourse(course* &pHead1, in4_student* &pHead2);
 
-//----------Add-Course----------
+//--------------------Add-Course--------------------
 void LoadCourse(std::string path, course*& pHead);
 void AddCourse(course*& cou, course temp);
 course ChangeToData(std::wstring line);
 course* InputCourse(course*& pHead, std::wfstream& fin);
 void ReverseTheList(course*& pHead);
 void PrintCourse(course* data, std::string path);
+void AddCourse(course*& pHead);
+void PrintStudentInCourseOnConsole(course*& pHead1, in4_student*& pHead2, std::string path);
 
-//----------Student-Class----------
+//--------------------Student-Class--------------------
 bool FindStudentClass(in4_student*& pHead, std::wstring find);
 void ReverseTheList(in4_student*& pHead);
 void PrintStudentClass(in4_student* pHead, std::string path);
 
-//----------Score----------
+//--------------------Score--------------------
 Score* FindStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 void ChangeScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 void ReverseTheList(Score*& pHead);
 void UpdateScore(Score*& pHead, std::string path);
 
-//-----------Student-Class-Score----------
+//---------------------Student-Class-Score--------------------
 void FindScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 void PrintStudentScore(Score*& pHead1, in4_student*& pHead2, std::string path);
 void PrintScoreboardCourse(in4_student*& pHead1, Score*& pHead2, course* pHead3, std::string path);
 
+//SubFunction
+void Exit();
+void ClearScreen();
+void EditScoreFile(Score*& pHead1, in4_student*& pHead2, std::string path);
 #endif /* Function1_h */
